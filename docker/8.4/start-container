@@ -21,6 +21,6 @@ if [ $# -gt 0 ]; then
     else
         exec gosu $WWWUSER "$@"
     fi
-else
-    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 fi
+
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
