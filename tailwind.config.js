@@ -5,6 +5,11 @@ module.exports = {
     "./resources/**/*.js",
     "./resources/**/*.vue",
   ],
+  safelist: [
+    'bg-red-600',
+    'bg-green-600',
+    'bg-gray-500',
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -27,7 +32,7 @@ module.exports = {
       xs: '412px',
       sm: '640px',
       md: '768px',
-      lg: '1024px',
+      lg: '1025px',
       xl: '1280px',
       '2xl': '1536px',
     },
