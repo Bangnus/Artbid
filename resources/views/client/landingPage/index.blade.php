@@ -283,7 +283,7 @@
             <p class="text-[18px] sm:text-[30px] text-textprimary font-primarySemibold ">
                 Artwork Category
             </p>
-            <div class="flex gap-4  h-[500px] ">
+            <div class="flex gap-4  h-[500px]  pb-5">
                 <!-- ซ้าย -->
                 <div class="flex flex-col gap-4 w-[40%]">
                     <div
