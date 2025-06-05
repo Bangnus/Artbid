@@ -1,0 +1,36 @@
+name: Laravel CI/CD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t yourdockerhub/laravel-app:latest .
+
+      - name: Push Docker image
+        run: docker push yourdockerhub/laravel-app:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest  # หรือ ubuntu-latest ถ้าใช้ Render กับ Deploy Hook
+
+    steps:
+      - name: Pull latest Docker image
+        run: docker pull yourdockerhub/laravel-app:latest
+
+      - name: Stop and Remove old container
+        run: docker rm -f laravel-app || true
+
+      - name: Run new container
+        run: docker run -d -p 8000:8000 --name laravel-app yourdockerhub/laravel-app:latest

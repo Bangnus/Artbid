@@ -14,10 +14,18 @@
 
     {{-- Seart Box --}}
     <div
-        class="hidden bg-[#F0F0F0] px-[30px] py-[15px] rounded-2xl md:w-[350px] lg:w-[450px] xl:w-[872px] md:flex items-center gap-3">
+        x-data="{ focused: false }"
+        :class="focused ? 'border border-textorange' : ''"
+        class="hidden bg-[#F0F0F0] px-[30px] py-[15px] rounded-2xl md:w-[350px] lg:w-[450px] xl:w-[872px] md:flex items-center gap-3"
+    >
         <i class="fa-solid fa-magnifying-glass text-textsecondary"></i>
-        <input class="bg-[#F0F0F0] focus:outline-none focus:right-0 w-full" type="text"
-            placeholder="Search your favorite art to bid now">
+        <input
+            class="bg-[#F0F0F0] focus:outline-none w-full"
+            type="text"
+            placeholder="Search your favorite art to bid now"
+            @focus="focused = true"
+            @blur="focused = false"
+        >
     </div>
 
     {{-- Right Section --}}
