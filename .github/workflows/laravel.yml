@@ -34,7 +34,7 @@ jobs:
           extensions: mbstring, xml, bcmath, curl, pgsql, pdo_pgsql
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --optimize-autoloader
+        run: composer install 
 
 
       - name: Copy .env
