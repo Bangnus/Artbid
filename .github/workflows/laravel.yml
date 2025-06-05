@@ -13,13 +13,13 @@ jobs:
       postgres:
         image: postgres:14
         env:
-          POSTGRES_DB: ${{ secrets.DB_DATABASE }}
-          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: artbid_lgv1
+          POSTGRES_USER: artbid
+          POSTGRES_PASSWORD: T73IK4XOW0oIIrjdYKCEUaXh4jUSjci2
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U ${{ secrets.DB_USERNAME }} -d ${{ secrets.DB_DATABASE }}"
+          --health-cmd="pg_isready -U  artbid -d artbid_lgv1"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -41,12 +41,12 @@ jobs:
 
       - name: Configure .env for PostgreSQL
         run: |
-          sed -i "s/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/" .env
-          sed -i "s/DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }}/" .env
-          sed -i "s/DB_PORT=3306/DB_PORT=5432/" .env
-          sed -i "s/DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_DATABASE }}/" .env
-          sed -i "s/DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
-          sed -i "s/DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
+          sed -i "s/DB_CONNECTION=pgsql/DB_CONNECTION=pgsql/" .env
+          sed -i "s/DB_HOST=T73IK4XOW0oIIrjdYKCEUaXh4jUSjci2/DB_HOST=${{ secrets.DB_HOST }}/" .env
+          sed -i "s/DB_PORT=5433/DB_PORT=5432/" .env
+          sed -i "s/DB_DATABASE=artbid_lgv1/DB_DATABASE=${{ secrets.DB_DATABASE }}/" .env
+          sed -i "s/DB_USERNAME=artbid/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
+          sed -i "s/DB_PASSWORD=T73IK4XOW0oIIrjdYKCEUaXh4jUSjci2/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
 
       - name: Generate application key
         run: php artisan key:generate
