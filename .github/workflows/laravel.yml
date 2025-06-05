@@ -1,10 +1,8 @@
-name: Laravel CI/CD
+name: Laravel CI/CD to Render
 
 on:
   push:
-    branches: [ "master" ]  # Laravel 10 ใช้ branch master เป็นค่าเริ่มต้น
-  pull_request:
-    branches: [ "master" ]
+    branches: [ "master" ]  # เปลี่ยนตาม branch ที่คุณใช้ deploy จริง
 
 jobs:
   laravel-tests:
@@ -25,19 +23,19 @@ jobs:
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v4  # อัปเดตเป็นเวอร์ชันล่าสุด
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js (จำเป็นสำหรับ Laravel 10)
+      - name: Setup Node.js (Laravel asset build)
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Set up PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           extensions: mbstring, xml, bcmath, curl, pgsql, pdo_pgsql, ctype, fileinfo, openssl, tokenizer
-          coverage: none
           tools: composer:v2
 
       - name: Install Composer dependencies
@@ -52,44 +50,31 @@ jobs:
       - name: Copy .env
         run: cp .env.example .env
 
-      - name: Configure .env for PostgreSQL
+      - name: Setup Laravel env for test
         run: |
-          echo "APP_ENV=production" >> .env
+          echo "APP_ENV=testing" >> .env
           echo "DB_CONNECTION=pgsql" >> .env
-          echo "DB_HOST=T73IK4XOW0oIIrjdYKCEUaXh4jUSjci2.singapore-postgres.render.com" >> .env  # เปลี่ยนจาก 127.0.0.1 เป็นชื่อ service
+          echo "DB_HOST=127.0.0.1" >> .env
           echo "DB_PORT=5432" >> .env
           echo "DB_DATABASE=artbid_lgv1" >> .env
           echo "DB_USERNAME=artbid" >> .env
           echo "DB_PASSWORD=T73IK4XOW0oIIrjdYKCEUaXh4jUSjci2" >> .env
           echo "APP_KEY=" >> .env
 
-      - name: Generate application key
+      - name: Generate app key
         run: php artisan key:generate --force
 
-      - name: Run migrations and seed
+      - name: Run migration and seeder
         run: php artisan migrate:fresh --seed --force
 
-      - name: Run tests
+      - name: Run Laravel tests
         run: php artisan test
-
-      - name: Upload artifact (สำหรับการ deploy)
-        uses: actions/upload-artifact@v3
-        with:
-          name: laravel-artifact
-          path: |
-            .
-            !vendor/
-            !node_modules/
 
   deploy:
     needs: laravel-tests
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'  # เปลี่ยนจาก master เป็น master
+    if: github.ref == 'refs/heads/master'  # deploy เฉพาะเมื่อ push ไปที่ master
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: laravel-artifact
-
-      - name: Trigger Render Deployment
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+      - name: Trigger Render Deploy
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
