@@ -1,0 +1,21 @@
+{
+    "name": "phira/artbid",
+    "autoload": {
+        "psr-4": {
+            "Phira\\Artbid\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "NusDev",
+            "email": "Peerapatlaelem001@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-pdo": "*",
+        "ext-pdo_pgsql": "*",
+        "ramsey/uuid": "^4.8",
+        "google/apiclient": "*"
+    }
+}
