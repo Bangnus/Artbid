@@ -10,22 +10,24 @@
     <?php
     $status = 'Live'; // หรือรับค่าจากฐานข้อมูล / API ฯลฯ
 
-
-    session_start();
-
-    if (!isset($_SESSION['user'])) {
-       echo 'Please your login';
+    if (!empty($_SESSION['sign_in_success'])) {
+        echo "<script>
+        const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+        notyf.success('Sign in successfully!');
+    </script>";
+        unset($_SESSION['sign_in_success']);
     }
-
-    $user = $_SESSION['user'];
+    if (!empty($_SESSION['sign_up_success'])) {
+        echo "<script>
+        const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+        notyf.success('Sign up successfully!');
+    </script>";
+        unset($_SESSION['sign_up_success']);
+    }
     ?>
 
-    <h1>Username, <?= htmlspecialchars($user['username']) ?></h1>
-    <h1>firstname, <?= htmlspecialchars($user['firstname']) ?></h1>
-    <h1>lastname <?= htmlspecialchars($user['lastname']) ?></h1>
-    <p>Email: <?= htmlspecialchars($user['email']) ?></p>
-    <img src="<?= htmlspecialchars($user['picture']) ?>" width="100">
-    <br><a href="logout">Logout</a>
+
+    <a href="logout">Logout</a>
 
 
     <div class="space-y-[100px]">

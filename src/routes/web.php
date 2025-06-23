@@ -4,8 +4,14 @@ $basePath = getenv('BASE_PATH');
 $uri = str_replace($basePath, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
 
+session_start();
 
+if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/google-callback', '/logout']) && !isset($_SESSION['user'])) {
+    header('Location: signin');
+    exit;
+}
 switch ($uri) {
+
     case '':
     case '/':
     case '/home':
@@ -15,6 +21,9 @@ switch ($uri) {
 
     case '/signin':
         require __DIR__ . '/../views/pages/client/content-auth/signin.php';
+        break;
+    case '/signup':
+        require __DIR__ . '/../views/pages/client/content-auth/signup.php';
         break;
     case '/logout';
         require __DIR__ . '/../views/pages/client/content-auth/logout.php';

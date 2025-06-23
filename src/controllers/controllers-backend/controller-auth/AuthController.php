@@ -5,16 +5,23 @@ require __DIR__ . '/../../../../config/database.php';
 class AuthController
 {
 
-    public static function register($username, $password, $firstname, $lastname, $email, $role_id = 0)
+    public static function signup($username, $password, $firstname, $lastname, $email, $role_id = 1)
     {
         try {
             $pdo = dbConnect();
 
             // ตรวจสอบ username ซ้ำ
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
-            $stmt->execute(['username' => $username]);
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username OR email = :email");
+            $stmt->execute(['username' => $username, 'email' => $email]);
             if ($stmt->fetch()) {
-                echo "Username already exists";
+                echo "<script>
+            const notyf = new Notyf({position: { x: 'right', y: 'top' });
+            notyf.error('Username or Email already exists!');
+            setTimeout(function() {
+                window.location.href = 'signin';
+            }, 1500);
+        </script>";
+                echo "Username or Email already exists";
                 return false;
             }
 
@@ -46,8 +53,27 @@ class AuthController
             return false;
         }
     }
-    // public static function login($username, $password) {
-    //     $pdo = dbConnect();
-    //     $stmt = $pdo->prepare("")
-    // }
+
+    public static function signin($username, $password)
+    {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password'])) {
+            session_start();
+            $_SESSION['user'] = [
+                'id'        => $user['id'],
+                'username'  => $user['username'],
+                'firstname' => $user['firstname'],
+                'lastname'  => $user['lastname'],
+                'email'     => $user['email'],
+                'role_id'   => $user['role_id']
+            ];
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
