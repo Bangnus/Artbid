@@ -15,7 +15,7 @@ function dbConnect()
 try {
     $conn = dbConnect();
     if ($conn) {
-        echo 'เชื่อมต่อเเล้ว';
+        // echo 'เชื่อมต่อเเล้ว';
     }
 } catch (PDOException $e) {
     echo 'เชื่อมต่อไม่สำเร็จ: ' . $e->getMessage();

@@ -30,11 +30,33 @@
     <!-- Right Section -->
     <div class="hidden md:flex items-center gap-x-[30px]">
         <i class="fa-regular fa-heart text-textprimary text-[20px]"></i>
-        <button class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2">
-            <a href="signin">
-                Sign in
-            </a>
-        </button>
+        <?php if (!isset($_SESSION['user'])): ?>
+            <button class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2">
+                <a href="signin">Sign in</a>
+            </button>
+        <?php else: ?>
+            <?php
+            $firstname = $_SESSION['user']['firstname'] ?? '';
+            $lastname = $_SESSION['user']['lastname'] ?? '';
+            $profileImg = $_SESSION['user']['picture'] ?? '';
+            $hasImg = !empty($profileImg);
+            $initials = mb_substr($firstname, 0, 1) . mb_substr($lastname, 0, 1);
+            ?>
+            <div class="flex gap-x-2 items-center overflow-hidden">
+                <?php if ($hasImg): ?>
+                    <img class="inline-block h-10 w-10 rounded-full object-cover"
+                        src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '/Artbid/public/images/art1.png') ?>"
+                        alt="profile" />
+                <?php else: ?>
+                    <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-bold">
+                        <?= htmlspecialchars(strtoupper($initials)) ?>
+                    </div>
+                <?php endif; ?>
+                <p class="font-primarySemibold text-textprimary">
+                    <?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>
+                </p>
+            </div>
+        <?php endif; ?>
     </div>
 
     <!-- Mobile Menu (เฉพาะจอเล็ก) -->
