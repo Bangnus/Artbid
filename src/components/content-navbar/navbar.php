@@ -28,12 +28,12 @@
     </div>
 
     <!-- Right Section -->
-    <div class="hidden md:flex items-center gap-x-[30px]">
+    <div class="hidden md:flex items-center gap-x-[30px] relative">
         <i class="fa-regular fa-heart text-textprimary text-[20px]"></i>
         <?php if (!isset($_SESSION['user'])): ?>
-            <button class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2">
-                <a href="signin">Sign in</a>
-            </button>
+            <a href="signin" class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2 text-center">
+                Sign in
+            </a>
         <?php else: ?>
             <?php
             $firstname = $_SESSION['user']['firstname'] ?? '';
@@ -42,19 +42,65 @@
             $hasImg = !empty($profileImg);
             $initials = mb_substr($firstname, 0, 1) . mb_substr($lastname, 0, 1);
             ?>
-            <div class="flex gap-x-2 items-center overflow-hidden">
-                <?php if ($hasImg): ?>
-                    <img class="inline-block h-10 w-10 rounded-full object-cover"
-                        src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '/Artbid/public/images/art1.png') ?>"
-                        alt="profile" />
-                <?php else: ?>
-                    <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-bold">
-                        <?= htmlspecialchars(strtoupper($initials)) ?>
-                    </div>
-                <?php endif; ?>
-                <p class="font-primarySemibold text-textprimary">
-                    <?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>
-                </p>
+            <div x-data="{ dropdownOpen: false }" class="relative">
+                <div @click="dropdownOpen = !dropdownOpen" class=" flex gap-x-2 items-center overflow-hidden cursor-pointer ">
+                    <?php if ($hasImg): ?>
+                        <img class="inline-block h-10 w-10 rounded-full object-cover"
+                            src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '') ?>"
+                            alt="profile" />
+                    <?php else: ?>
+                        <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
+                            <?= htmlspecialchars(strtoupper($initials)) ?>
+                        </div>
+                    <?php endif; ?>
+                    <p class="font-primarySemibold text-textprimary">
+                        <?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>
+                    </p>
+                </div>
+                <!-- dropdown -->
+                <div
+                    x-show="dropdownOpen"
+                    @click.away="dropdownOpen = false"
+                    class="absolute top-16 left-1/2 -translate-x-1/2 w-[200px] bg-white shadow-lg rounded-lg z-50"
+                    style="display: none;">
+                    <ul>
+                        <li>
+                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                Seller center
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                Setting
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                Your Bids
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                Your Collection
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                Your Watchlist
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                Your Payment
+                            </a>
+                        </li>
+                        <li>
+                            <a href="logout" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         <?php endif; ?>
     </div>
@@ -66,11 +112,35 @@
             <input class="bg-[#F0F0F0] focus:outline-none w-full" type="text"
                 placeholder="Search your favorite art to bid now">
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 justify-center">
             <i class="hidden fa-regular fa-heart text-textprimary text-[20px]"></i>
-            <button class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2">
-                Sign in
-            </button>
+            <?php if (!isset($_SESSION['user'])): ?>
+                <a href="signin" class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2 text-center">
+                    Sign in
+                </a>
+            <?php else: ?>
+                <?php
+                $firstname = $_SESSION['user']['firstname'] ?? '';
+                $lastname = $_SESSION['user']['lastname'] ?? '';
+                $profileImg = $_SESSION['user']['picture'] ?? '';
+                $hasImg = !empty($profileImg);
+                $initials = mb_substr($firstname, 0, 1) . mb_substr($lastname, 0, 1);
+                ?>
+                <div class="flex gap-x-2 items-center overflow-hidden">
+                    <?php if ($hasImg): ?>
+                        <img class="inline-block h-10 w-10 rounded-full object-cover "
+                            src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '') ?>"
+                            alt="profile" />
+                    <?php else: ?>
+                        <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
+                            <?= htmlspecialchars(strtoupper($initials)) ?>
+                        </div>
+                    <?php endif; ?>
+                    <p class="font-primarySemibold text-textprimary">
+                        <?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>
+                    </p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

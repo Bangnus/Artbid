@@ -32,7 +32,7 @@
     ?>
 
     <div class="flex items-center justify-center h-screen">
-        <div class="bg-white p-10 rounded-2xl space-y-5 min-w-[40%] shadow-sm">
+        <div class="bg-white p-10 rounded-2xl space-y-5 min-w-[40rem] shadow-sm">
             <h1 class="text-[24px] font-primaryMedium text-textprimary text-center">
                 Sign up
             </h1>
@@ -44,6 +44,7 @@
                         class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="text"
                         name="username"
+                        minlength="6"
                         required>
                 </div>
                 <div class="flex items-center justify-center gap-x-5 ">
@@ -53,6 +54,8 @@
                             class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                             type="text"
                             name="firstname"
+                            minlength="4"
+                            maxlength="8"
                             required>
                     </div>
                     <div class="space-y-2 w-full">
@@ -61,6 +64,8 @@
                             class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                             type="text"
                             name="lastname"
+                            minlength="4"
+                            maxlength="8"
                             required>
                     </div>
                 </div>
@@ -68,7 +73,7 @@
                     <p class="text-[13px] text-textprimary font-primaryRegular">E-mail Address</p>
                     <input
                         class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
+                        type="email"
                         name="email"
                         required>
                 </div>
@@ -78,6 +83,7 @@
                         class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="password"
                         name="password"
+                        minlength="8"
                         required>
                 </div>
                 <div class="space-y-5">
@@ -100,6 +106,7 @@
                 </div>
             </div>
         </div>
+       
     </div>
 
 

@@ -30,7 +30,7 @@
     ?>
 
     <div class="flex items-center justify-center h-screen">
-        <div class="bg-white p-10 rounded-2xl space-y-5 min-w-[40%] shadow-sm">
+        <div class="bg-white p-10 rounded-2xl space-y-5 min-w-[40rem] shadow-sm">
             <h1 class="text-[24px] font-primaryMedium text-textprimary text-center">
                 Sign in
             </h1>

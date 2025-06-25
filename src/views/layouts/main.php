@@ -12,17 +12,27 @@
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100 ">
+
+    <?php if (!isset($_SESSION['user'])): ?>
+        <a href="signup" class="fixed flex items-center justify-center gap-x-2 right-0  bottom-8  z-50 bg-bgprimary py-3 px-5 rounded-s-xl text-white font-primaryMedium">
+            <div class="animate-pulse">
+                <i class="fa-solid fa-angles-right"></i>
+            </div>
+            <p>Sign up</p>
+        </a>
+    <?php endif; ?>
+
     <?php require __DIR__ . '/../../components/content-navbar/navbar.php'; ?>
+
 
     <main class="mx-5 md:mx-20 my-5 ">
         <?= $content ?>
     </main>
 
+
     <?php require __DIR__ . '/../../components/content-footer/footer.php'; ?>
 
-
-   
 </body>
 
 

@@ -26,10 +26,6 @@
     }
     ?>
 
-
-    <a href="logout">Logout</a>
-
-
     <div class="space-y-[100px]">
         <div class="flex flex-col items-center flex-wrap w-full bg-white rounded-2xl md:flex md:flex-row">
             <div class="w-4/5 md:w-1/2 flex flex-col md:pl-10 py-10">
@@ -430,39 +426,39 @@
             <div class="flex gap-4  h-[500px]  pb-5">
                 <!-- ซ้าย -->
                 <div class="flex flex-col gap-4 w-[40%]">
-                    <div
+                    <a href="home"
                         class="flex-1 relative overflow-hidden rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
                         <img src="/../Artbid/public/images/Prints.png" alt="Prints" class="w-full h-full object-cover ">
                         <div class="absolute inset-x-0 bottom-3 flex items-center justify-center ">
                             <p class="text-white text-[30px] font-primaryMedium text-center">Prints & Multiples Art</p>
                         </div>
-                    </div>
-                    <div
+                    </a>
+                    <a href="*"
                         class="flex-1 relative overflow-hidden rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
                         <img src="/../Artbid/public/images/Photography.png" alt="" class="w-full h-full object-cover ">
                         <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
                             <p class="text-white text-[30px] font-primaryMedium text-center">Photography Art</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- กลาง -->
-                <div
+                <a href="*"
                     class="w-1/3 relative transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
                     <img src="/../Artbid/public/images/Classical.png" alt="" class="w-full h-full object-cover rounded-xl">
                     <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
                         <p class="text-white text-[30px] font-primaryMedium text-center">Classical Art</p>
                     </div>
-                </div>
+                </a>
 
                 <!-- ขวา -->
-                <div
+                <a href="*"
                     class="w-1/2 relative bg-cover bg-center rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
                     <img src="/../Artbid/public/images/Modern.png" alt="" class="w-full h-full object-cover rounded-xl">
                     <div class="absolute inset-x-0 bottom-3 flex items-center justify-center ">
                         <p class="text-white text-[30px] font-primaryMedium text-center">Modern & Contemporary Art</p>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

@@ -11,28 +11,35 @@ if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/google-callback',
     exit;
 }
 switch ($uri) {
-
+    // client
     case '':
     case '/':
     case '/home':
-        require __DIR__ . '/../controllers/controllers-frontend/controller-home/HomeController.php';
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-home/HomeController.php';
         (new HomeController)->index();
         break;
-
     case '/signin':
         require __DIR__ . '/../views/pages/client/content-auth/signin.php';
         break;
     case '/signup':
         require __DIR__ . '/../views/pages/client/content-auth/signup.php';
         break;
-    case '/logout';
+    case '/logout':
         require __DIR__ . '/../views/pages/client/content-auth/logout.php';
         break;
-    case '/google-callback';
+    case '/google-callback':
         require __DIR__ . '/../views/pages/client/content-auth/google-callback.php';
         break;
+
+    // seller
+    case '/seller':
+    case '/seller/dashboard':
+        require __DIR__ . '/../controllers/controllers-frontend/seller-controller/controller-dashboard/DashboardController.php';
+        (new DashboardController)->dashboaed();
+        break;
+
+
     default:
-        http_response_code(404);
-        echo "Page Not Found";
+        require __DIR__ . '/../components/content-notfound/notfound-404.php';
         break;
 }
