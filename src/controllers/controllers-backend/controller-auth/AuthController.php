@@ -21,7 +21,6 @@ class AuthController
                 window.location.href = 'signin';
             }, 1500);
         </script>";
-                echo "Username or Email already exists";
                 return false;
             }
 
@@ -42,6 +41,22 @@ class AuthController
             ]);
 
             if ($result) {
+                // ดึงข้อมูล user กลับมาใหม่
+                $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+                $stmt->execute(['username' => $username]);
+                $user = $stmt->fetch();
+
+                session_start();
+                $_SESSION['user'] = [
+                    'id'          => $user['id'],
+                    'username'    => $user['username'],
+                    'firstname'   => $user['firstname'],
+                    'lastname'    => $user['lastname'],
+                    'email'       => $user['email'],
+                    'role_id'     => $user['role_id'],
+                    'verifyemail' => $user['verifyemail'],
+                    'picture'     => $user['picture'] ?? null
+                ];
                 echo "Register success";
                 return true;
             } else {
@@ -69,7 +84,9 @@ class AuthController
                 'firstname' => $user['firstname'],
                 'lastname'  => $user['lastname'],
                 'email'     => $user['email'],
-                'role_id'   => $user['role_id']
+                'role_id'   => $user['role_id'],
+                'verifyemail' => $user['verifyemail'],
+                'picture'
             ];
             return true;
         } else {

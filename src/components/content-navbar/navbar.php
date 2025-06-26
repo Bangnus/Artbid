@@ -46,8 +46,9 @@
                 <div @click="dropdownOpen = !dropdownOpen" class=" flex gap-x-2 items-center overflow-hidden cursor-pointer ">
                     <?php if ($hasImg): ?>
                         <img class="inline-block h-10 w-10 rounded-full object-cover"
-                            src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '') ?>"
-                            alt="profile" />
+                            src="<?= htmlspecialchars($_SESSION['user']['picture']) ?>"
+                            alt="profile"
+                            onerror="<?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>" />
                     <?php else: ?>
                         <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
                             <?= htmlspecialchars(strtoupper($initials)) ?>
@@ -65,7 +66,7 @@
                     style="display: none;">
                     <ul>
                         <li>
-                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                            <a href="verify_email" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                 Seller center
                             </a>
                         </li>

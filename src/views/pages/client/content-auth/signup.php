@@ -11,7 +11,7 @@
 <body class="bg-gray-100">
     <?php
     require_once __DIR__ . '/../../../../controllers/controllers-backend/controller-auth/AuthController.php';
-
+    $error = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -27,6 +27,8 @@
             $_SESSION['sign_up_success'] = true;
             header('Location: home');
             exit;
+        } else {
+            $error = 'Username or Email already exists';
         }
     }
     ?>
@@ -44,7 +46,7 @@
                         class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="text"
                         name="username"
-                        minlength="6"
+                        minlength="3"
                         required>
                 </div>
                 <div class="flex items-center justify-center gap-x-5 ">
@@ -86,9 +88,12 @@
                         minlength="8"
                         required>
                 </div>
+                <?php if ($error): ?>
+                    <div class="text-[14px] text-red-500 text-center font-primaryRegular"><?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
                 <div class="space-y-5">
-                    <button id="signin-btn" type="submit" class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px]  rounded-lg ">
-                        <span id="signin-spinner" class="hidden">
+                    <button id="signin-btn" type="submit" class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px]  rounded-lg flex items-center justify-center gap-2">
+                        <span id="signin-spinner" class="hidden ">
                             <?php require_once __DIR__ . '/../../../../components/content-loading/dot-loading.php'; ?>
                         </span>
                         <span id="signin-text">Sign up</span>
@@ -106,7 +111,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 
 

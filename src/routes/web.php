@@ -37,7 +37,12 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-frontend/seller-controller/controller-dashboard/DashboardController.php';
         (new DashboardController)->dashboaed();
         break;
-
+    case '/verify':
+        require __DIR__ . '/../views/pages/seller/content-verifyEmail/verify_action.php';
+        break;
+    case '/verify_email':
+        require __DIR__ . '/../views/pages/seller/content-verifyEmail/verify.php';
+        break;
 
     default:
         require __DIR__ . '/../components/content-notfound/notfound-404.php';
