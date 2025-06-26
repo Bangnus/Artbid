@@ -14,6 +14,7 @@
     <?php
     require_once __DIR__ . '/../../../../controllers/controllers-backend/controller-auth/AuthController.php';
 
+    $error = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -25,12 +26,14 @@
             $_SESSION['sign_in_success'] = true;
             header('Location: home');
             exit;
+        } else {
+            $error = 'Username หรือ Password ไม่ถูกต้อง';
         }
     }
     ?>
 
     <div class="flex items-center justify-center h-screen">
-        <div class="bg-white p-10 rounded-2xl space-y-5 min-w-[40%] shadow-sm">
+        <div class="bg-white p-10 rounded-2xl space-y-5 min-w-[40rem] shadow-sm">
             <h1 class="text-[24px] font-primaryMedium text-textprimary text-center">
                 Sign in
             </h1>
@@ -52,6 +55,9 @@
                         name="password"
                         required>
                 </div>
+                <?php if ($error): ?>
+                    <div class="text-[14px] text-red-500 text-center font-primaryRegular"><?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
                 <div class="space-y-5">
                     <button id="signin-btn" type="submit" class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center gap-2">
                         <span id="signin-spinner" class="hidden">
