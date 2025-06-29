@@ -2,7 +2,7 @@
 
 function dbConnect()
 {
-    $host = 'T73IK4XOW0oIIrjdYKCEUaXh4jUSjci2.singapore-postgres.render.com';
+    $host = 'dpg-d10fb9k9c44c73dlakhg-a.singapore-postgres.render.com';
     $dbname = 'artbid_lgv1';
     $user = 'artbid';
     $password = 'T73IK4XOW0oIIrjdYKCEUaXh4jUSjci2';

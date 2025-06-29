@@ -18,14 +18,19 @@
         <div class="min-h-screen flex items-center justify-center bg-gradient-to-br">
             <div class="text-center space-y-3">
                 <i class="text-[60px] text-textorange fa-solid fa-paper-plane"></i>
-                <h1 class="text-2xl font-bold mb-4 text-gray-800">กรุณายืนยันตัวตนในอีเมลของคุณ</h1>
-                <p class="text-gray-600 mb-6">เราได้ส่งลิงก์ยืนยันไปที่อีเมลของคุณ<br>โปรดตรวจสอบกล่องจดหมายและคลิกลิงก์เพื่อยืนยันตัวตน</p>
-                <a href="home" class="inline-block mt-4 px-6 py-2 bg-bgprimary text-white rounded-lg shadow transition">กลับสู่หน้าหลัก</a>
+                <h1 class="text-2xl font-bold mb-4 text-gray-800">Please confirm your identity through the email we've sent.</h1>
+                <p class="text-gray-600 mb-6">We’ve sent a verification link to your email.<br>Please check your inbox and click the link to confirm your identity.</p>
+                <a href="home" class="inline-block mt-4 px-6 py-2 bg-bgprimary text-white rounded-lg shadow transition">Go to Homepage</a>
             </div>
         </div>
     <?php
     } else {
-        header('Location: seller');
+        require __DIR__ . '/../../../../components/content-loading/page-loading.php';
+        echo '<script>
+            setTimeout(function() {
+            window.location.href = "seller";
+            }, 2000); // 2000 milliseconds = 2 seconds
+        </script>';
     }
     ?>
 
