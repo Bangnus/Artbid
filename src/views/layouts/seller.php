@@ -17,6 +17,7 @@
     <?php
     require __DIR__ . '/../../middlewares/sellerMiddlewares.php';
     require __DIR__ . '/../../middlewares/roleMiddlewares.php';
+    $basePath = getenv('BASE_PATH');
     ?>
     <!-- Sidebar -->
     <aside
@@ -91,7 +92,7 @@
             <h1 class="text-lg font-semibold"><?= $title ?></h1>
             <div class="flex items-center gap-x-5">
                 <a class="p-2 px-4 border border-gray-200 text-textorange font-primarySemibold rounded-lg hover:bg-gray-100"
-                    href="">
+                    href="<?php echo $basePath ?>">
                     Explore Artworks
                 </a>
                 <?php
@@ -121,37 +122,12 @@
                     <div
                         x-show="dropdownOpen"
                         @click.away="dropdownOpen = false"
-                        class="absolute top-16 left-1/2 -translate-x-1/2 w-[200px] bg-white shadow-lg rounded-lg z-50"
+                        class="absolute top-16 right-1/2 translate-x-1/2 w-full bg-white shadow-lg rounded-lg z-50"
                         style="display: none;">
                         <ul>
                             <li>
-                                <a href="verify_email" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    Seller center
-                                </a>
-                            </li>
-                            <li>
                                 <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                     Setting
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    Your Bids
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    Your Collection
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    Your Watchlist
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    Your Payment
                                 </a>
                             </li>
                             <li>

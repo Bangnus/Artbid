@@ -43,6 +43,10 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-frontend/seller-controller/content-artList/ArtlistController.php';
         (new ArtlistController)->artlist();
         break;
+    case '/seller/art-listings/form':
+        require __DIR__ . '/../controllers/controllers-frontend/seller-controller/content-artList/ArtlistController.php';
+        (new ArtlistController)->form();
+        break;
     case '/seller/bidders-list':
         require __DIR__ . '/../controllers/controllers-frontend/seller-controller/content-bidderlist/BidderlistController.php';
         (new BidderlistController)->bidderlist();

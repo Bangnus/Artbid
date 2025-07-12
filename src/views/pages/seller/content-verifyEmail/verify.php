@@ -19,8 +19,8 @@
             <div class="text-center space-y-3">
                 <i class="text-[60px] text-textorange fa-solid fa-paper-plane"></i>
                 <h1 class="text-2xl font-bold mb-4 text-gray-800">Please confirm your identity through the email we've sent.</h1>
-                <p class="text-gray-600 mb-6">We’ve sent a verification link to your email.<br>Please check your inbox and click the link to confirm your identity.</p>
-                <a href="home" class="inline-block mt-4 px-6 py-2 bg-bgprimary text-white rounded-lg shadow transition">Go to Homepage</a>
+                <p class="text-gray-600 mb-6">We've sent a verification link to your email.<br>Please check your inbox and click the link to confirm your identity.</p>
+                <a href="https://mail.google.com/" class="inline-block mt-4 px-6 py-2 bg-bgprimary text-white rounded-lg shadow transition">Go to Gmail</a>
             </div>
         </div>
     <?php

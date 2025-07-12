@@ -1,7 +1,7 @@
-<body x-data="{modelOpen: true}">
+<body>
     <div class="overflow-x-auto ">
         <div class="flex justify-end pr-5 pb-2">
-            <button @click="modelOpen = !modelOpen" class="py-1 px-3 bg-bgprimary text-white font-semibold rounded-lg">Create</button>
+            <a href="/Artbid/public/seller/art-listings/form"  class="py-1 px-3 bg-bgprimary text-white font-semibold rounded-lg">Create</a>
         </div>
         <table id="artTable" class="table-auto w-full text-sm text-left text-textprimary border-collapse">
             <thead class="bg-gray-200   tracking-wider">
@@ -44,89 +44,7 @@
             </tbody>
         </table>
     </div>
-    <div x-show="modelOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div @click.away="modelOpen = false" class="bg-white p-6 rounded-xl shadow-lg w-full max-w-lg mx-4">
-            <h1 class="text-xl font-bold mb-4">Create New Artwork</h1>
-            <form action="" method="post" class="space-y-5">
-                <div class="flex items-center justify-center gap-x-5 ">
-                    <div class="space-y-2 w-full">
-                        <p class="text-[13px] text-textprimary font-primaryRegular">Title</p>
-                        <input
-                            class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                            type="text"
-                            name="firstname"
-                            minlength="4"
-                            required>
-                    </div>
-                    <div class="space-y-2 w-full">
-                        <p class="text-[13px] text-textprimary font-primaryRegular">Artist</p>
-                        <input
-                            class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                            type="text"
-                            name="lastname"
-                            minlength="4"
-                            required>
-                    </div>
-                </div>
-                <div class="flex items-center justify-center gap-x-5 ">
-                    <div class="space-y-2 w-full">
-                        <p class="text-[13px] text-textprimary font-primaryRegular">Artwork Name</p>
-                        <input
-                            class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                            type="text"
-                            name="firstname"
-                            minlength="4"
-                            required>
-                    </div>
-                    <div class="space-y-2 w-full">
-                        <p class="text-[13px] text-textprimary font-primaryRegular">Year Created</p>
-                        <input
-                            class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                            type="text"
-                            name="lastname"
-                            minlength="4"
-                            required>
-                    </div>
-                </div>
-                <div class="flex items-center justify-center gap-x-5 ">
-                    <div class="space-y-2 w-full">
-                        <p class="text-[13px] text-textprimary font-primaryRegular">Dimensions</p>
-                        <input
-                            class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                            type="text"
-                            name="firstname"
-                            minlength="4"
-
-                            required>
-                    </div>
-                    <div class="space-y-2 w-full">
-                        <p class="text-[13px] text-textprimary font-primaryRegular">Start bid</p>
-                        <input
-                            class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                            type="text"
-                            name="lastname"
-                            minlength="4"
-
-                            required>
-                    </div>
-                </div>
-                <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Description</p>
-                    <input
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
-                        name="lastname"
-                        minlength="4"
-
-                        required>
-                </div>
-                <button id="signin-btn" type="submit" class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center gap-2">
-                    <span id="signin-spinner" class="hidden">
-                        <?php require_once __DIR__ . '/../../../../components/content-loading/dot-loading.php'; ?>
-                    </span>
-                    <span id="signin-text">Create Artwork</span>
-                </button>
-            </form>
+    
         </div>
     </div>
 </body>

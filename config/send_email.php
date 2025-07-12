@@ -39,14 +39,14 @@ try {
             display:inline-block;
             background:#4CAF50;
             color:white;
-            padding:10px 20px;
+            padding:5px 20px;
             text-decoration:none;
             border-radius:5px;
         '>ยืนยันข้อมูล</a>
     ";
 
     $mail->send();
-    echo '✅ ส่งอีเมลเรียบร้อยแล้ว';
+    // echo '✅ ส่งอีเมลเรียบร้อยแล้ว';
 } catch (Exception $e) {
     echo "❌ ไม่สามารถส่งอีเมลได้: {$mail->ErrorInfo}";
 }
