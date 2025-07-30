@@ -67,11 +67,12 @@ class SellerController
             return false;
         }
     }
-    // public static function getAllSellers() {
-    //     $pdo = dbConnect();
-    //     $stmt = $pdo->query("SELECT * FROM users WHERE role_id = 2");
-    //     return $stmt->fetchAll();
-    // }
+    public static function getAllArtwork()
+    {
+        $pdo = dbConnect();
+        $stmt = $pdo->query("SELECT * FROM artworks  ORDER BY createat DESC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     // public static function getSellerById($id) {
     //     $pdo = dbConnect();
     //     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id AND role_id = 2");

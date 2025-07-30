@@ -24,7 +24,8 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="text"
                         name="title"
-                        minlength="4"
+                        minlength="8"
+                        maxlength="50"
                         required>
                 </div>
 
@@ -34,7 +35,8 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="text"
                         name="artworkname"
-                        minlength="4"
+                        minlength="10"
+                        maxlength="50"
                         required>
                 </div>
             </div>
@@ -46,15 +48,17 @@
                         type="text"
                         name="artist"
                         minlength="4"
+                        maxlength="50"
                         required>
                 </div>
                 <div class="space-y-2 w-full">
                     <p class="text-[13px] text-textprimary font-primaryRegular">Year Created</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
+                        type="number"
                         name="yearcreated"
                         minlength="4"
+                        maxlength="5"
                         required>
                 </div>
             </div>
@@ -66,7 +70,6 @@
                         type="text"
                         name="dimensions"
                         minlength="4"
-
                         required>
                 </div>
                 <div class="space-y-2 w-full">
@@ -75,8 +78,6 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="text"
                         name="startingprice"
-                        minlength="4"
-
                         required>
                 </div>
             </div>
@@ -87,7 +88,6 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="datetime-local"
                         name="startbidding"
-                        minlength="4"
                         required>
                 </div>
                 <div class="space-y-2 w-full">
@@ -96,7 +96,6 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="datetime-local"
                         name="endbidding"
-                        minlength="4"
                         required>
                 </div>
             </div>
@@ -114,10 +113,9 @@
                     <p class="text-[13px] text-textprimary font-primaryRegular">Description</p>
                     <textarea
                         name="description"
-                        minlength="4"
+                        minlength="10"
                         required
-                        rows="4"
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200 resize-none">
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary ">
                 </textarea>
                 </div>
             </div>
@@ -214,4 +212,11 @@
             preview.appendChild(wrapper);
         }
     }
+</script>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function() {
+        document.getElementById('signin-spinner').classList.remove('hidden');
+        document.getElementById('signin-text').classList.add('hidden');
+    });
 </script>
