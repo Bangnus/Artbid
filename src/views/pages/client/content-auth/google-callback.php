@@ -67,7 +67,9 @@ if (isset($_GET['code'])) {
             'lastname'   => $user['lastname'],
             'email'      => $user['email'],
             'verifyemail' => $user['verifyemail'],
+            'role_id' => $user['role_id'],
             'picture'    => $user['picture']
+
         ];
         $_SESSION['sign_in_success'] = true;
         header('Location: home');

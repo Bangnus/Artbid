@@ -6,7 +6,7 @@ if (isset($_SESSION['user']['id'])) {
 
     $userId = $_SESSION['user']['id'];
 
-    $stmt = $pdo->prepare("UPDATE users SET verifyemail = true WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE users SET verifyemail = true, role_id = 2 WHERE id = ?");
     $stmt->execute([$userId]);
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :userId");

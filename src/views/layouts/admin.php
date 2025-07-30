@@ -63,14 +63,34 @@
                         </p>
                     </a>
                 </li>
-                <li class="hover:bg-gray-100 p-2 rounded-lg<?= $biddersActive ? ' bg-gray-100' : '' ?>">
-                    <a href="" class="flex items-center gap-2 transition-colors">
-                        <i :class="sidebarOpen ? 'fa-solid fa-users<?= $biddersActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-users text-[20px]<?= $biddersActive ? ' text-textorange' : '' ?>'"></i>
-                        <p x-show="sidebarOpen" class="whitespace-nowrap">
-                            Payment
-                        </p>
-                    </a>
-                </li>
+                <div x-data="{ open: false }" class="">
+                    <li @click="open = !open" class="hover:bg-gray-100 p-2 rounded-lg<?= $biddersActive ? ' bg-gray-100' : '' ?>">
+                        <div class="flex justify-between items-center gap-2 transition-colors">
+                            <div class="flex items-center gap-2">
+                                <i :class="sidebarOpen ? 'fa-solid fa-users<?= $biddersActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-users text-[20px]<?= $biddersActive ? ' text-textorange' : '' ?>'"></i>
+                                <p x-show="sidebarOpen" class="whitespace-nowrap">
+                                    Payment
+                                </p>
+                            </div>
+                            <i
+                                x-show="sidebarOpen"
+                                :class="open ? 'fa-solid fa-angle-down' : 'fa-solid fa-angle-right'  " class="transition-transform">
+                            </i>
+                        </div>
+                    </li>
+                    <div x-show="open" class="">
+                        <li class="hover:bg-gray-100 p-2 rounded-lg<?= $biddersActive ? ' bg-gray-100' : '' ?>">
+                            <a href="" :class="{'flex items-center gap-2 transition-colors': true,'justify-center': !sidebarOpen}">
+                                <p x-text="sidebarOpen ? 'Received' : 'R'" class="whitespace-nowrap text-center"></p>
+                            </a>
+                        </li>
+                        <li class="hover:bg-gray-100 p-2 rounded-lg<?= $biddersActive ? ' bg-gray-100' : '' ?>">
+                            <a href="" :class="{'flex items-center gap-2 transition-colors': true,'justify-center': !sidebarOpen}">
+                                <p x-text="sidebarOpen ? 'Sent' : 'S'" class="whitespace-nowrap text-center"></p>
+                            </a>
+                        </li>
+                    </div>
+                </div>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $paymentActive ? ' bg-gray-100' : '' ?>">
                     <a href="" class="flex items-center gap-2 transition-colors">
                         <i :class="sidebarOpen ? 'fa-solid fa-credit-card<?= $paymentActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-credit-card text-[20px]<?= $paymentActive ? ' text-textorange' : '' ?>'"></i>
