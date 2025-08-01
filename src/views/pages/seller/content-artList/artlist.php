@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/../../../../controllers/controllers-backend/content-seller/SellerController.php';
 $artworks = SellerController::getAllArtwork();
+if (isset($_GET['id'])) {
+    SellerController::deleteArtwork($_GET['id']);
+    header('Location: /Artbid/public/seller/art-listings');
+    exit;
+}
 ?>
 
 <body>
@@ -34,7 +39,7 @@ $artworks = SellerController::getAllArtwork();
                         <td class="px-4 py-3"><?= htmlspecialchars($art['startingprice']) ?></td>
                         <td class="px-4 py-3"><?= date('m/d/Y', strtotime($art['created_at'] ?? $art['startbidding'])) ?></td>
                         <td class="px-4 py-3">
-                            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-semibold">
+                            <span class="inline-block <?= $art['status'] == 1 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-800' ?> text-xs px-2 py-1 rounded-full font-semibold">
                                 <?= $art['status'] == 1 ? 'Active' : 'Inactive' ?>
                             </span>
                         </td>
@@ -43,10 +48,10 @@ $artworks = SellerController::getAllArtwork();
                                 <button type="button" @click="openIndex === $el.closest('tr').rowIndex ? openIndex = null : openIndex = $el.closest('tr').rowIndex" class="cursor-pointer">
                                     <i class="fa-regular fa-eye text-purple-600"></i>
                                 </button>
-                                <a href="">
+                                <a href="art-listings/update-artList?id=<?= $art['id'] ?>" class="cursor-pointer">
                                     <i class="fa-regular fa-pen-to-square text-yellow-600"></i>
                                 </a>
-                                <a href="">
+                                <a href="?id=<?= $art['id'] ?>" confirm="Are you sure you want to delete this artwork?" class="cursor-pointer">
                                     <i class="fa-regular fa-trash-can text-red-600"></i>
                                 </a>
                             </div>
@@ -54,12 +59,11 @@ $artworks = SellerController::getAllArtwork();
                     </tr>
                     <tr x-show="openIndex === $el.previousElementSibling.rowIndex" x-transition>
                         <td colspan="7" class="px-4 py-3">
-                            <div class="bg-white p-4 rounded-lg ">
-                                <h2 class="text-lg font-semibold mb-2">Artwork Details</h2>
-                                <p><strong>Title:</strong> <?= htmlspecialchars($art['title']) ?></p>
-                                <p><strong>Year Created:</strong> <?= htmlspecialchars($art['yearcreated']) ?></p>
-                                <p><strong>Dimensions:</strong> <?= htmlspecialchars($art['dimensions']) ?></p>
-                                <p><strong>Description:</strong> <?= htmlspecialchars($art['description']) ?></p>
+                            <div class="bg-white p-4 rounded-lg  shadow">
+                                <div>
+                                    <img src="/Artbid/public/uploads/products/<?= htmlspecialchars($art['picture']) ?>" width="100" height="100" alt="artwork"
+                                        class="object-cover rounded-lg mt-2">
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -67,4 +71,8 @@ $artworks = SellerController::getAllArtwork();
             </tbody>
         </table>
     </div>
+
+    <!-- <div class="fixed inset-0 z-50 flex justify-center items-center ">
+        <p>Model</p>
+    </div> -->
 </body>

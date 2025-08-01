@@ -8,6 +8,9 @@ class SellerController
     public static function addArtlisting()
     {
         try {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             $pdo = dbConnect();
 
             $title = $_POST['title'];
@@ -40,9 +43,11 @@ class SellerController
                 move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
             }
 
+            $user_id = $_SESSION['user']['id'] ?? null;
+
             $stmt = $pdo->prepare("INSERT INTO artworks
-            (id, title, artworkname, artist, startbidding, endbidding, yearcreated, dimensions, description, type, startingprice, status, picture, categories_id)
-            VALUES (gen_random_uuid(), :title, :artworkname, :artist, :startbidding, :endbidding, :yearcreated, :dimensions, :description, :type, :startingprice, :status, :picture, :categories_id)");
+            (id, title, artworkname, artist, startbidding, endbidding, yearcreated, dimensions, description, type, startingprice, status, picture, categories_id, user_id)
+            VALUES (gen_random_uuid(), :title, :artworkname, :artist, :startbidding, :endbidding, :yearcreated, :dimensions, :description, :type, :startingprice, :status, :picture, :categories_id, :user_id)");
 
             $stmt->execute([
                 'title' => $title,
@@ -57,7 +62,8 @@ class SellerController
                 'startingprice' => $startingprice,
                 'status' => $status,
                 'picture' => $picture,
-                'categories_id' => $categories_id
+                'categories_id' => $categories_id,
+                'user_id' => $user_id
             ]);
 
             return true;
@@ -67,16 +73,84 @@ class SellerController
             return false;
         }
     }
+
     public static function getAllArtwork()
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $user_id = $_SESSION['user']['id'] ?? null;
         $pdo = dbConnect();
-        $stmt = $pdo->query("SELECT * FROM artworks  ORDER BY createat DESC");
+        $stmt = $pdo->prepare("SELECT * FROM artworks WHERE user_id = :user_id ORDER BY createat DESC");
+        $stmt->execute(['user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    // public static function getSellerById($id) {
-    //     $pdo = dbConnect();
-    //     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id AND role_id = 2");
-    //     $stmt->execute(['id' => $id]);
-    //     return $stmt->fetch();
-    // }
+
+    public static function getArtworkById($id)
+    {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("SELECT * FROM artworks WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
+    }
+
+    public static function updateArtwork($id, $data)
+    {
+        $pdo = dbConnect();
+        $stmt = $pdo->prepare("UPDATE artworks SET title = :title, artworkname = :artworkname, artist = :artist, startbidding = :startbidding, endbidding = :endbidding, yearcreated = :yearcreated, dimensions = :dimensions, description = :description, type = :type, startingprice = :startingprice, status = :status, picture = :picture, categories_id = :categories_id WHERE id = :id");
+        $stmt->execute([
+            'id' => $id,
+            'title' => $data['title'],
+            'artworkname' => $data['artworkname'],
+            'artist' => $data['artist'],
+            'startbidding' => $data['startbidding'],
+            'endbidding' => $data['endbidding'],
+            'yearcreated' => $data['yearcreated'],
+            'dimensions' => $data['dimensions'],
+            'description' => $data['description'],
+            'type' => $data['type'],
+            'startingprice' => $data['startingprice'],
+            'status' => $data['status'],
+            'picture' => $data['picture'],
+            'categories_id' => $data['categories_id']
+        ]);
+
+        // handle image upload
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../../../../public/uploads/products/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $picture = uniqid() . '_' . basename($_FILES['image']['name']);
+            $targetPath = $uploadDir . $picture;
+            move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
+            $data['picture'] = $picture;
+        } else {
+            $data['picture'] = $artwork['picture'] ?? null;
+        }
+        return true;
+    }
+
+    public static function deleteArtwork($id)
+    {
+        $pdo = dbConnect();
+        // ดึงชื่อไฟล์รูปจาก DB ก่อนลบ
+        $stmt = $pdo->prepare("SELECT picture FROM artworks WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch();
+        $picture = $row && !empty($row['picture']) ? $row['picture'] : null;
+
+        // ลบ record ใน DB
+        $stmt = $pdo->prepare("DELETE FROM artworks WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+
+        // ลบไฟล์รูปในโฟลเดอร์ ถ้ามี
+        if ($picture) {
+            $filePath = __DIR__ . '/../../../../public/uploads/products/' . $picture;
+            if (file_exists($filePath)) {
+                @unlink($filePath);
+            }
+        }
+        return true;
+    }
 }
