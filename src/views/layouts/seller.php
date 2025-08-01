@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="ประมูลรูปภาพ">
     <title><?= $title ?? 'Artbid' ?></title>
     <link href="/artbid/public/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -11,12 +12,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-
 <body class="h-screen bg-gray-100 flex">
     <?php
     require __DIR__ . '/../../middlewares/sellerMiddlewares.php';
-    require __DIR__ . '/../../middlewares/roleMiddlewares.php';
     $basePath = getenv('BASE_PATH');
     ?>
     <!-- Sidebar -->
@@ -37,7 +37,8 @@
             <i
                 @click="sidebarOpen = !sidebarOpen"
                 class="fa-solid fa-angles-left text-[30px] cursor-pointer transition-transform duration-300"
-                :class="sidebarOpen ? '' : 'rotate-180'"></i>
+                :class="sidebarOpen ? '' : 'rotate-180'">
+            </i>
         </div>
         <nav class="mt-8">
             <ul class="text-textprimary font-primarySemibold">
@@ -122,7 +123,7 @@
                     <div
                         x-show="dropdownOpen"
                         @click.away="dropdownOpen = false"
-                        class="absolute top-16 right-1/2 translate-x-1/2 w-full bg-white shadow-lg rounded-lg z-50"
+                        class="absolute top-16 right-1/2 translate-x-1/2 w-full bg-white shadow-lg rounded-lg z-10"
                         style="display: none;">
                         <ul>
                             <li>
@@ -145,10 +146,10 @@
             <div class="bg-white rounded-xl shadow py-5">
                 <?= $content ?>
             </div>
-
         </main>
 
     </div>
+
 </body>
 
 </html>
