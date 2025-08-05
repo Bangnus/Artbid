@@ -44,8 +44,8 @@
             <ul class="text-textprimary font-primarySemibold">
                 <?php
                 $uri = $_SERVER['REQUEST_URI'];
-                $dashboardActive = $uri === '/Artbid/public/seller/dashboard';
-                $artActive = $uri === '/Artbid/public/seller/art-listings';
+                $dashboardActive = $uri === '/Artbid/public/seller/dashboard' ;
+                $artActive = $uri === '/Artbid/public/seller/art-listings' || $uri === '/Artbid/public/seller/art-listings/form' ;
                 $biddersActive = $uri === '/Artbid/public/seller/bidders-list';
                 $paymentActive = $uri === '/Artbid/public/seller/payment';
                 ?>
