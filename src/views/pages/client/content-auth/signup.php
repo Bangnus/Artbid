@@ -11,6 +11,7 @@
 <body class="bg-gray-100">
     <?php
     require_once __DIR__ . '/../../../../controllers/controllers-backend/controller-auth/AuthController.php';
+    require_once __DIR__ . '/../../../../middlewares/authMiddlewares.php';
     $error = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST['username'] ?? '';

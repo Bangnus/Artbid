@@ -33,6 +33,68 @@
 
     <?php require __DIR__ . '/../../components/content-footer/footer.php'; ?>
 
+
+
+    <!-- countdown-timer -->
+    <script>
+        function updateCountdowns() {
+            const timers = document.querySelectorAll('.countdown-timer');
+            let anyExpired = false;
+
+            timers.forEach(function(timer) {
+                const startStr = timer.getAttribute('data-startbidding');
+                const endStr = timer.getAttribute('data-endbidding');
+                if (!startStr || !endStr) return;
+
+                const start = new Date(startStr.replace(' ', 'T'));
+                const end = new Date(endStr.replace(' ', 'T'));
+                const now = new Date();
+
+                let targetTime;
+                let isBeforeStart = now < start;
+
+                if (isBeforeStart) {
+                    targetTime = start;
+                } else {
+                    targetTime = end;
+                }
+
+                let diff = targetTime - now;
+
+                if (!isBeforeStart && diff <= 0) {
+                    const doneText = 'หมดเวลา';
+                    timer.querySelector('.countdown-days').innerText = doneText;
+                    timer.querySelector('.countdown-hours').innerText = '--';
+                    timer.querySelector('.countdown-minutes').innerText = '--';
+                    timer.querySelector('.countdown-seconds').innerText = '--';
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                diff %= (1000 * 60 * 60 * 24);
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                diff %= (1000 * 60 * 60);
+                const minutes = Math.floor(diff / (1000 * 60));
+                diff %= (1000 * 60);
+                const seconds = Math.floor(diff / 1000);
+
+                timer.querySelector('.countdown-days').innerText = String(days).padStart(2, '0');
+                timer.querySelector('.countdown-hours').innerText = String(hours).padStart(2, '0');
+                timer.querySelector('.countdown-minutes').innerText = String(minutes).padStart(2, '0');
+                timer.querySelector('.countdown-seconds').innerText = String(seconds).padStart(2, '0');
+            });
+
+            if (anyExpired && !pageReloaded) {
+                pageReloaded = true;
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            }
+        }
+
+        setInterval(updateCountdowns, 1000);
+        updateCountdowns();
+    </script>
 </body>
 
 

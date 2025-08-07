@@ -12,6 +12,8 @@ if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/google-callback',
     header('Location: signin');
     exit;
 }
+
+
 switch ($uri) {
     // client
     case '':
@@ -31,6 +33,18 @@ switch ($uri) {
         break;
     case '/google-callback':
         require __DIR__ . '/../views/pages/client/content-auth/google-callback.php';
+        break;
+    case '/live-artworks':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-allArtwork/Allartwork-controller.php';
+        (new AllArtworkController)->live();
+        break;
+    case '/upcoming-artworks':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-allArtwork/Allartwork-controller.php';
+        (new AllArtworkController)->upcoming();
+        break;
+    case '/artwork-detail':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-artworkDetail/Artworkdetail-controller.php';
+        (new artworkDetailController)->artworkDtail();
         break;
 
     // seller

@@ -1,5 +1,5 @@
 <body>
-    <table id="artTable" class="table-auto w-full text-sm text-left text-textprimary border-collapse">
+    <table class="table-auto w-full text-sm text-left text-textprimary border-collapse">
         <thead class="bg-gray-200   tracking-wider">
             <tr>
                 <th class="px-4 py-3">#</th>
@@ -39,4 +39,5 @@
             </tr>
         </tbody>
     </table>
+
 </body>

@@ -28,8 +28,8 @@ class AuthController
 
             $stmt = $pdo->prepare("
             INSERT INTO users 
-            (id, username, firstname, lastname, email, password, verifyemail, role_id)
-            VALUES (gen_random_uuid(), :username, :firstname, :lastname, :email, :password, false, :role_id)
+            (id, username, firstname, lastname, email, password, verifyemail, role_id, create_at)
+            VALUES (gen_random_uuid(), :username, :firstname, :lastname, :email, :password, false, :role_id, NOW())
         ");
             $result = $stmt->execute([
                 'username'   => $username,
