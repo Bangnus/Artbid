@@ -16,7 +16,7 @@
 <body class="h-screen bg-gray-100 flex">
     <?php
     require __DIR__ . '/../../middlewares/sellerMiddlewares.php';
-    require __DIR__ . '/../../middlewares/roleMiddlewares.php';
+    // require __DIR__ . '/../../middlewares/roleMiddlewares.php';
     $basePath = getenv('BASE_PATH');
     ?>
     <!-- Sidebar -->
