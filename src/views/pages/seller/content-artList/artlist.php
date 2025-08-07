@@ -125,7 +125,7 @@ if (isset($_GET['id'])) {
         </table>
     </div>
 
-    <div  x-show="openModal" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-30">
+    <div x-show="openModal" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-30">
         <div x-transition @click.away="openModal = false" class="bg-white flex flex-col items-center p-5 rounded-lg shadow-lg">
             <p class="text-[24px] font-primaryBold">Delete <span x-text="artName"></span></p>
             <p class="text-gray-500">Are you sure you would like to delete?</p>
@@ -136,6 +136,7 @@ if (isset($_GET['id'])) {
         </div>
     </div>
 
+    <!-- countdown-timer -->
     <script>
         let pageReloaded = false;
 
