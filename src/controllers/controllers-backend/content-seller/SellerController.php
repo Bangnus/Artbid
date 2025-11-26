@@ -34,13 +34,11 @@ class SellerController
             // อัปโหลดรูปภาพ
             $picture = null;
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = __DIR__ . '/../../../../public/uploads/products/';
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
-                }
-                $picture = uniqid() . '_' . basename($_FILES['image']['name']);
-                $targetPath = $uploadDir . $picture;
-                move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
+                $fileTmpPath = $_FILES['image']['tmp_name'];
+                $fileType = $_FILES['image']['type'];
+                $data = file_get_contents($fileTmpPath);
+                $base64 = base64_encode($data);
+                $picture = 'data:' . $fileType . ';base64,' . $base64;
             }
 
             $user_id = $_SESSION['user']['id'] ?? null;
@@ -116,14 +114,13 @@ class SellerController
         ]);
 
         // handle image upload
+        // handle image upload
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../../../../public/uploads/products/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
-            $picture = uniqid() . '_' . basename($_FILES['image']['name']);
-            $targetPath = $uploadDir . $picture;
-            move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
+            $fileTmpPath = $_FILES['image']['tmp_name'];
+            $fileType = $_FILES['image']['type'];
+            $data = file_get_contents($fileTmpPath);
+            $base64 = base64_encode($data);
+            $picture = 'data:' . $fileType . ';base64,' . $base64;
             $data['picture'] = $picture;
         } else {
             $data['picture'] = $artwork['picture'] ?? null;
@@ -144,13 +141,8 @@ class SellerController
         $stmt = $pdo->prepare("DELETE FROM artworks WHERE id = :id");
         $stmt->execute(['id' => $id]);
 
-        // ลบไฟล์รูปในโฟลเดอร์ ถ้ามี
-        if ($picture) {
-            $filePath = __DIR__ . '/../../../../public/uploads/products/' . $picture;
-            if (file_exists($filePath)) {
-                @unlink($filePath);
-            }
-        }
+        // ไม่ต้องลบไฟล์รูปแล้ว เพราะเก็บเป็น Base64 ใน DB
+
         return true;
     }
 }

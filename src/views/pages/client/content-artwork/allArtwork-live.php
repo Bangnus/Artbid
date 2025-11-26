@@ -15,7 +15,7 @@ $artworks = ClientController::getAllArtwork('Live');
                     class="card overflow-visible  shadow-[0_2px_15px_rgba(0,0,0,0.10)]   pb-0 rounded-2xl   mb-5 flex flex-col min-h-[485px] ">
                     <div class="relative">
                         <div class="overflow-hidden rounded-t-2xl">
-                            <img src="/Artbid/public/uploads/products/<?= htmlspecialchars($art['picture']) ?>" alt="Art"
+                            <img src="<?= htmlspecialchars($art['picture']) ?>" alt="Art"
                                 class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                         </div>
 

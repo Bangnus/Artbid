@@ -118,21 +118,6 @@
                         <span class="text-textorange text-[16px]">"Tap to upload"</span>
                         <span class="text-gray-500 text-[14px]">SVG, PNG, or JPG (max. 800x400px)</span>
                     </div>
-
-                    <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage(event)">
-                </label>
-                <!-- Preview -->
-                <div id="preview">
-                    <?php if (!empty($artwork['picture'])): ?>
-                        <div class="flex items-center gap-2 border border-gray-300 p-2 rounded-lg bg-white shadow-sm">
-                            <img src="/Artbid/public/uploads/products/<?= htmlspecialchars($artwork['picture']) ?>" class="max-h-16 rounded-lg order-1">
-                            <span class="text-xs text-gray-500 order-2 ml-2">รูปเดิม: <?= htmlspecialchars($artwork['picture']) ?></span>
-                        </div>
-                    <?php endif; ?>
-                </div>
-                    <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage(event)" required>
-                </label>
-                <!-- Preview -->
                 <div id="preview"></div>
             </div>
 

@@ -11,9 +11,11 @@ if (isset($_GET['id'])) {
 <body x-data="{openModal : false, selectedId: null, artName: ''}">
     <div class="overflow-x-auto">
         <div class="flex justify-end pr-5 pb-2">
-            <a href="/Artbid/public/seller/art-listings/form" class="py-1 px-3 bg-bgprimary text-white font-semibold rounded-lg">Create</a>
+            <a href="/Artbid/public/seller/art-listings/form"
+                class="py-1 px-3 bg-bgprimary text-white font-semibold rounded-lg">Create</a>
         </div>
-        <table x-data="{ openIndex: null }" id="artTable" class="table-auto w-full text-sm text-left text-textprimary border-collapse">
+        <table x-data="{ openIndex: null }" id="artTable"
+            class="table-auto w-full text-sm text-left text-textprimary border-collapse">
             <thead class="bg-gray-200   tracking-wider">
                 <tr>
                     <th class="px-4 py-3">#</th>
@@ -31,7 +33,9 @@ if (isset($_GET['id'])) {
                         <td class="px-4 py-3"><?= $i + 1 ?></td>
                         <td class="px-4 py-3 flex items-center gap-2 ">
                             <?php if (!empty($art['picture'])): ?>
-                                <div><img src="/Artbid/public/uploads/products/<?= htmlspecialchars($art['picture']) ?>" width="32" height="32" alt="artwork" class="object-cover rounded-lg mt-2" style="aspect-ratio:1/1; width:32px; height:32px;"></div>
+                                <div><img src="<?= htmlspecialchars($art['picture']) ?>"
+                                        width="32" height="32" alt="artwork" class="object-cover rounded-lg mt-2"
+                                        style="aspect-ratio:1/1; width:32px; height:32px;"></div>
                             <?php endif; ?>
                             <?= htmlspecialchars($art['artworkname']) ?>
                         </td>
@@ -39,19 +43,24 @@ if (isset($_GET['id'])) {
                         <td class="px-4 py-3"><?= htmlspecialchars($art['startingprice']) ?></td>
                         <td class="px-4 py-3"><?= date('m/d/Y', strtotime($art['createat'])) ?></td>
                         <td class="px-4 py-3">
-                            <span class="inline-block <?= $art['status'] == 1 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-800' ?> text-xs px-2 py-1 rounded-full font-semibold">
+                            <span
+                                class="inline-block <?= $art['status'] == 1 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-800' ?> text-xs px-2 py-1 rounded-full font-semibold">
                                 <?= $art['status'] == 1 ? 'Active' : 'Inactive' ?>
                             </span>
                         </td>
                         <td class="px-4 py-3">
                             <div class="flex items-center gap-2">
-                                <button type="button" @click="openIndex === $el.closest('tr').rowIndex ? openIndex = null : openIndex = $el.closest('tr').rowIndex" class="cursor-pointer">
+                                <button type="button"
+                                    @click="openIndex === $el.closest('tr').rowIndex ? openIndex = null : openIndex = $el.closest('tr').rowIndex"
+                                    class="cursor-pointer">
                                     <i class="fa-regular fa-eye text-purple-600"></i>
                                 </button>
                                 <a href="art-listings/update-artList?id=<?= $art['id'] ?>" class="cursor-pointer">
                                     <i class="fa-regular fa-pen-to-square text-yellow-600"></i>
                                 </a>
-                                <button @click="openModal = !openModal; selectedId = '<?= htmlspecialchars($art['id'], ENT_QUOTES) ?>'; artName = '<?= $art['artworkname'] ?>' " class="cursor-pointer">
+                                <button
+                                    @click="openModal = !openModal; selectedId = '<?= htmlspecialchars($art['id'], ENT_QUOTES) ?>'; artName = '<?= $art['artworkname'] ?>' "
+                                    class="cursor-pointer">
                                     <i class="fa-regular fa-trash-can text-red-600"></i>
                                 </button>
                             </div>
@@ -61,8 +70,8 @@ if (isset($_GET['id'])) {
                         <td colspan="7" class="px-4 py-3">
                             <div class="bg-white p-4 rounded-lg  shadow flex gap-5">
                                 <div>
-                                    <img src="/Artbid/public/uploads/products/<?= htmlspecialchars($art['picture']) ?>" width="100" height="100" alt="artwork"
-                                        class="object-cover rounded-lg ">
+                                    <img src="<?= htmlspecialchars($art['picture']) ?>"
+                                        width="100" height="100" alt="artwork" class="object-cover rounded-lg ">
                                 </div>
                                 <div class="space-y-2">
                                     <p class="font-primaryBold">
@@ -73,7 +82,8 @@ if (isset($_GET['id'])) {
                                     </p>
                                     <p class="font-primaryBold">
                                         Type:
-                                        <span class="font-primaryRegular text-white p-1 <?= $art['type'] === 'Live' ? 'bg-red-500  rounded-md' : 'bg-green-600  rounded-md' ?>">
+                                        <span
+                                            class="font-primaryRegular text-white p-1 <?= $art['type'] === 'Live' ? 'bg-red-500  rounded-md' : 'bg-green-600  rounded-md' ?>">
                                             <?= htmlspecialchars($art['type']) ?>
                                         </span>
                                     </p>
@@ -126,12 +136,15 @@ if (isset($_GET['id'])) {
     </div>
 
     <div x-show="openModal" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-30">
-        <div x-transition @click.away="openModal = false" class="bg-white flex flex-col items-center p-5 rounded-lg shadow-lg">
+        <div x-transition @click.away="openModal = false"
+            class="bg-white flex flex-col items-center p-5 rounded-lg shadow-lg">
             <p class="text-[24px] font-primaryBold">Delete <span x-text="artName"></span></p>
             <p class="text-gray-500">Are you sure you would like to delete?</p>
             <div class="flex items-center justify-between gap-5 mt-5">
-                <button @click="openModal = false" class="bg-white text-14px] border border-gray-300 py-1 px-10 rounded-lg font-primaryMedium">Cancel</button>
-                <a :href="'?id=' + selectedId" class="bg-red-500 text-white text-[14px]  py-1 px-10 rounded-lg font-primaryMedium">Confirm</a>
+                <button @click="openModal = false"
+                    class="bg-white text-14px] border border-gray-300 py-1 px-10 rounded-lg font-primaryMedium">Cancel</button>
+                <a :href="'?id=' + selectedId"
+                    class="bg-red-500 text-white text-[14px]  py-1 px-10 rounded-lg font-primaryMedium">Confirm</a>
             </div>
         </div>
     </div>
@@ -144,7 +157,7 @@ if (isset($_GET['id'])) {
             const timers = document.querySelectorAll('.countdown-timer');
             let anyExpired = false;
 
-            timers.forEach(function(timer) {
+            timers.forEach(function (timer) {
                 const startStr = timer.getAttribute('data-startbidding');
                 const endStr = timer.getAttribute('data-endbidding');
                 if (!startStr || !endStr) return;
@@ -201,7 +214,7 @@ if (isset($_GET['id'])) {
 
             if (anyExpired && !pageReloaded) {
                 pageReloaded = true;
-                setTimeout(function() {
+                setTimeout(function () {
                     location.reload();
                 }, 1000);
             }
@@ -210,5 +223,3 @@ if (isset($_GET['id'])) {
         setInterval(updateCountdowns, 1000);
         updateCountdowns();
     </script>
-
-</body>

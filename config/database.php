@@ -5,12 +5,12 @@ date_default_timezone_set('Asia/Bangkok');
 
 function dbConnect()
 {
-    $host = 'dpg-d288q795pdvs738agmn0-a.singapore-postgres.render.com';
-    $dbname = 'artbid_vp0j';
-    $user = 'artbid';
-    $password = 'a30qAwwqNb6yodDRQbYYAxbKWwDbD3pv';
+    $host = 'dpg-d4hci0ili9vc73e4bq7g-a.singapore-postgres.render.com';
+    $dbname = 'artbid_yl26';
+    $user = 'artbid';   
+    $password = 'nT3nEWXo94Eso5HNvz65cwmuAFprHAUZ';
 
-    return new PDO("pgsql:host=$host;dbname=$dbname", $user, $password, [
+    return new PDO("pgsql:host=$host;dbname=$dbname;sslmode=require", $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 }
