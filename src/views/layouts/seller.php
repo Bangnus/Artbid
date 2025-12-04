@@ -31,7 +31,7 @@
                     Artbid
                 </p>
                 <span class="text-[20px]">
-                    Seller center
+                    ศูนย์ผู้ขาย
                 </span>
             </a>
             <i
@@ -53,7 +53,7 @@
                     <a href="/Artbid/public/seller/dashboard" class="flex items-center  gap-2 transition-colors">
                         <i :class="sidebarOpen ? 'fa-solid fa-gauge<?= $dashboardActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-gauge text-[20px]<?= $dashboardActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
-                            Dashboard
+                            แดชบอร์ด
                         </p>
                     </a>
                 </li>
@@ -61,7 +61,7 @@
                     <a href="/Artbid/public/seller/art-listings" class="flex items-center gap-2 transition-colors">
                         <i :class="sidebarOpen ? 'fa-solid fa-palette<?= $artActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-palette text-[20px]<?= $artActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
-                            Art Listings
+                            รายการศิลปะ
                         </p>
                     </a>
                 </li>
@@ -69,7 +69,7 @@
                     <a href="/Artbid/public/seller/bidders-list" class="flex items-center gap-2 transition-colors">
                         <i :class="sidebarOpen ? 'fa-solid fa-users<?= $biddersActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-users text-[20px]<?= $biddersActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
-                            Bidders List
+                            รายชื่อผู้ประมูล
                         </p>
                     </a>
                 </li>
@@ -77,7 +77,7 @@
                     <a href="/Artbid/public/seller/payment" class="flex items-center gap-2 transition-colors">
                         <i :class="sidebarOpen ? 'fa-solid fa-credit-card<?= $paymentActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-credit-card text-[20px]<?= $paymentActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
-                            Payment
+                            การชำระเงิน
                         </p>
                     </a>
                 </li>
@@ -94,7 +94,7 @@
             <div class="flex items-center gap-x-5">
                 <a class="p-2 px-4 border border-gray-200 text-textorange font-primarySemibold rounded-lg hover:bg-gray-100"
                     href="<?php echo $basePath ?>">
-                    Explore Artworks
+                    สำรวจงานศิลปะ
                 </a>
                 <?php
                 $firstname = $_SESSION['user']['firstname'] ?? '';
@@ -128,12 +128,12 @@
                         <ul>
                             <li>
                                 <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    Setting
+                                    การตั้งค่า
                                 </a>
                             </li>
                             <li>
                                 <a href="logout" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    Logout
+                                    ออกจากระบบ
                                 </a>
                             </li>
                         </ul>

@@ -79,9 +79,27 @@ class SellerController
         }
         $user_id = $_SESSION['user']['id'] ?? null;
         $pdo = dbConnect();
+
+        // Update status for artworks that have reached their start time
+        self::updateArtworkStatus($pdo);
+
         $stmt = $pdo->prepare("SELECT * FROM artworks WHERE user_id = :user_id ORDER BY createat DESC");
         $stmt->execute(['user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    private static function updateArtworkStatus($pdo)
+    {
+        try {
+            // Convert DB server time (UTC) to Asia/Bangkok to match the stored local time in startbidding
+            $sql = "UPDATE artworks 
+                    SET type = 'Live' 
+                    WHERE type = 'Upcoming' 
+                    AND startbidding::timestamp <= (NOW() AT TIME ZONE 'Asia/Bangkok')";
+            $pdo->exec($sql);
+        } catch (PDOException $e) {
+            // Log error or handle silently as this is a background task
+        }
     }
 
     public static function getArtworkById($id)
@@ -95,36 +113,47 @@ class SellerController
     public static function updateArtwork($id, $data)
     {
         $pdo = dbConnect();
+
+        // Fetch existing artwork to get current picture
+        $stmt = $pdo->prepare("SELECT picture FROM artworks WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $currentArtwork = $stmt->fetch();
+        $picture = $currentArtwork['picture'] ?? null;
+
+        // Handle image upload
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['image']['tmp_name'];
+            $fileType = $_FILES['image']['type'];
+            $fileData = file_get_contents($fileTmpPath);
+            $base64 = base64_encode($fileData);
+            $picture = 'data:' . $fileType . ';base64,' . $base64;
+        }
+
+        // Calculate type based on startbidding
+        $startbidding = str_replace('T', ' ', $data['startbidding']);
+        $endbidding = str_replace('T', ' ', $data['endbidding']);
+        $now = date('Y-m-d H:i:s');
+        $type = (strtotime($startbidding) > strtotime($now)) ? 'Upcoming' : 'Live';
+
         $stmt = $pdo->prepare("UPDATE artworks SET title = :title, artworkname = :artworkname, artist = :artist, startbidding = :startbidding, endbidding = :endbidding, yearcreated = :yearcreated, dimensions = :dimensions, description = :description, type = :type, startingprice = :startingprice, status = :status, picture = :picture, categories_id = :categories_id WHERE id = :id");
+
         $stmt->execute([
             'id' => $id,
             'title' => $data['title'],
             'artworkname' => $data['artworkname'],
             'artist' => $data['artist'],
-            'startbidding' => $data['startbidding'],
-            'endbidding' => $data['endbidding'],
+            'startbidding' => $startbidding,
+            'endbidding' => $endbidding,
             'yearcreated' => $data['yearcreated'],
             'dimensions' => $data['dimensions'],
             'description' => $data['description'],
-            'type' => $data['type'],
+            'type' => $type,
             'startingprice' => $data['startingprice'],
             'status' => $data['status'],
-            'picture' => $data['picture'],
+            'picture' => $picture,
             'categories_id' => $data['categories_id']
         ]);
 
-        // handle image upload
-        // handle image upload
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES['image']['tmp_name'];
-            $fileType = $_FILES['image']['type'];
-            $data = file_get_contents($fileTmpPath);
-            $base64 = base64_encode($data);
-            $picture = 'data:' . $fileType . ';base64,' . $base64;
-            $data['picture'] = $picture;
-        } else {
-            $data['picture'] = $artwork['picture'] ?? null;
-        }
         return true;
     }
 

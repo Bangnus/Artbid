@@ -18,6 +18,9 @@ switch ($uri) {
     // client
     case '':
     case '/':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-home/HomeController.php';
+        (new LandingController)->index();
+        break;
     case '/home':
         require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-home/HomeController.php';
         (new HomeController)->index();
