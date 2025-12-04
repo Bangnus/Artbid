@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -15,18 +14,19 @@
 <body class="bg-gray-100 ">
 
     <?php if (!isset($_SESSION['user'])): ?>
-        <a href="signup" class="fixed flex items-center justify-center gap-x-2 right-0  bottom-8  z-50 bg-bgprimary py-3 px-5 rounded-s-xl text-white font-primaryMedium">
+        <a href="signup"
+            class="fixed flex items-center justify-center gap-x-2 right-0  bottom-8  z-50 bg-bgprimary py-3 px-5 rounded-s-xl text-white font-primaryMedium">
             <div class="animate-pulse">
                 <i class="fa-solid fa-angles-right"></i>
             </div>
-            <p>Sign up</p>
+            <p>สมัครสมาชิก</p>
         </a>
     <?php endif; ?>
 
     <?php require __DIR__ . '/../../components/content-navbar/navbar.php'; ?>
 
 
-    <main class="mx-5 md:mx-20 my-5 ">
+    <main class="<?= isset($mainClass) ? $mainClass : 'mx-5 md:mx-20 my-5' ?>">
         <?= $content ?>
     </main>
 
@@ -37,11 +37,13 @@
 
     <!-- countdown-timer -->
     <script>
+        let pageReloaded = false;
+
         function updateCountdowns() {
             const timers = document.querySelectorAll('.countdown-timer');
             let anyExpired = false;
 
-            timers.forEach(function(timer) {
+            timers.forEach(function (timer) {
                 const startStr = timer.getAttribute('data-startbidding');
                 const endStr = timer.getAttribute('data-endbidding');
                 if (!startStr || !endStr) return;
@@ -49,6 +51,16 @@
                 const start = new Date(startStr.replace(' ', 'T'));
                 const end = new Date(endStr.replace(' ', 'T'));
                 const now = new Date();
+
+                // Check if this is an "Upcoming" artwork
+                const isUpcoming = timer.parentElement && timer.parentElement.querySelector('.bg-green-600');
+
+                // Reload if:
+                // 1. It's Upcoming and start time has passed (Transition to Live)
+                // 2. End time has passed (Transition to Ended)
+                if ((isUpcoming && now >= start) || now >= end) {
+                    anyExpired = true;
+                }
 
                 let targetTime;
                 let isBeforeStart = now < start;
@@ -86,7 +98,7 @@
 
             if (anyExpired && !pageReloaded) {
                 pageReloaded = true;
-                setTimeout(function() {
+                setTimeout(function () {
                     location.reload();
                 }, 1000);
             }

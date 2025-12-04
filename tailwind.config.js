@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        primaryRegular: ['regular'],
         primaryBold: ['bold'],
+        primaryRegular: ['regular'],
         primarySemibold: ['semibold'],
         primaryMedium: ['medium'],
       },

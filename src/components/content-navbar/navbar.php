@@ -3,7 +3,7 @@
     x-data="{ open: false }">
 
     <!-- Left: Logo -->
-    <a href="/Artbid/public/" class="flex items-center gap-2">
+    <a href="/Artbid/public/" class="flex items-center ">
         <img src="/../Artbid/public/icons/AerBid Logo.png" alt="Logo" width="60" height="60">
         <h1 class="text-textorange text-[26px] md:text-[30px] font-primaryBold">Artbid</h1>
     </a>
@@ -14,25 +14,23 @@
     </button>
 
     <!-- Search Box -->
-    <div
-        x-data="{ focused: false }"
-        :class="focused ? 'border border-textorange' : ''"
+    <form action="home" method="GET" x-data="{ focused: false }" :class="focused ? 'border border-textorange' : ''"
         class="hidden bg-[#F0F0F0] px-[30px] py-[15px] rounded-2xl md:w-[350px] lg:w-[450px] xl:w-[872px] md:flex items-center gap-3">
-        <i class="fa-solid fa-magnifying-glass text-textsecondary"></i>
-        <input
-            class="bg-[#F0F0F0] focus:outline-none w-full"
-            type="text"
-            placeholder="Search your favorite art to bid now"
-            @focus="focused = true"
-            @blur="focused = false">
-    </div>
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-textsecondary"></i>
+        </button>
+        <input class="bg-[#F0F0F0] focus:outline-none w-full" type="text" name="search"
+            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+            placeholder="ค้นหางานศิลปะที่คุณชื่นชอบเพื่อประมูลตอนนี้" @focus="focused = true" @blur="focused = false">
+    </form>
 
     <!-- Right Section -->
     <div class="hidden md:flex items-center gap-x-[30px] relative">
         <i class="fa-regular fa-heart text-textprimary text-[20px]"></i>
         <?php if (!isset($_SESSION['user'])): ?>
-            <a href="signin" class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2 text-center">
-                Sign in
+            <a href="signin"
+                class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2 text-center">
+                เข้าสู่ระบบ
             </a>
         <?php else: ?>
             <?php
@@ -43,61 +41,69 @@
             $initials = mb_substr($firstname, 0, 1) . mb_substr($lastname, 0, 1);
             ?>
             <div x-data="{ dropdownOpen: false }" class="relative">
-                <div @click="dropdownOpen = !dropdownOpen" class=" flex gap-x-2 items-center overflow-hidden cursor-pointer ">
+                <div @click="dropdownOpen = !dropdownOpen"
+                    class=" flex gap-x-2 items-center overflow-hidden cursor-pointer ">
                     <?php if ($hasImg): ?>
                         <img class="inline-block h-10 w-10 rounded-full object-cover"
-                            src="<?= htmlspecialchars($_SESSION['user']['picture']) ?>"
-                            alt="profile"
-                            onerror="<?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>" />
+                            src="<?= htmlspecialchars($_SESSION['user']['picture']) ?>" alt="profile" onerror="
+                        <?= htmlspecialchars($firstname) ?>
+                        <?= htmlspecialchars($lastname) ?>" />
                     <?php else: ?>
-                        <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
+                        <div
+                            class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
                             <?= htmlspecialchars(strtoupper($initials)) ?>
                         </div>
                     <?php endif; ?>
                     <p class="font-primarySemibold text-textprimary">
-                        <?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>
+                        <?= htmlspecialchars($firstname) ?>
+                        <?= htmlspecialchars($lastname) ?>
                     </p>
                 </div>
                 <!-- dropdown -->
-                <div
-                    x-show="dropdownOpen"
-                    @click.away="dropdownOpen = false"
+                <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
                     class="absolute top-16 left-1/2 -translate-x-1/2 w-[200px] bg-white shadow-lg rounded-lg z-50"
                     style="display: none;">
                     <ul>
                         <li>
-                            <a href="verify_email" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                Seller center
+                            <a href="verify_email"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                ศูนย์ผู้ขาย
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                Setting
+                            <a href="#"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                การตั้งค่า
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                Your Bids
+                            <a href="#"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                การประมูลของคุณ
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                Your Collection
+                            <a href="#"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                คอลเลกชันของคุณ
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                Your Watchlist
+                            <a href="#"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                รายการที่น่าสนใจของคุณ
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                Your Payment
+                            <a href="#"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                การชำระเงินของคุณ
                             </a>
                         </li>
                         <li>
-                            <a href="logout" class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                Logout
+                            <a href="logout"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                ออกจากระบบ
                             </a>
                         </li>
                     </ul>
@@ -111,13 +117,14 @@
         <div class="bg-[#F0F0F0] px-6 py-3 rounded-2xl flex items-center gap-3">
             <i class="fa-solid fa-magnifying-glass text-textsecondary"></i>
             <input class="bg-[#F0F0F0] focus:outline-none w-full" type="text"
-                placeholder="Search your favorite art to bid now">
+                placeholder="ค้นหางานศิลปะที่คุณชื่นชอบเพื่อประมูลตอนนี้">
         </div>
         <div class="flex items-center gap-4 justify-center">
             <i class="hidden fa-regular fa-heart text-textprimary text-[20px]"></i>
             <?php if (!isset($_SESSION['user'])): ?>
-                <a href="signin" class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2 text-center">
-                    Sign in
+                <a href="signin"
+                    class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2 text-center">
+                    เข้าสู่ระบบ
                 </a>
             <?php else: ?>
                 <?php
@@ -130,15 +137,16 @@
                 <div class="flex gap-x-2 items-center overflow-hidden">
                     <?php if ($hasImg): ?>
                         <img class="inline-block h-10 w-10 rounded-full object-cover "
-                            src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '') ?>"
-                            alt="profile" />
+                            src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '') ?>" alt="profile" />
                     <?php else: ?>
-                        <div class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
+                        <div
+                            class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
                             <?= htmlspecialchars(strtoupper($initials)) ?>
                         </div>
                     <?php endif; ?>
                     <p class="font-primarySemibold text-textprimary">
-                        <?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>
+                        <?= htmlspecialchars($firstname) ?>
+                        <?= htmlspecialchars($lastname) ?>
                     </p>
                 </div>
             <?php endif; ?>
@@ -150,7 +158,7 @@
     let lastScrollTop = 0;
     const navbar = document.querySelector('#mainNavbar');
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         if (scrollTop > lastScrollTop) {

@@ -11,7 +11,7 @@
     }
     ?>
     <div class="overflow-auto py-5 px-10">
-        <h1 class="text-xl font-bold mb-4">Create New Artwork</h1>
+        <h1 class="text-xl font-bold mb-4">Update Artwork</h1>
         <form action="" method="post" enctype="multipart/form-data" class="space-y-5">
             <div class="flex items-center justify-center gap-x-5 ">
                 <div class="space-y-2 w-full">
@@ -35,8 +35,7 @@
                         minlength="10"
                         maxlength="50"
                         required
-                        value="<?= htmlspecialchars($artwork['artworkname'] ?? '') ?>"
-                        >
+                        value="<?= htmlspecialchars($artwork['artworkname'] ?? '') ?>">
                 </div>
             </div>
             <div class="flex items-center justify-center gap-x-5 ">
@@ -48,7 +47,8 @@
                         name="artist"
                         minlength="4"
                         maxlength="50"
-                        required>
+                        required
+                        value="<?= htmlspecialchars($artwork['artist'] ?? '') ?>">
                 </div>
                 <div class="space-y-2 w-full">
                     <p class="text-[13px] text-textprimary font-primaryRegular">Year Created</p>
@@ -58,7 +58,8 @@
                         name="yearcreated"
                         minlength="4"
                         maxlength="5"
-                        required>
+                        required
+                        value="<?= htmlspecialchars($artwork['yearcreated'] ?? '') ?>">
                 </div>
             </div>
             <div class="flex items-center justify-center gap-x-5 ">
@@ -69,7 +70,8 @@
                         type="text"
                         name="dimensions"
                         minlength="4"
-                        required>
+                        required
+                        value="<?= htmlspecialchars($artwork['dimensions'] ?? '') ?>">
                 </div>
                 <div class="space-y-2 w-full">
                     <p class="text-[13px] text-textprimary font-primaryRegular">Starting Price</p>
@@ -77,7 +79,8 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="text"
                         name="startingprice"
-                        required>
+                        required
+                        value="<?= htmlspecialchars($artwork['startingprice'] ?? '') ?>">
                 </div>
             </div>
             <div class="flex items-center justify-center gap-x-5 ">
@@ -87,7 +90,8 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="datetime-local"
                         name="startbidding"
-                        required>
+                        required
+                        value="<?= isset($artwork['startbidding']) ? date('Y-m-d\TH:i', strtotime($artwork['startbidding'])) : '' ?>">
                 </div>
                 <div class="space-y-2 w-full">
                     <p class="text-[13px] text-textprimary font-primaryRegular">End bid</p>
@@ -95,17 +99,18 @@
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="datetime-local"
                         name="endbidding"
-                        required>
+                        required
+                        value="<?= isset($artwork['endbidding']) ? date('Y-m-d\TH:i', strtotime($artwork['endbidding'])) : '' ?>">
                 </div>
             </div>
             <div class="flex  justify- gap-x-5 ">
                 <div class="space-y-2 w-full">
                     <p class="text-[13px] text-textprimary font-primaryRegular">Category</p>
                     <select name="categories_id" class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
-                        <option value=1>Prints & Multiples Art</option>
-                        <option value=2>Photography Art</option>
-                        <option value=3>Classical Art</option>
-                        <option value=4>Modern & Contemporary Art</option>
+                        <option value="1" <?= ($artwork['categories_id'] ?? '') == 1 ? 'selected' : '' ?>>Prints & Multiples Art</option>
+                        <option value="2" <?= ($artwork['categories_id'] ?? '') == 2 ? 'selected' : '' ?>>Photography Art</option>
+                        <option value="3" <?= ($artwork['categories_id'] ?? '') == 3 ? 'selected' : '' ?>>Classical Art</option>
+                        <option value="4" <?= ($artwork['categories_id'] ?? '') == 4 ? 'selected' : '' ?>>Modern & Contemporary Art</option>
                     </select>
                 </div>
                 <div class="space-y-2 w-full">
@@ -114,8 +119,7 @@
                         name="description"
                         minlength="10"
                         required
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary ">
-                </textarea>
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary "><?= htmlspecialchars($artwork['description'] ?? '') ?></textarea>
                 </div>
             </div>
 
@@ -131,10 +135,17 @@
                         <span class="text-gray-500 text-[14px]">SVG, PNG, or JPG (max. 800x400px)</span>
                     </div>
 
-                    <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage(event)" required>
+                    <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage(event)">
                 </label>
                 <!-- Preview -->
-                <div id="preview"></div>
+                <div id="preview">
+                    <?php if (!empty($artwork['picture'])): ?>
+                        <div class="flex items-center gap-2 border border-gray-300 p-2 rounded-lg bg-white shadow-sm">
+                            <img src="<?= htmlspecialchars($artwork['picture']) ?>" class="max-h-16 rounded-lg order-1">
+                            <span class="text-xs text-gray-500 order-2 ml-2">Current Image</span>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div class="flex items-start justify-start gap-10 mt-4">
@@ -144,9 +155,9 @@
                         <input
                             type="radio"
                             name="status"
-                            value=1
+                            value="1"
                             required
-                            checked
+                            <?= ($artwork['status'] ?? 1) == 1 ? 'checked' : '' ?>
                             class="w-4 h-4 rounded-full cursor-pointer">
                         <span class="text-sm font-medium text-gray-700">Active</span>
                     </div>
@@ -162,7 +173,8 @@
                         <input
                             type="radio"
                             name="status"
-                            value=0
+                            value="0"
+                            <?= ($artwork['status'] ?? 1) == 0 ? 'checked' : '' ?>
                             class="w-4 h-4  rounded-full cursor-pointer">
                         <span class="text-sm font-medium text-gray-700">InActive</span>
                     </div>
@@ -177,7 +189,7 @@
                 <span id="signin-spinner" class="hidden">
                     <?php require_once __DIR__ . '/../../../../components/content-loading/dot-loading.php'; ?>
                 </span>
-                <span id="signin-text">Create Artwork</span>
+                <span id="signin-text">Update Artwork</span>
             </button>
         </form>
     </div>
