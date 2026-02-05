@@ -147,4 +147,17 @@ class ClientController
             'current_page' => $page
         ];
     }
+
+    public static function getArtworkById($id)
+    {
+        $pdo = dbConnect();
+        $sql = "SELECT a.*, u.username as bidder_name, u.firstname as bidder_firstname, u.lastname as bidder_lastname 
+                FROM artworks a 
+                LEFT JOIN users u ON a.bidby = u.id 
+                WHERE a.id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
