@@ -5,7 +5,17 @@ class artworkDetailController
 
     public function artworkDtail()
     {
-        $title = "Artwork detail";
+        require_once __DIR__ . '/../../../../controllers/controllers-backend/content-client/ClientController.php';
+
+        $id = $_GET['id'] ?? null;
+        $artwork = null;
+
+        if ($id) {
+            $artwork = ClientController::getArtworkById($id);
+        }
+
+        // Mock data for missing fields if necessary, or handle in view
+        $title = $artwork ? $artwork['title'] : "Artwork Detail";
 
         ob_start();
         require __DIR__ . '/../../../../views/pages/client/content-artwork/artworkDetail.php';

@@ -49,6 +49,10 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-artworkDetail/Artworkdetail-controller.php';
         (new artworkDetailController)->artworkDtail();
         break;
+    case '/place-bid':
+        require __DIR__ . '/../controllers/controllers-backend/content-client/BidController.php';
+        BidController::placeBid();
+        break;
 
     // seller
     case '/seller':
