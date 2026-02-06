@@ -157,6 +157,57 @@
                 <?php endif; ?>
             <?php endif; ?>
         </div>
+
+    </div>
+    <div class="flex gap-6 mt-5">
+        <div style="width: 50%;" class="bg-white  p-5 rounded-xl">
+            <h1 class="font-primaryBold text-2xl">ข้อมูลพื้นฐานของงานศิลปะ</h1>
+            <div class="grid grid-cols-2 gap-5 mt-5">
+                <div class="bg-white rounded-xl">
+                    <p class="font-primaryBold text-lg">ชื่อผลงาน</p>
+                    <span class="font-primaryRegular"><?= htmlspecialchars($artwork['artworkname'] ?? '-') ?></span>
+                </div>
+                <div class="bg-white rounded-xl">
+                    <p class="font-primaryBold text-lg">ปีที่สร้าง</p>
+                    <span class="font-primaryRegular"><?= htmlspecialchars($artwork['yearcreated'] ?? '-') ?></span>
+                </div>
+                <div class="bg-white rounded-xl">
+                    <p class="font-primaryBold text-lg">ศิลปิน</p>
+                    <span class="font-primaryRegular"><?= htmlspecialchars($artwork['artist'] ?? '-') ?></span>
+                </div>
+                <div class="bg-white rounded-xl">
+                    <p class="font-primaryBold text-lg">ขนาด</p>
+                    <span class="font-primaryRegular"><?= htmlspecialchars($artwork['dimensions'] ?? '-') ?></span>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl mt-5">
+                <p class="font-primaryBold text-lg">รายละเอียด</p>
+                <span class="font-primaryRegular"><?= nl2br(htmlspecialchars($artwork['description'] ?? '-')) ?></span>
+            </div>
+        </div>
+        <div style="width: 50%;" class="bg-white p-5 rounded-xl">
+            <h1 class="font-primaryBold text-2xl mb-5">การคุ้มครองผู้ซื้อของ <span class="text-textorange">Artbid</span></h1>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-primaryBold text-lg">การชำระเงินของคุณปลอดภัย</h3>
+                    <p class="text-sm font-primaryRegular text-gray-500 mt-1">
+                        เรารับรองความปลอดภัยของเงินของคุณ เราจะโอนเงินให้ผู้ขายหลังจากส่งมอบสินค้าเรียบร้อยแล้ว 3 วัน เพื่อให้คุณมีเวลาตรวจสอบสินค้า
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-primaryBold text-lg">สินค้าทุกชิ้นผ่านการตรวจสอบคุณภาพ</h3>
+                    <p class="text-sm font-primaryRegular text-gray-500 mt-1">
+                        ผู้เชี่ยวชาญของ Artbid ตรวจสอบและอนุมัติสินค้าทุกชิ้นในการประมูล เพื่อให้แน่ใจว่ามีเพียงสินค้าที่พิเศษและมีคุณภาพเท่านั้นที่ถูกวางจำหน่าย
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-primaryBold text-lg">ผู้ขายทุกรายผ่านการยืนยันตัวตน</h3>
+                    <p class="text-sm font-primaryRegular text-gray-500 mt-1">
+                        เราและพันธมิตรที่เชื่อถือได้ตรวจสอบผู้ขายอย่างละเอียด ช่วยให้มั่นใจว่าคุณกำลังซื้อจากผู้ขายที่ถูกต้องตามกฎหมายและมุ่งมั่นที่จะส่งมอบสินค้าคุณภาพสูง
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>

@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
     <h1 class="text-3xl font-primaryBold text-textprimary mb-10 py-10">
         <i class="fa-solid fa-heart text-red-500 mr-2"></i>
         รายการที่น่าสนใจของคุณ
@@ -38,17 +38,21 @@
                     </div>
 
                     <a href="artwork-detail?id=<?= htmlspecialchars($art['id']) ?>" class="card-body flex-1 flex flex-col">
-                        <div class="px-5 py-4 rounded-b-2xl break-words whitespace-normal flex-1">
-                            <div class="space-y-1">
-                                <p class="text-[18px] text-textprimary font-primaryMedium">
+                        <div class="px-5 py-5 rounded-b-2xl break-words whitespace-normal flex-1">
+                            <div class="space-y-2">
+                                <h3 class="text-lg text-textprimary font-primaryBold line-clamp-2 leading-tight">
                                     <?= htmlspecialchars($art['title']) ?>
-                                </p>
-                                <div class="text-[16px] font-primaryMedium">
-                                    <p class="text-textsecondary">ศิลปิน :
-                                        <span class="text-textprimary"><?= htmlspecialchars($art['artist']) ?></span>
+                                </h3>
+                                <div class="space-y-1 text-sm">
+                                    <p class="text-textsecondary font-primaryRegular flex items-center gap-2">
+                                        <i class="fa-solid fa-palette text-textorange"></i>
+                                        <span
+                                            class="text-textprimary font-primaryMedium"><?= htmlspecialchars($art['artist']) ?></span>
                                     </p>
-                                    <p class="text-textsecondary">ราคาปัจจุบัน :
-                                        <span class="text-textprimary">฿<?= number_format($art['startingprice']) ?></span>
+                                    <p class="text-textsecondary font-primaryRegular flex items-center gap-2">
+                                        <i class="fa-solid fa-tag text-textorange"></i>
+                                        <span
+                                            class="text-textorange font-primaryBold text-base">฿<?= number_format($art['startingprice']) ?></span>
                                     </p>
                                 </div>
                             </div>

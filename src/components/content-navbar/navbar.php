@@ -69,43 +69,43 @@
                         <li>
                             <a href="verify_email"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                ศูนย์ผู้ขาย
+                                <i class="fa-solid fa-store mr-2"></i>ศูนย์ผู้ขาย
+                            </a>
+                        </li>
+                        <li>
+                            <a href="settings"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                <i class="fa-solid fa-gear mr-2"></i>การตั้งค่า
                             </a>
                         </li>
                         <li>
                             <a href="#"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                การตั้งค่า
+                                <i class="fa-solid fa-gavel mr-2"></i>การประมูล
                             </a>
                         </li>
                         <li>
                             <a href="#"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                การประมูลของคุณ
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                คอลเลกชันของคุณ
+                                <i class="fa-solid fa-images mr-2"></i>คอลเลกชัน
                             </a>
                         </li>
                         <li>
                             <a href="favorites"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                รายการที่น่าสนใจของคุณ
+                                <i class="fa-solid fa-heart mr-2"></i>รายการที่น่าสนใจ
                             </a>
                         </li>
                         <li>
                             <a href="#"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                การชำระเงินของคุณ
+                                <i class="fa-solid fa-credit-card mr-2"></i>การชำระเงิน
                             </a>
                         </li>
                         <li>
                             <a href="logout"
-                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                ออกจากระบบ
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-red-500 font-primaryMedium rounded">
+                                <i class="fa-solid fa-right-from-bracket mr-2"></i>ออกจากระบบ
                             </a>
                         </li>
                     </ul>
@@ -119,7 +119,7 @@
         <div class="bg-[#F0F0F0] px-6 py-3 rounded-2xl flex items-center gap-3">
             <i class="fa-solid fa-magnifying-glass text-textsecondary"></i>
             <input class="bg-[#F0F0F0] focus:outline-none w-full" type="text"
-                placeholder="ค้นหางานศิลปะที่คุณชื่นชอบเพื่อประมูลตอนนี้">
+                placeholder="ค้นหางานศิลปะที่ชื่นชอบเพื่อประมูลตอนนี้">
         </div>
         <div class="flex items-center gap-4 justify-center">
             <i class="hidden fa-regular fa-heart text-textprimary text-[20px]"></i>

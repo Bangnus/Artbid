@@ -61,6 +61,22 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-favorites/FavoritesController.php';
         (new FavoritesPageController)->index();
         break;
+    case '/settings':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::index();
+        break;
+    case '/update-profile':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::updateProfile();
+        break;
+    case '/update-address':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::updateAddress();
+        break;
+    case '/delete-profile-picture':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::deleteProfilePicture();
+        break;
 
     // seller
     case '/seller':

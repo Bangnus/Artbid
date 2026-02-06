@@ -17,20 +17,7 @@ require_once __DIR__ . '/../../../../controllers/controllers-backend/content-cli
 $artworks_live = ClientController::getAllArtwork('Live', 10);
 $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
 
-if (!empty($_SESSION['sign_in_success'])) {
-    echo "<script>
-        const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
-        notyf.success('เข้าสู่ระบบสำเร็จ!');
-    </script>";
-    unset($_SESSION['sign_in_success']);
-}
-if (!empty($_SESSION['sign_up_success'])) {
-    echo "<script>
-        const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
-        notyf.success('สมัครสำเร็จ!');
-    </script>";
-    unset($_SESSION['sign_up_success']);
-}
+
 ?>
 
 <body>
