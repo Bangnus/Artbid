@@ -53,6 +53,14 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-backend/content-client/BidController.php';
         BidController::placeBid();
         break;
+    case '/toggle-favorite':
+        require __DIR__ . '/../controllers/controllers-backend/content-client/FavoriteController.php';
+        FavoriteController::toggleFavorite();
+        break;
+    case '/favorites':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-favorites/FavoritesController.php';
+        (new FavoritesPageController)->index();
+        break;
 
     // seller
     case '/seller':

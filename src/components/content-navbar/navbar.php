@@ -26,7 +26,9 @@
 
     <!-- Right Section -->
     <div class="hidden md:flex items-center gap-x-[30px] relative">
-        <i class="fa-regular fa-heart text-textprimary text-[20px]"></i>
+        <a href="favorites" class="hover:scale-110 transition-transform">
+            <i class="fa-regular fa-heart text-textprimary text-[20px] hover:text-red-500 transition-colors"></i>
+        </a>
         <?php if (!isset($_SESSION['user'])): ?>
             <a href="signin"
                 class="bg-textorange text-white w-full font-primaryMedium rounded-[50px] text-[16px] px-[30px] py-2 text-center">
@@ -89,7 +91,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="favorites"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                 รายการที่น่าสนใจของคุณ
                             </a>

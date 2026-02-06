@@ -4,13 +4,26 @@
         <a href="home" class="text-textorange hover:underline mt-4 inline-block font-primaryMedium">กลับสู่หน้าหลัก</a>
     </div>
 <?php else: ?>
+    <?php
+    require_once __DIR__ . '/../../../../controllers/controllers-backend/content-client/FavoriteController.php';
+    $isFavorited = FavoriteController::isFavorited($artwork['id']);
+    ?>
     <div class="bg-white rounded-2xl px-10 py-5 flex gap-10">
         <div class="w-[40%]">
             <img src="<?= htmlspecialchars($artwork['picture']) ?>" alt="Art"
                 class="w-full h-[600px] object-cover object-[0%_10%] rounded-2xl">
         </div>
         <div class="w-[60%] space-y-5">
-            <p class="text-3xl font-primarySemibold text-textprimary"><?= htmlspecialchars($artwork['title']) ?></p>
+            <div class="flex items-center justify-between">
+                <p class="text-3xl font-primarySemibold text-textprimary"><?= htmlspecialchars($artwork['title']) ?></p>
+                <?php if (isset($_SESSION['user'])): ?>
+                    <button id="favorite-btn" onclick="toggleFavorite('<?= $artwork['id'] ?>')"
+                        class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 <?= $isFavorited ? 'bg-red-100' : 'bg-gray-100 hover:bg-red-50' ?>">
+                        <i
+                            class="<?= $isFavorited ? 'fa-solid text-red-500' : 'fa-regular text-gray-400' ?> fa-heart text-2xl"></i>
+                    </button>
+                <?php endif; ?>
+            </div>
             <div class="space-y-2">
                 <p class="text-xl text-textsecondary font-primaryMedium">ศิลปิน :<span
                         class="text-textprimary font-primaryMedium"> <?= htmlspecialchars($artwork['artist']) ?></span></p>
@@ -145,4 +158,47 @@
             <?php endif; ?>
         </div>
     </div>
+
+    <script>
+        function toggleFavorite(artworkId) {
+            const btn = document.getElementById('favorite-btn');
+            const icon = btn.querySelector('i');
+
+            // เปลี่ยนสีทันที (optimistic UI)
+            if (icon.classList.contains('fa-regular')) {
+                btn.classList.remove('bg-gray-100', 'hover:bg-red-50');
+                btn.classList.add('bg-red-100');
+                icon.classList.remove('fa-regular', 'text-gray-400');
+                icon.classList.add('fa-solid', 'text-red-500');
+            } else {
+                btn.classList.remove('bg-red-100');
+                btn.classList.add('bg-gray-100', 'hover:bg-red-50');
+                icon.classList.remove('fa-solid', 'text-red-500');
+                icon.classList.add('fa-regular', 'text-gray-400');
+            }
+
+            // ส่ง API เบื้องหลัง
+            fetch('toggle-favorite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'artwork_id=' + artworkId
+            }).catch(error => console.error('Error:', error));
+        }
+
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-5 right-5 z-50 px-5 py-3 rounded-xl shadow-lg text-white font-primaryMedium transition-all duration-300 transform translate-x-full opacity-0 ${type === 'success' ? 'bg-green-500' : 'bg-blue-500'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+    </script>
 <?php endif; ?>

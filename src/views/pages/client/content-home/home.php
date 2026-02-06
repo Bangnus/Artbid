@@ -13,6 +13,7 @@
 
 <?php
 require_once __DIR__ . '/../../../../controllers/controllers-backend/content-client/ClientController.php';
+require_once __DIR__ . '/../../../../controllers/controllers-backend/content-client/FavoriteController.php';
 $artworks_live = ClientController::getAllArtwork('Live', 10);
 $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
 
@@ -88,8 +89,9 @@ if (!empty($_SESSION['sign_up_success'])) {
                                                 echo 'กำลังประมูล';
                                                 ?>
                                             </div>
-                                            <i
-                                                class="fa-regular fa-heart text-textprimary text-[20px] bg-white rounded-full p-1.5 cursor-pointer"></i>
+                                            <?php $isLiveFav = isset($_SESSION['user']) ? FavoriteController::isFavorited($art['id']) : false; ?>
+                                            <i onclick="toggleFavoriteCard('<?= $art['id'] ?>', this)"
+                                                class="<?= $isLiveFav ? 'fa-solid text-red-500' : 'fa-regular text-textprimary' ?> fa-heart text-[20px] bg-white rounded-full p-1.5 cursor-pointer hover:scale-110 transition-all"></i>
                                         </div>
 
 
@@ -260,8 +262,9 @@ if (!empty($_SESSION['sign_up_success'])) {
                                                 echo 'กำลังจะมา';
                                                 ?>
                                             </div>
-                                            <i
-                                                class="fa-regular fa-heart text-textprimary text-[20px] bg-white rounded-full p-1.5 cursor-pointer"></i>
+                                            <?php $isUpFav = isset($_SESSION['user']) ? FavoriteController::isFavorited($art_up['id']) : false; ?>
+                                            <i onclick="toggleFavoriteCard('<?= $art_up['id'] ?>', this)"
+                                                class="<?= $isUpFav ? 'fa-solid text-red-500' : 'fa-regular text-textprimary' ?> fa-heart text-[20px] bg-white rounded-full p-1.5 cursor-pointer hover:scale-110 transition-all"></i>
                                         </div>
 
 
@@ -529,6 +532,24 @@ if (!empty($_SESSION['sign_up_success'])) {
                 },
             }
         });
+
+        function toggleFavoriteCard(artworkId, btn) {
+            // เปลี่ยนสีทันที (optimistic UI)
+            if (btn.classList.contains('fa-regular')) {
+                btn.classList.remove('fa-regular', 'text-textprimary');
+                btn.classList.add('fa-solid', 'text-red-500');
+            } else {
+                btn.classList.remove('fa-solid', 'text-red-500');
+                btn.classList.add('fa-regular', 'text-textprimary');
+            }
+
+            // ส่ง API เบื้องหลัง
+            fetch('/Artbid/public/toggle-favorite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'artwork_id=' + artworkId
+            }).catch(error => console.error('Error:', error));
+        }
     </script>
 
 

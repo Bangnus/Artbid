@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../../controllers/controllers-backend/content-client/ClientController.php';
+require_once __DIR__ . '/../../../../controllers/controllers-backend/content-client/FavoriteController.php';
 
 // Get page from query string, default to 1
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
@@ -99,8 +100,9 @@ $currentPage = $result['current_page'];
                                         }
                                         ?>
                                     </div>
-                                    <i
-                                        class="fa-regular fa-heart text-textprimary text-[20px] bg-white rounded-full p-1.5 cursor-pointer"></i>
+                                    <?php $isMainFav = isset($_SESSION['user']) ? FavoriteController::isFavorited($art['id']) : false; ?>
+                                    <i onclick="toggleFavoriteCard('<?= $art['id'] ?>', this)"
+                                        class="<?= $isMainFav ? 'fa-solid text-red-500' : 'fa-regular text-textprimary' ?> fa-heart text-[20px] bg-white rounded-full p-1.5 cursor-pointer hover:scale-110 transition-all"></i>
                                 </div>
 
 
@@ -244,4 +246,22 @@ $currentPage = $result['current_page'];
         filterCheckboxes.forEach(cb => cb.addEventListener('change', () => fetchArtworks(1)));
         categoryCheckboxes.forEach(cb => cb.addEventListener('change', () => fetchArtworks(1)));
     });
+
+    function toggleFavoriteCard(artworkId, btn) {
+        // เปลี่ยนสีทันที (optimistic UI)
+        if (btn.classList.contains('fa-regular')) {
+            btn.classList.remove('fa-regular', 'text-textprimary');
+            btn.classList.add('fa-solid', 'text-red-500');
+        } else {
+            btn.classList.remove('fa-solid', 'text-red-500');
+            btn.classList.add('fa-regular', 'text-textprimary');
+        }
+
+        // ส่ง API เบื้องหลัง
+        fetch('/Artbid/public/toggle-favorite', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'artwork_id=' + artworkId
+        }).catch(error => console.error('Error:', error));
+    }
 </script>
