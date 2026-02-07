@@ -1,8 +1,10 @@
-<?php 
+<?php
 
-class DashboardController {
-    public function dashboaed() {
-        $title = "Dashboard";
+class DashboardController
+{
+    public function dashboaed()
+    {
+        $title = "แดชบอร์ด";
 
         ob_start();
         require __DIR__ . '/../../../../views/pages/seller/content-dashboard/dashboard.php';

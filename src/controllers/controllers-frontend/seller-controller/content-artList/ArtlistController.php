@@ -3,7 +3,7 @@ class ArtlistController
 {
     public function artlist()
     {
-        $title = "Art Listings";
+        $title = "รายการศิลปะ";
 
         ob_start();
         require __DIR__ . '/../../../../views/pages/seller/content-artList/artlist.php';
@@ -14,7 +14,7 @@ class ArtlistController
 
     public function form()
     {
-        $title = "Art Listings Form";
+        $title = "เพิ่มผลงาน";
 
         ob_start();
         require __DIR__ . '/../../../../views/pages/seller/content-artList/form.php';
@@ -25,7 +25,7 @@ class ArtlistController
 
     public function update_form()
     {
-        $title = "Update Art Listing";
+        $title = "แก้ไขผลงาน";
 
         ob_start();
         require __DIR__ . '/../../../../views/pages/seller/content-artList/update_form.php';

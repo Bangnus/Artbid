@@ -53,6 +53,38 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-backend/content-client/BidController.php';
         BidController::placeBid();
         break;
+    case '/toggle-favorite':
+        require __DIR__ . '/../controllers/controllers-backend/content-client/FavoriteController.php';
+        FavoriteController::toggleFavorite();
+        break;
+    case '/favorites':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-favorites/FavoritesController.php';
+        (new FavoritesPageController)->index();
+        break;
+    case '/my-auctions':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-auctions/MyAuctionsController.php';
+        (new MyAuctionsController)->index();
+        break;
+    case '/settings':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::index();
+        break;
+    case '/update-profile':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::updateProfile();
+        break;
+    case '/update-address':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::updateAddress();
+        break;
+    case '/delete-profile-picture':
+        require __DIR__ . '/../controllers/controllers-frontend/client-contrller/controller-settings/SettingsController.php';
+        SettingsController::deleteProfilePicture();
+        break;
+    case '/update-payment':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentAccountController.php';
+        (new PaymentAccountController)->updateForUser();
+        break;
 
     // seller
     case '/seller':
@@ -93,6 +125,58 @@ switch ($uri) {
     case '/admin':
         require __DIR__ . '/../controllers/controllers-frontend/admin-controller/content-dashboard/DashboardController.php';
         (new DashboardAdminController)->dashboard();
+        break;
+    case '/admin/users':
+        require __DIR__ . '/../controllers/controllers-frontend/admin-controller/content-users/UserManagementController.php';
+        (new UserManagementController)->index();
+        break;
+    case '/admin/user-details':
+        require __DIR__ . '/../controllers/controllers-frontend/admin-controller/content-users/UserManagementController.php';
+        UserManagementController::getUserDetails();
+        break;
+    case '/admin/update-role':
+        require __DIR__ . '/../controllers/controllers-frontend/admin-controller/content-users/UserManagementController.php';
+        UserManagementController::updateUserRole();
+        break;
+    case '/admin/create-user':
+        require __DIR__ . '/../controllers/controllers-frontend/admin-controller/content-users/UserManagementController.php';
+        UserManagementController::createUser();
+        break;
+    case '/admin/payment/account':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentAccountController.php';
+        (new PaymentAccountController)->index();
+        break;
+    case '/admin/payment/account/update':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentAccountController.php';
+        (new PaymentAccountController)->update();
+        break;
+    case '/admin/payment/transactions':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentManagementController.php';
+        (new PaymentManagementController)->index();
+        break;
+    case '/admin/payment/verify':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentManagementController.php';
+        (new PaymentManagementController)->verifyPayment();
+        break;
+    case '/admin/payment/mark-paid':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentManagementController.php';
+        (new PaymentManagementController)->markPaid();
+        break;
+    case '/admin/payment/reject':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentManagementController.php';
+        (new PaymentManagementController)->rejectPayment();
+        break;
+    case '/my-payments':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/BuyerPaymentController.php';
+        (new BuyerPaymentController)->index();
+        break;
+    case '/payment/upload-slip':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/BuyerPaymentController.php';
+        (new BuyerPaymentController)->uploadSlip();
+        break;
+    case '/pay':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/BuyerPaymentController.php';
+        (new BuyerPaymentController)->singlePayment();
         break;
     default:
         require __DIR__ . '/../components/content-notfound/notfound-404.php';
