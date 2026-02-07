@@ -1,3 +1,31 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Fetch notification count (pending payments)
+$pendingPaymentCount = 0;
+if (isset($_SESSION['user']['id'])) {
+    // Check if dbConnect exists, if not try to include database.php
+    if (!function_exists('dbConnect')) {
+        $dbPath = __DIR__ . '/../../../../config/database.php';
+        if (file_exists($dbPath)) {
+            require_once $dbPath;
+        }
+    }
+
+    if (function_exists('dbConnect')) {
+        try {
+            $pdo = dbConnect();
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM payments WHERE buyer_id = ? AND status = 'pending_buyer_payment'");
+            $stmt->execute([$_SESSION['user']['id']]);
+            $pendingPaymentCount = $stmt->fetchColumn();
+        } catch (Exception $e) {
+            // Silent error
+        }
+    }
+}
+?>
 <nav id="mainNavbar"
     class="bg-white px-4 md:px-20 py-2 flex items-center justify-between flex-wrap sticky top-0 z-50 transition-transform duration-300"
     x-data="{ open: false }">
@@ -44,7 +72,7 @@
             ?>
             <div x-data="{ dropdownOpen: false }" class="relative">
                 <div @click="dropdownOpen = !dropdownOpen"
-                    class=" flex gap-x-2 items-center overflow-hidden cursor-pointer ">
+                    class=" flex gap-x-2 items-center overflow-hidden cursor-pointer relative">
                     <?php if ($hasImg): ?>
                         <img class="inline-block h-10 w-10 rounded-full object-cover"
                             src="<?= htmlspecialchars($_SESSION['user']['picture']) ?>" alt="profile" onerror="
@@ -56,6 +84,12 @@
                             <?= htmlspecialchars(strtoupper($initials)) ?>
                         </div>
                     <?php endif; ?>
+
+                    <!-- Notification Dot on Profile -->
+                    <?php if ($pendingPaymentCount > 0): ?>
+                        <span class="absolute top-0 right-0 block w-3 h-3 bg-red-500 rounded-full ring-2 ring-white"></span>
+                    <?php endif; ?>
+
                     <p class="font-primarySemibold text-textprimary">
                         <?= htmlspecialchars($firstname) ?>
                         <?= htmlspecialchars($lastname) ?>
@@ -67,10 +101,17 @@
                     style="display: none;">
                     <ul>
                         <li>
-                            <a href="verify_email"
-                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                <i class="fa-solid fa-store mr-2"></i>ศูนย์ผู้ขาย
-                            </a>
+                            <?php if (isset($_SESSION['user']['role_id']) && $_SESSION['user']['role_id'] == 3): ?>
+                                <a href="/Artbid/public/admin"
+                                    class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                    <i class="fa-solid fa-user-shield mr-2"></i>ผู้ดูแลระบบ
+                                </a>
+                            <?php else: ?>
+                                <a href="verify_email"
+                                    class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                    <i class="fa-solid fa-store mr-2"></i>ศูนย์ผู้ขาย
+                                </a>
+                            <?php endif; ?>
                         </li>
                         <li>
                             <a href="settings"
@@ -79,7 +120,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="my-auctions"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                 <i class="fa-solid fa-gavel mr-2"></i>การประมูล
                             </a>
@@ -97,9 +138,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                <i class="fa-solid fa-credit-card mr-2"></i>การชำระเงิน
+                            <a href="my-payments"
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded flex items-center justify-between">
+                                <span><i class="fa-solid fa-receipt mr-2"></i>ประวัติการชำระ</span>
+                                <?php if ($pendingPaymentCount > 0): ?>
+                                    <span
+                                        class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full"><?= $pendingPaymentCount ?></span>
+                                <?php endif; ?>
                             </a>
                         </li>
                         <li>

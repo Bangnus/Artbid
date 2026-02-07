@@ -47,22 +47,68 @@ class ClientController
     private static function updateArtworkStatus($pdo)
     {
         try {
-            // Convert DB server time (UTC) to Asia/Bangkok to match the stored local time in startbidding
+            // 1. Update Upcoming to Live when start time arrives
             $sql1 = "UPDATE artworks 
                     SET type = 'Live' 
                     WHERE type = 'Upcoming' 
                     AND startbidding::timestamp <= (NOW() AT TIME ZONE 'Asia/Bangkok')";
-
-            $sql2 = "UPDATE artworks
-            SET status = false AND type = 'Unsold'
-            WHERE type = 'Live'
-            AND endbidding::timestamp <= (NOW() AT TIME ZONE 'Asia/Bangkok')";
-
             $pdo->exec($sql1);
-            $pdo->exec($sql2);
+
+            // 2. Find ended auctions that need processing (Live and time expired)
+            $stmt = $pdo->prepare("
+                SELECT a.id, a.bidby, a.startingprice, a.user_id as seller_id
+                FROM artworks a
+                LEFT JOIN payments p ON p.artwork_id = a.id
+                WHERE a.type = 'Live'
+                AND a.endbidding::timestamp <= (NOW() AT TIME ZONE 'Asia/Bangkok')
+                AND p.id IS NULL
+            ");
+            $stmt->execute();
+            $endedAuctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($endedAuctions as $auction) {
+                if (!empty($auction['bidby'])) {
+                    // Has winner - create payment record
+                    $insertPayment = $pdo->prepare("
+                        INSERT INTO payments (id, artwork_id, buyer_id, seller_id, amount, status, created_at)
+                        VALUES (gen_random_uuid(), :artwork_id, :buyer_id, :seller_id, :amount, 'pending_buyer_payment', NOW())
+                    ");
+                    $insertPayment->execute([
+                        ':artwork_id' => $auction['id'],
+                        ':buyer_id' => $auction['bidby'],
+                        ':seller_id' => $auction['seller_id'],
+                        ':amount' => $auction['startingprice']
+                    ]);
+
+                    // Mark as Sold
+                    $updateArt = $pdo->prepare("UPDATE artworks SET type = 'Sold' WHERE id = :id");
+                    $updateArt->execute([':id' => $auction['id']]);
+                } else {
+                    // No bidder - mark as Unsold
+                    $updateArt = $pdo->prepare("UPDATE artworks SET type = 'Unsold', status = false WHERE id = :id");
+                    $updateArt->execute([':id' => $auction['id']]);
+                }
+            }
+
+            // 3. Expire payments older than 24 hours
+            $stmtExpire = $pdo->prepare("
+                UPDATE payments 
+                SET status = 'expired', updated_at = NOW()
+                WHERE status = 'pending_buyer_payment' 
+                AND created_at < NOW() - INTERVAL '1 DAY'
+                RETURNING artwork_id
+            ");
+            $stmtExpire->execute();
+            $expiredArtworks = $stmtExpire->fetchAll(PDO::FETCH_COLUMN);
+
+            if (!empty($expiredArtworks)) {
+                // Set artworks back to Unsold
+                $artIds = implode(',', array_map('intval', $expiredArtworks));
+                $pdo->exec("UPDATE artworks SET type = 'Unsold', status = false WHERE id IN ($artIds)");
+            }
         } catch (PDOException $e) {
             // Log error or handle silently as this is a background task
-            echo "Error: " . $e->getMessage();
+            error_log("updateArtworkStatus Error: " . $e->getMessage());
             return false;
         }
     }

@@ -26,7 +26,13 @@
         if ($result) {
             session_start();
             $_SESSION['sign_in_success'] = true;
-            header('Location: home');
+
+            // Check if user is admin (role_id = 3) and redirect to admin page
+            if (isset($_SESSION['user']['role_id']) && $_SESSION['user']['role_id'] == 3) {
+                header('Location: admin');
+            } else {
+                header('Location: home');
+            }
             exit;
         } else {
             $error = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';

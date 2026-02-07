@@ -12,19 +12,20 @@ if (isset($_GET['id'])) {
     <div class="overflow-x-auto">
         <div class="flex justify-end pr-5 pb-2">
             <a href="/Artbid/public/seller/art-listings/form"
-                class="py-1 px-3 bg-bgprimary text-white font-semibold rounded-lg">Create</a>
+                class="py-2 px-3 bg-bgprimary text-white font-semibold rounded-lg">เพิ่มผลงาน</a>
         </div>
         <table x-data="{ openIndex: null }" id="artTable"
             class="table-auto w-full text-sm text-left text-textprimary border-collapse">
             <thead class="bg-gray-200   tracking-wider">
                 <tr>
-                    <th class="px-4 py-3">#</th>
-                    <th class="px-4 py-3">Artworks Name</th>
-                    <th class="px-4 py-3">Artist</th>
-                    <th class="px-4 py-3">Start Bid</th>
-                    <th class="px-4 py-3">Created At</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Action</th>
+                    <th class="px-4 py-3 w-12">#</th>
+                    <th class="px-4 py-3 w-64">ชื่อผลงาน</th>
+                    <th class="px-4 py-3 w-40">ศิลปิน</th>
+                    <th class="px-4 py-3 w-44 text-center">ประเภท</th>
+                    <th class="px-4 py-3 w-32 text-center">ราคาบิดล่าสุด</th>
+                    <th class="px-4 py-3 w-32 text-center">วันที่สร้าง</th>
+                    <th class="px-4 py-3 w-28 text-center">สถานะ</th>
+                    <th class="px-4 py-3 w-24 text-center">จัดการ</th>
                 </tr>
             </thead>
             <tbody class="[&>tr:nth-child(odd)]:bg-white [&>tr:nth-child(even)]:bg-gray-100">
@@ -33,23 +34,52 @@ if (isset($_GET['id'])) {
                         <td class="px-4 py-3"><?= $i + 1 ?></td>
                         <td class="px-4 py-3 flex items-center gap-2 ">
                             <?php if (!empty($art['picture'])): ?>
-                                <div><img src="<?= htmlspecialchars($art['picture']) ?>"
-                                        width="32" height="32" alt="artwork" class="object-cover rounded-lg mt-2"
-                                        style="aspect-ratio:1/1; width:32px; height:32px;"></div>
+                                <div><img src="<?= htmlspecialchars($art['picture']) ?>" width="32" height="32" alt="artwork"
+                                        class="object-cover rounded-lg mt-2" style="aspect-ratio:1/1; width:32px; height:32px;">
+                                </div>
                             <?php endif; ?>
                             <?= htmlspecialchars($art['artworkname']) ?>
                         </td>
                         <td class="px-4 py-3"><?= htmlspecialchars($art['artist']) ?></td>
-                        <td class="px-4 py-3"><?= htmlspecialchars($art['startingprice']) ?></td>
-                        <td class="px-4 py-3"><?= date('m/d/Y', strtotime($art['createat'])) ?></td>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-3 text-center">
+                            <?php
+                            switch ($art['type']) {
+                                case 'Live':
+                                    $typeStyle = 'background-color: #ef4444; color: white;';
+                                    $typeLabel = 'กำลังประมูล';
+                                    break;
+                                case 'Timed':
+                                    $typeStyle = 'background-color: #22c55e; color: white;';
+                                    $typeLabel = 'การประมูลที่กำลังจะมา';
+                                    break;
+                                case 'Sold':
+                                    $typeStyle = 'background-color: #3b82f6; color: white;';
+                                    $typeLabel = 'ขายแล้ว';
+                                    break;
+                                case 'Unsold':
+                                    $typeStyle = 'background-color: #9ca3af; color: white;';
+                                    $typeLabel = 'ยังไม่ขาย';
+                                    break;
+                                default:
+                                    $typeStyle = 'background-color: #e5e7eb; color: #1f2937;';
+                                    $typeLabel = $art['type'];
+                            }
+                            ?>
+                            <span style="<?= $typeStyle ?>"
+                                class="inline-block text-xs px-2 py-1 rounded-full font-semibold">
+                                <?= htmlspecialchars($typeLabel) ?>
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-center"><?= htmlspecialchars($art['startingprice']) ?></td>
+                        <td class="px-4 py-3 text-center"><?= date('m/d/Y', strtotime($art['createat'])) ?></td>
+                        <td class="px-4 py-3 text-center">
                             <span
                                 class="inline-block <?= $art['status'] == 1 ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-800' ?> text-xs px-2 py-1 rounded-full font-semibold">
-                                <?= $art['status'] == 1 ? 'Active' : 'Inactive' ?>
+                                <?= $art['status'] == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน' ?>
                             </span>
                         </td>
                         <td class="px-4 py-3">
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center justify-center gap-2">
                                 <button type="button"
                                     @click="openIndex === $el.closest('tr').rowIndex ? openIndex = null : openIndex = $el.closest('tr').rowIndex"
                                     class="cursor-pointer">
@@ -67,11 +97,11 @@ if (isset($_GET['id'])) {
                         </td>
                     </tr>
                     <tr x-show="openIndex === $el.previousElementSibling.rowIndex" x-transition>
-                        <td colspan="7" class="px-4 py-3">
+                        <td colspan="8" class="px-4 py-3">
                             <div class="bg-white p-4 rounded-lg  shadow flex gap-5">
                                 <div>
-                                    <img src="<?= htmlspecialchars($art['picture']) ?>"
-                                        width="100" height="100" alt="artwork" class="object-cover rounded-lg ">
+                                    <img src="<?= htmlspecialchars($art['picture']) ?>" width="100" height="100"
+                                        alt="artwork" class="object-cover rounded-lg ">
                                 </div>
                                 <div class="space-y-2">
                                     <p class="font-primaryBold">
@@ -82,9 +112,31 @@ if (isset($_GET['id'])) {
                                     </p>
                                     <p class="font-primaryBold">
                                         Type:
-                                        <span
-                                            class="font-primaryRegular text-white p-1 <?= $art['type'] === 'Live' ? 'bg-red-500  rounded-md' : 'bg-green-600  rounded-md' ?>">
-                                            <?= htmlspecialchars($art['type']) ?>
+                                        <?php
+                                        switch ($art['type']) {
+                                            case 'Live':
+                                                $detailTypeStyle = 'background-color: #ef4444; color: white;';
+                                                $detailTypeLabel = 'กำลังประมูล';
+                                                break;
+                                            case 'Timed':
+                                                $detailTypeStyle = 'background-color: #22c55e; color: white;';
+                                                $detailTypeLabel = 'การประมูลที่กำลังจะมา';
+                                                break;
+                                            case 'Sold':
+                                                $detailTypeStyle = 'background-color: #3b82f6; color: white;';
+                                                $detailTypeLabel = 'ขายแล้ว';
+                                                break;
+                                            case 'Unsold':
+                                                $detailTypeStyle = 'background-color: #9ca3af; color: white;';
+                                                $detailTypeLabel = 'ยังไม่ขาย';
+                                                break;
+                                            default:
+                                                $detailTypeStyle = 'background-color: #e5e7eb; color: #1f2937;';
+                                                $detailTypeLabel = $art['type'];
+                                        }
+                                        ?>
+                                        <span style="<?= $detailTypeStyle ?>" class="font-primaryRegular p-1 rounded-md">
+                                            <?= htmlspecialchars($detailTypeLabel) ?>
                                         </span>
                                     </p>
                                     <p class="font-primaryBold">

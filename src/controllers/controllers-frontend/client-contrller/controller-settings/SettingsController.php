@@ -22,8 +22,15 @@ class SettingsController
             if ($user && !empty($user['password'])) {
                 $hasPassword = true;
             }
+
+            // Fetch user's PromptPay number
+            $stmtPayment = $pdo->prepare("SELECT promptpay_number FROM user_payments WHERE user_id = :user_id");
+            $stmtPayment->execute([':user_id' => $userId]);
+            $paymentRow = $stmtPayment->fetch(PDO::FETCH_ASSOC);
+            $userPromptpay = $paymentRow['promptpay_number'] ?? '';
         } catch (PDOException $e) {
             error_log("Error checking password: " . $e->getMessage());
+            $userPromptpay = '';
         }
 
         $title = "การตั้งค่า";
@@ -155,6 +162,12 @@ class SettingsController
 
     public static function deleteProfilePicture()
     {
+        // Clear any buffered output (like HTML headers)
+        if (ob_get_level()) {
+            ob_clean();
+        }
+        header('Content-Type: application/json');
+
         if (!isset($_SESSION['user'])) {
             echo json_encode(['success' => false, 'message' => 'Not logged in']);
             exit;
@@ -168,6 +181,7 @@ class SettingsController
             $stmt->execute([':id' => $userId]);
 
             $_SESSION['user']['picture'] = null;
+            $_SESSION['swal_success'] = "ลบรูปโปรไฟล์เรียบร้อยแล้ว";
 
             echo json_encode(['success' => true]);
             exit;

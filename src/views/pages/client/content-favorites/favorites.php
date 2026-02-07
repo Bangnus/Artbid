@@ -1,5 +1,5 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen">
-    <h1 class="text-3xl font-primaryBold text-textprimary mb-10 py-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen bg-white">
+    <h1 class="text-3xl font-primaryBold text-textprimary">
         <i class="fa-solid fa-heart text-red-500 mr-2"></i>
         รายการที่น่าสนใจของคุณ
     </h1>
@@ -14,7 +14,7 @@
             </a>
         </div>
     <?php else: ?>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-5">
             <?php foreach ($favorites as $art): ?>
                 <div
                     class="card overflow-visible shadow-[0_2px_15px_rgba(0,0,0,0.10)] pb-0 rounded-2xl mb-5 flex flex-col min-h-[420px]">

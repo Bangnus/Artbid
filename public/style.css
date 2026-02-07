@@ -3,59 +3,85 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "regular";
-    src: local("Inter-Regular"),
-        url('/Artbid/public/fonts/Inter-Regular.ttf') format("truetype");
+  font-family: "regular";
+  src: local("Inter-Regular"),
+    url("/Artbid/public/fonts/Inter-Regular.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: "medium";
-    src: local("Inter-Medium"),
-        url('/Artbid/public/fonts/Inter-Medium.ttf') format("truetype");
+  font-family: "medium";
+  src: local("Inter-Medium"),
+    url("/Artbid/public/fonts/Inter-Medium.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: "semibold";
-    src: local("Inter-SemiBold"),
-        url('/Artbid/public/fonts/Inter-SemiBold.ttf') format("truetype");
+  font-family: "semibold";
+  src: local("Inter-SemiBold"),
+    url("/Artbid/public/fonts/Inter-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: "bold";
-    src: local("Inter-Bold"),
-        url('/Artbid/public/fonts/Inter-Bold.ttf') format("truetype");
+  font-family: "bold";
+  src: local("Inter-Bold"),
+    url("/Artbid/public/fonts/Inter-Bold.ttf") format("truetype");
 }
 
 @layer utilities {
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        /* IE and Edge */
-        scrollbar-width: none;
-        /* Firefox */
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+    .border-bgsecondary {
+        border-color: #00365D;
     }
+}
+
+.text-bgsecondary {
+    color: #00365D;
+}
+.bg-bgsecondary {
+    background-color: #00365D;
+}
+.bg-slate-100 {
+    background-color: #f1f5f9;
+}
+.text-slate-600 {
+    color: #475569;
+}
+.hover\:bg-secondary-hover:hover {
+    background-color: #002a4a;
+}
+.focus\:border-bgsecondary:focus {
+    border-color: #00365D;
+}
+.border-bgsecondary {
+    border-color: #00365D;
 }
 
 /* width */
 ::-webkit-scrollbar {
-    @apply w-1
+  @apply w-1;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    @apply bg-gray-300
+  @apply bg-gray-300;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    @apply bg-gray-400 rounded-lg
+  @apply bg-gray-400 rounded-lg;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-600
+  @apply bg-gray-600;
 }

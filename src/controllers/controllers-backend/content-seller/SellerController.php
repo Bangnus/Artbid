@@ -174,4 +174,38 @@ class SellerController
 
         return true;
     }
+
+    public static function getWinningBidders()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $seller_id = $_SESSION['user']['id'] ?? null;
+        $pdo = dbConnect();
+
+        $stmt = $pdo->prepare("
+            SELECT 
+                p.id as payment_id,
+                p.amount,
+                p.status as payment_status,
+                p.created_at as won_at,
+                a.id as artwork_id,
+                a.artworkname,
+                a.artist,
+                a.picture,
+                a.endbidding,
+                u.id as buyer_id,
+                u.firstname as buyer_firstname,
+                u.lastname as buyer_lastname,
+                u.email as buyer_email,
+                u.picture as buyer_picture
+            FROM payments p
+            INNER JOIN artworks a ON p.artwork_id = a.id
+            INNER JOIN users u ON p.buyer_id = u.id
+            WHERE p.seller_id = :seller_id
+            ORDER BY p.created_at DESC
+        ");
+        $stmt->execute(['seller_id' => $seller_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

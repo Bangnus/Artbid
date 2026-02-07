@@ -5,6 +5,16 @@ module.exports = {
     "./**/*.php",
     "./public/**/*.{html,js,php}"
   ],
+  safelist: [
+    'text-textpurple',
+    'bg-textpurple',
+    'bg-purple-50',
+    'bg-purple-600',
+    'text-purple-600',
+    'text-purple-500',
+    'border-textpurple',
+    'focus:border-textpurple'
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -21,7 +31,8 @@ module.exports = {
         textsecondary: '#7D7D7D',
         textligth: "#F5F5F5",
         textorange: '#EA5734',
-        textblue: '#1E9CF5'
+        textblue: '#1E9CF5',
+        textpurple: '#A855F7'
       },
     },
     screens: {

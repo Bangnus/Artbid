@@ -17,6 +17,13 @@
                         <?= isset($_GET['tab']) && $_GET['tab'] === 'address' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-bgprimary hover:text-white' ?>">
                         ที่อยู่
                     </a>
+                    <?php if (isset($_SESSION['user']['role_id']) && $_SESSION['user']['role_id'] != 1): ?>
+                        <a href="settings?tab=payment"
+                            class="block px-6 py-8 rounded-md font-primaryBold text-lg transition-all md:text-left
+                            <?= isset($_GET['tab']) && $_GET['tab'] === 'payment' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-bgprimary hover:text-white' ?>">
+                            บัญชีรับเงิน
+                        </a>
+                    <?php endif; ?>
                 </nav>
             </div>
 
@@ -68,7 +75,8 @@
                             </div>
                             <?php if (isset($_SESSION['field_errors']['profile_picture'])): ?>
                                 <p class="text-red-500 text-sm mt-2 font-primaryRegular">
-                                    <?= $_SESSION['field_errors']['profile_picture'] ?></p>
+                                    <?= $_SESSION['field_errors']['profile_picture'] ?>
+                                </p>
                                 <?php unset($_SESSION['field_errors']['profile_picture']); ?>
                             <?php endif; ?>
 
@@ -90,16 +98,18 @@
 
                             <hr class="border-gray-200 mt-6">
 
-                            <h3 class="text-xl font-primaryBold text-textprimary mt-6">
-                                <?= $hasPassword ? 'ชื่อผู้ใช้และรหัสผ่าน' : 'ชื่อผู้ใช้' ?>
-                            </h3>
+                            <?php if ($hasPassword): ?>
+                                <h3 class="text-xl font-primaryBold text-textprimary mt-6">
+                                    ชื่อผู้ใช้และรหัสผ่าน
+                                </h3>
 
-                            <div class="mt-5 w-full">
-                                <label class="block text-sm font-primaryMedium text-textsecondary mb-2">ชื่อผู้ใช้</label>
-                                <input type="text" name="username"
-                                    value="<?= htmlspecialchars($_SESSION['user']['username'] ?? '') ?>"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
-                            </div>
+                                <div class="mt-5 w-full">
+                                    <label class="block text-sm font-primaryMedium text-textsecondary mb-2">ชื่อผู้ใช้</label>
+                                    <input type="text" name="username"
+                                        value="<?= htmlspecialchars($_SESSION['user']['username'] ?? '') ?>"
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
+                                </div>
+                            <?php endif; ?>
 
                             <?php if ($hasPassword): ?>
                                 <div class="flex flex-col md:flex-row gap-6 mt-5 w-full">
@@ -117,7 +127,8 @@
                                         </div>
                                         <?php if (isset($_SESSION['field_errors']['current_password'])): ?>
                                             <p class="text-red-500 text-sm mt-1 font-primaryRegular">
-                                                <?= $_SESSION['field_errors']['current_password'] ?></p>
+                                                <?= $_SESSION['field_errors']['current_password'] ?>
+                                            </p>
                                             <?php unset($_SESSION['field_errors']['current_password']); ?>
                                         <?php endif; ?>
                                     </div>
@@ -135,7 +146,8 @@
                                         </div>
                                         <?php if (isset($_SESSION['field_errors']['new_password'])): ?>
                                             <p class="text-red-500 text-sm mt-1 font-primaryRegular">
-                                                <?= $_SESSION['field_errors']['new_password'] ?></p>
+                                                <?= $_SESSION['field_errors']['new_password'] ?>
+                                            </p>
                                             <?php unset($_SESSION['field_errors']['new_password']); ?>
                                         <?php endif; ?>
                                     </div>
@@ -273,6 +285,116 @@
                             color: #FF5D02;
                         }
                     </style>
+                <?php elseif (isset($_GET['tab']) && $_GET['tab'] === 'payment' && isset($_SESSION['user']['role_id']) && $_SESSION['user']['role_id'] != 1): ?>
+                    <div x-data="paymentSettings()" class="max-w-5xl mx-auto">
+
+                        <!-- Header -->
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-primaryBold text-textprimary mb-2">บัญชีรับเงิน</h2>
+                            <p class="text-textsecondary">ตั้งค่าบัญชีพร้อมเพย์สำหรับรับเงินจากการขายผลงาน</p>
+                        </div>
+
+                        <!-- Content Flex Container (Matches Admin UI) -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+
+                            <!-- Info Card (Left Side) -->
+                            <div style="flex: 1; min-width: 300px;">
+                                <div class="p-6 rounded-2xl border border-orange-100 bg-white shadow-sm"
+                                    style="position: sticky; top: 6rem;">
+
+                                    <!-- Dynamic QR Code Preview -->
+                                    <div class="relative w-full bg-gray-50 rounded-2xl border border-orange-100 flex items-center justify-center mb-6 overflow-hidden group"
+                                        style="aspect-ratio: 1/1;">
+                                        <template x-if="form.promptpay_number && form.promptpay_number.length >= 10">
+                                            <img :src="'https://promptpay.io/' + form.promptpay_number" alt="PromptPay QR"
+                                                class="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-105">
+                                        </template>
+                                        <template x-if="!form.promptpay_number || form.promptpay_number.length < 10">
+                                            <div class="flex flex-col items-center text-gray-300">
+                                                <i class="fa-solid fa-qrcode text-6xl mb-3 opacity-30"></i>
+                                                <span class="text-sm font-primaryMedium text-gray-400">ตัวอย่าง QR
+                                                    Code</span>
+                                            </div>
+                                        </template>
+
+                                        <!-- Official Badge -->
+                                        <div
+                                            class="absolute bottom-3 right-3 bg-[#003D6B] text-white text-[10px] px-3 py-1 rounded-md shadow-md opacity-90 font-primaryBold uppercase tracking-wide">
+                                            PromptPay
+                                        </div>
+                                    </div>
+
+                                    <h3 class="text-xl font-primaryBold text-textprimary mb-3">บัญชีรับเงิน</h3>
+                                    <p class="text-sm text-textsecondary leading-relaxed mb-6 font-primaryMedium">
+                                        ข้อมูลนี้จะแสดงให้ผู้ชำระเงินเห็นเมื่อต้องโอนเงินค่าภาพวาดให้คุณ
+                                    </p>
+
+                                    <!-- PromptPay Badge -->
+                                    <div class="flex items-center gap-4 p-4 bg-[#F2F9FF] rounded-xl border border-blue-100">
+                                        <div
+                                            style="width: 48px; height: 48px; background-color: #003D6B; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                                            <i class="fa-solid fa-qrcode text-white text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <span class="block font-primaryBold text-[#003D6B] text-base">PromptPay</span>
+                                            <span class="text-xs text-[#003D6B] opacity-70 font-primaryMedium">Official
+                                                Payment Standard</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form (Right Side) -->
+                            <div style="flex: 2; min-width: 300px;">
+                                <div
+                                    class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 relative overflow-hidden">
+                                    <div
+                                        class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#FF7B00] to-[#FF4500]">
+                                    </div>
+
+                                    <div class="space-y-8">
+                                        <!-- Header Form -->
+                                        <div class="flex items-center justify-between">
+                                            <h3 class="text-lg font-primaryBold text-textprimary">รายละเอียดบัญชี</h3>
+                                            <span
+                                                class="px-3 py-1 bg-orange-50 text-textorange text-xs rounded-full font-primaryBold border border-orange-100">สำหรับรับเงิน</span>
+                                        </div>
+
+                                        <!-- PromptPay Input -->
+                                        <div class="group">
+                                            <label class="block text-sm font-primaryBold text-textprimary mb-2">
+                                                เบอร์พร้อมเพย์ / เลขบัตรประชาชน <span class="text-red-500">*</span>
+                                            </label>
+                                            <div class="relative mt-2">
+                                                <span class="absolute left-4 text-gray-400 pointer-events-none"
+                                                    style="top: 50%; transform: translateY(-50%); z-index: 10;">
+                                                    <i class="fa-solid fa-mobile-screen text-xl"></i>
+                                                </span>
+                                                <input type="text" x-model="form.promptpay_number"
+                                                    style="height: 52px; padding-left: 3.5rem;"
+                                                    class="w-full pr-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-textorange focus:ring-2 focus:ring-textorange focus:ring-offset-1 transition-all font-primaryBold text-xl tracking-wide text-textprimary placeholder-gray-300"
+                                                    placeholder="08X-XXX-XXXX">
+                                            </div>
+                                            <p
+                                                class="text-xs text-textsecondary mt-2 pl-1 flex items-center gap-1 opacity-70">
+                                                <i class="fa-solid fa-circle-info"></i>
+                                                กรอกเบอร์โทรศัพท์ 10 หลัก หรือเลขบัตรประชาชน 13 หลัก
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-8 border-gray-100" style="border-style: dashed;">
+
+                                    <button @click="saveSettings()"
+                                        style="background: linear-gradient(90deg, #FF7B00 0%, #EA580C 100%); box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);"
+                                        class="w-full mt-4 px-4 py-3 text-white rounded-xl font-primaryBold hover:-translate-y-0.5 active:scale-95 transition-all duration-200 flex items-center justify-center gap-3 text-lg">
+                                        <i class="fa-solid fa-floppy-disk"></i>
+                                        <span>บันทึกข้อมูล</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
 
@@ -313,12 +435,39 @@
 
 <script>
     function deleteProfilePicture() {
-        if (confirm('คุณแน่ใจหรือไม่ที่จะลบรูปโปรไฟล์ของคุณ?')) {
-            fetch('delete-profile-picture', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => { if (data.success) location.reload(); })
-                .catch(error => console.error('Error:', error));
-        }
+        Swal.fire({
+            title: 'ยืนยันการลบ',
+            text: 'คุณแน่ใจหรือไม่ที่จะลบรูปโปรไฟล์ของคุณ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#FF5D02',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: 'ลบ',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('delete-profile-picture', { method: 'POST' })
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            if (data.success) {
+                                window.location.reload();
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'เกิดข้อผิดพลาด',
+                                    text: data.message || 'ไม่สามารถลบรูปโปรไฟล์ได้',
+                                    confirmButtonColor: '#FF5D02'
+                                });
+                            }
+                        } catch (e) {
+                            console.error('JSON parse error:', e);
+                        }
+                    })
+                    .catch(error => console.error('Fetch error:', error));
+            }
+        });
     }
 
     function togglePassword(inputId, iconId) {
@@ -333,6 +482,54 @@
             input.type = 'password';
             icon.classList.remove('fa-eye-slash');
             icon.classList.add('fa-eye');
+        }
+    }
+
+    function paymentSettings() {
+        return {
+            form: {
+                promptpay_number: '<?= htmlspecialchars($userPromptpay ?? '') ?>'
+            },
+
+            saveSettings() {
+                Swal.fire({
+                    title: 'ยืนยันการบันทึก?',
+                    text: "ข้อมูลบัญชีรับเงินจะถูกอัปเดต",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ea580c',
+                    cancelButtonColor: '#9ca3af',
+                    confirmButtonText: 'บันทึก',
+                    cancelButtonText: 'ยกเลิก'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch('/Artbid/public/update-payment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(this.form)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'บันทึกสำเร็จ!',
+                                        text: 'ข้อมูลบัญชีรับเงินถูกอัปเดตเรียบร้อยแล้ว',
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true
+                                    });
+                                } else {
+                                    Swal.fire('เกิดข้อผิดพลาด', data.message, 'error');
+                                }
+                            })
+                            .catch(err => {
+                                console.error('Fetch error:', err);
+                                Swal.fire('Error', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', 'error');
+                            });
+                    }
+                });
+            }
         }
     }
 </script>

@@ -99,7 +99,8 @@ class FavoriteController
                 SELECT a.* 
                 FROM artworks a
                 INNER JOIN favorites f ON a.id = f.artwork_id
-                WHERE f.user_id = :user_id
+                WHERE f.user_id = :user_id 
+                AND a.status = true
                 ORDER BY f.created_at DESC
             ");
             $stmt->execute([':user_id' => $_SESSION['user']['id']]);
