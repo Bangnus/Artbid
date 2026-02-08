@@ -1,4 +1,10 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="paymentManagement()">
+    <!-- Loading Overlay -->
+    <div x-show="reloading" x-transition.opacity
+        class="fixed inset-0 z-[100] backdrop-blur-sm flex items-center justify-center">
+        <?php include __DIR__ . '/../../../../components/content-loading/page-loading.php'; ?>
+    </div>
+
     <!-- Header -->
     <div class="mb-8">
         <h2 class="text-3xl font-primaryBold text-textprimary mb-2">จัดการรายการโอนเงิน</h2>
@@ -40,23 +46,23 @@
             <table class="w-full">
                 <thead class="bg-gray-100 border-b border-gray-200">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-primaryBold text-gray-800 uppercase">ผลงาน</th>
-                        <th class="px-6 py-4 text-left text-xs font-primaryBold text-gray-800 uppercase">ผู้ซื้อ</th>
-                        <th class="px-6 py-4 text-left text-xs font-primaryBold text-gray-800 uppercase">ผู้ขาย</th>
-                        <th class="px-6 py-4 text-center text-xs font-primaryBold text-gray-800 uppercase">จำนวนเงิน
+                        <th class="px-4 py-3 text-left text-xs font-primaryBold text-gray-800 uppercase">ผลงาน</th>
+                        <th class="px-4 py-3 text-left text-xs font-primaryBold text-gray-800 uppercase">ผู้ซื้อ</th>
+                        <th class="px-4 py-3 text-left text-xs font-primaryBold text-gray-800 uppercase">ผู้ขาย</th>
+                        <th class="px-4 py-3 text-center text-xs font-primaryBold text-gray-800 uppercase">จำนวนเงิน
                         </th>
-                        <th class="px-6 py-4 text-center text-xs font-primaryBold text-gray-800 uppercase">สถานะ</th>
-                        <th class="px-6 py-4 text-center text-xs font-primaryBold text-gray-800 uppercase">จัดการ</th>
+                        <th class="px-4 py-3 text-center text-xs font-primaryBold text-gray-800 uppercase">สถานะ</th>
+                        <th class="px-4 py-3 text-center text-xs font-primaryBold text-gray-800 uppercase">จัดการ</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     <template x-for="payment in filteredPayments" :key="payment.id">
                         <tr class="hover:bg-gray-50 transition-colors">
                             <!-- Artwork -->
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-3">
                                 <div class="flex items-center gap-2">
                                     <div class="relative cursor-pointer" @click="previewImage = payment.artwork_image">
-                                        <img :src="payment.artwork_image" class="w-16 h-16 rounded-lg object-cover"
+                                        <img :src="payment.artwork_image" class="w-10 h-10 rounded-lg object-cover"
                                             alt="">
                                     </div>
                                     <span class="font-primaryMedium text-textprimary line-clamp-1 max-w-[200px]"
@@ -64,28 +70,34 @@
                                 </div>
                             </td>
                             <!-- Buyer -->
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-3">
                                 <span class="font-primaryMedium text-textprimary"
                                     x-text="payment.buyer_firstname + ' ' + payment.buyer_lastname"></span>
                             </td>
                             <!-- Seller -->
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-3">
                                 <span class="font-primaryMedium text-textprimary"
                                     x-text="payment.seller_firstname + ' ' + payment.seller_lastname"></span>
                             </td>
                             <!-- Amount -->
-                            <td class="px-6 py-4 text-center">
-                                <span class="font-primaryBold text-bgsecondary"
-                                    x-text="'฿' + Number(payment.amount).toLocaleString()"></span>
+                            <td class="px-4 py-3 text-center">
+                                <div class="flex flex-col items-center">
+                                    <span class="font-primaryBold text-bgsecondary"
+                                        x-text="'฿' + Number(payment.amount).toLocaleString()"></span>
+                                    <template x-if="payment.status === 'completed'">
+                                        <span class="text-xs text-green-600 font-primaryMedium"
+                                            x-text="'(สุทธิ: ฿' + Math.floor(Number(payment.amount) * 0.95).toLocaleString() + ')'"></span>
+                                    </template>
+                                </div>
                             </td>
                             <!-- Status -->
-                            <td class="px-6 py-4 text-center">
+                            <td class="px-4 py-3 text-center">
                                 <span :class="getStatusClass(payment.status)"
                                     class="px-3 py-1 rounded-full text-xs font-primaryBold"
                                     x-text="getStatusText(payment.status)"></span>
                             </td>
                             <!-- Actions -->
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-3">
                                 <div class="flex items-center justify-center gap-2">
                                     <button
                                         @click="payment.buyer_slip_image ? previewImage = payment.buyer_slip_image : Swal.fire('ไม่มีสลิป', 'รายการนี้ยังไม่มีการแนบสลิป', 'info')"
@@ -277,6 +289,7 @@
             showModal: false,
             selectedPayment: null,
             previewImage: null,
+            reloading: false,
 
             get filteredPayments() {
                 if (this.filterStatus === 'all') return this.payments;
@@ -335,7 +348,10 @@
                                         icon: 'success',
                                         timer: 1500,
                                         showConfirmButton: false,
-                                        willClose: () => location.reload()
+                                        willClose: () => {
+                                            this.reloading = true;
+                                            window.location.reload();
+                                        }
                                     });
                                 } else {
                                     Swal.fire('ผิดพลาด', data.message, 'error');
@@ -370,7 +386,10 @@
                                         icon: 'success',
                                         timer: 1500,
                                         showConfirmButton: false,
-                                        willClose: () => location.reload()
+                                        willClose: () => {
+                                            this.reloading = true;
+                                            window.location.reload();
+                                        }
                                     });
                                 } else {
                                     Swal.fire('ผิดพลาด', data.message, 'error');
@@ -406,7 +425,10 @@
                                         icon: 'success',
                                         timer: 1500,
                                         showConfirmButton: false,
-                                        willClose: () => location.reload()
+                                        willClose: () => {
+                                            this.reloading = true;
+                                            window.location.reload();
+                                        }
                                     });
                                 } else {
                                     Swal.fire('ผิดพลาด', data.message, 'error');

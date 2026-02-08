@@ -22,7 +22,7 @@
     ?>
     <!-- Sidebar -->
     <aside x-data="{sidebarOpen: true}" :class="sidebarOpen ? 'w-64' : 'w-16 flex flex-col items-center'"
-        class="bg-white shadow-lg px-4 py-3 transition-all duration-300 ease-in-out overflow-hidden"
+        class="bg-white shadow-lg px-4 py-3 transition-all duration-300 ease-in-out overflow-hidden flex-shrink-0"
         style="min-width: 4rem;">
         <div class="flex items-center justify-between gap-x-10 text-textprimary px-2">
             <a x-show="sidebarOpen" href="/Artbid/public/home"
@@ -66,6 +66,16 @@
                         </p>
                     </a>
                 </li>
+                <?php $historyActive = $uri === '/Artbid/public/seller/sales-history'; ?>
+                <li class="hover:bg-gray-100 p-2 rounded-lg<?= $historyActive ? ' bg-gray-100' : '' ?>">
+                    <a href="/Artbid/public/seller/sales-history" class="flex items-center gap-2 transition-colors">
+                        <i
+                            :class="sidebarOpen ? 'fa-solid fa-clock-rotate-left<?= $historyActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-clock-rotate-left text-[20px]<?= $historyActive ? ' text-textorange' : '' ?>'"></i>
+                        <p x-show="sidebarOpen" class="whitespace-nowrap">
+                            ประวัติการขาย
+                        </p>
+                    </a>
+                </li>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $biddersActive ? ' bg-gray-100' : '' ?>">
                     <a href="/Artbid/public/seller/bidders-list" class="flex items-center gap-2 transition-colors">
                         <i
@@ -84,16 +94,6 @@
                         </p>
                     </a>
                 </li>
-                <!-- Logout -->
-                <li class="hover:bg-red-50 p-2 rounded-lg mt-4 border-t pt-4">
-                    <a href="/Artbid/public/logout" class="flex items-center gap-2 transition-colors text-red-500">
-                        <i
-                            :class="sidebarOpen ? 'fa-solid fa-right-from-bracket' : 'fa-solid fa-right-from-bracket text-[20px]'"></i>
-                        <p x-show="sidebarOpen" class="whitespace-nowrap">
-                            ออกจากระบบ
-                        </p>
-                    </a>
-                </li>
             </ul>
         </nav>
     </aside>
@@ -102,9 +102,10 @@
     <div class="flex-1 flex flex-col">
 
         <!-- Navbar -->
-        <header class="bg-white h-16 flex items-center justify-between px-6 shadow">
+        <header class="bg-white h-16 flex items-center justify-between px-10 shadow"
+            style="padding-left: 40px; padding-right: 40px;">
             <h1 class="text-lg font-semibold"><?= $title ?></h1>
-            <div class="flex items-center gap-x-5">
+            <div class="flex items-center gap-x-8" style="gap: 32px;">
                 <a class="p-2 px-4 border border-gray-200 text-textorange font-primarySemibold rounded-lg hover:bg-gray-100"
                     href="<?php echo $basePath ?>">
                     สำรวจงานศิลปะ
@@ -135,13 +136,13 @@
                     </div>
                     <!-- dropdown -->
                     <div x-show="dropdownOpen" @click.away="dropdownOpen = false"
-                        class="absolute top-16 right-1/2 translate-x-1/2 w-full bg-white shadow-lg rounded-lg z-10"
+                        class="absolute top-16 right-0 min-w-[180px] bg-white shadow-lg rounded-lg z-10"
                         style="display: none;">
                         <ul>
                             <li>
                                 <a href="/Artbid/public/settings"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    การตั้งค่า
+                                    <i class="fa-solid fa-gear mr-2"></i>การตั้งค่า
                                 </a>
                             </li>
                             <li>

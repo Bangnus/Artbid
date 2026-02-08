@@ -40,13 +40,13 @@
                         <?php
                         $paymentStatus = $art['payment_status'] ?? 'pending_buyer_payment';
                         $statusConfig = [
-                            'pending_buyer_payment' => ['bg-yellow-500', 'รอชำระเงิน'],
-                            'pending_admin_verify' => ['bg-blue-500', 'รอตรวจสอบ'],
-                            'verified' => ['bg-purple-500', 'กำลังดำเนินการ'],
-                            'completed' => ['bg-green-600', 'เสร็จสิ้น'],
-                            'rejected' => ['bg-red-500', 'ถูกปฏิเสธ'],
+                            'pending_buyer_payment' => ['#eab308', 'รอชำระเงิน'],
+                            'pending_admin_verify' => ['#3b82f6', 'รอตรวจสอบ'],
+                            'verified' => ['#a855f7', 'กำลังดำเนินการ'],
+                            'completed' => ['#16a34a', 'เสร็จสิ้น'],
+                            'rejected' => ['#ef4444', 'ถูกปฏิเสธ'],
                         ];
-                        $statusClass = $statusConfig[$paymentStatus][0] ?? 'bg-gray-500';
+                        $bgColor = $statusConfig[$paymentStatus][0] ?? '#6b7280';
                         $statusText = $statusConfig[$paymentStatus][1] ?? $paymentStatus;
                         ?>
                         <div
@@ -61,8 +61,9 @@
                                 </div>
 
                                 <div class="absolute top-5 left-0 w-full px-3 flex items-center justify-between">
-                                    <div class="<?= $statusClass ?> text-white px-3 py-1 rounded-md text-sm font-primaryMedium">
-                                        <i class="fa-solid fa-trophy mr-1"></i><?= $statusText ?>
+                                    <div class="text-white px-3 py-1 rounded-md text-sm font-primaryMedium"
+                                        style="background-color: <?= $bgColor ?>;">
+                                        <i class="fa-solid fa-trophy mr-1"></i> <?= $statusText ?>
                                     </div>
                                 </div>
                             </div>

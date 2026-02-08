@@ -317,7 +317,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                                             <?= htmlspecialchars($art_up['artist']) ?>
                                                         </span>
                                                     </p>
-                                                    <p class="text-textsecondary">ราคาประมูลปัจจุบัน :<span
+                                                    <p class="text-textsecondary">ราคาปัจจุบัน :<span
                                                             class="text-textprimary">
                                                             $<?= htmlspecialchars($art_up['startingprice']) ?>
                                                         </span>

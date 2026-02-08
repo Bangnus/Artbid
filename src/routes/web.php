@@ -104,6 +104,10 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-frontend/seller-controller/content-artList/ArtlistController.php';
         (new ArtlistController)->update_form();
         break;
+    case '/seller/sales-history':
+        require __DIR__ . '/../controllers/controllers-frontend/seller-controller/content-sales-history/SalesHistoryController.php';
+        (new SalesHistoryController)->index();
+        break;
     case '/seller/bidders-list':
         require __DIR__ . '/../controllers/controllers-frontend/seller-controller/content-bidderlist/BidderlistController.php';
         (new BidderlistController)->bidderlist();
@@ -166,6 +170,10 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-backend/content-payment/PaymentManagementController.php';
         (new PaymentManagementController)->rejectPayment();
         break;
+    case '/admin/payment/revenue':
+        require __DIR__ . '/../controllers/controllers-backend/content-payment/RevenueController.php';
+        (new RevenueController)->index();
+        break;
     case '/my-payments':
         require __DIR__ . '/../controllers/controllers-backend/content-payment/BuyerPaymentController.php';
         (new BuyerPaymentController)->index();
@@ -177,6 +185,10 @@ switch ($uri) {
     case '/pay':
         require __DIR__ . '/../controllers/controllers-backend/content-payment/BuyerPaymentController.php';
         (new BuyerPaymentController)->singlePayment();
+        break;
+    case '/collection':
+        require __DIR__ . '/../controllers/controllers-backend/content-collection/CollectionController.php';
+        (new CollectionController)->index();
         break;
     default:
         require __DIR__ . '/../components/content-notfound/notfound-404.php';

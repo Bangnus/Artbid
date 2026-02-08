@@ -121,12 +121,16 @@ if (isset($_SESSION['user']['id'])) {
                         </li>
                         <li>
                             <a href="my-auctions"
-                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                <i class="fa-solid fa-gavel mr-2"></i>การประมูล
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded flex items-center justify-between">
+                                <span><i class="fa-solid fa-gavel mr-2"></i>การประมูล</span>
+                                <?php if ($pendingPaymentCount > 0): ?>
+                                    <span
+                                        class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full"><?= $pendingPaymentCount ?></span>
+                                <?php endif; ?>
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="collection"
                                 class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                 <i class="fa-solid fa-images mr-2"></i>คอลเลกชัน
                             </a>
@@ -139,12 +143,8 @@ if (isset($_SESSION['user']['id'])) {
                         </li>
                         <li>
                             <a href="my-payments"
-                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded flex items-center justify-between">
-                                <span><i class="fa-solid fa-receipt mr-2"></i>ประวัติการชำระ</span>
-                                <?php if ($pendingPaymentCount > 0): ?>
-                                    <span
-                                        class="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full"><?= $pendingPaymentCount ?></span>
-                                <?php endif; ?>
+                                class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
+                                <i class="fa-solid fa-receipt mr-2"></i>ประวัติการชำระ
                             </a>
                         </li>
                         <li>

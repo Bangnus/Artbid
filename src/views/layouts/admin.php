@@ -18,10 +18,11 @@
     <?php
     require __DIR__ . '/../../middlewares/sellerMiddlewares.php';
     require __DIR__ . '/../../middlewares/adminMiddlewares.php';
+    require __DIR__ . '/../../components/admin-notifications.php';
     ?>
     <!-- Sidebar -->
     <aside x-data="{sidebarOpen: true}" :class="sidebarOpen ? 'w-64' : 'w-16 flex flex-col items-center'"
-        class="bg-white shadow-lg px-4 py-3 transition-all duration-300 ease-in-out overflow-hidden"
+        class="bg-white shadow-lg px-4 py-3 transition-all duration-300 ease-in-out overflow-hidden flex-shrink-0"
         style="min-width: 4rem;">
         <div class="flex items-center justify-between gap-x-10 text-textprimary px-2">
             <a x-show="sidebarOpen" href="/Artbid/public/home"
@@ -38,26 +39,25 @@
                 :class="sidebarOpen ? '' : 'rotate-180'"></i>
         </div>
         <nav class="mt-8">
-            <ul class="text-textprimary font-primarySemibold">
+            <ul class="text-textprimary font-primarySemibold space-y-2">
                 <?php
                 $uri = $_SERVER['REQUEST_URI'];
                 $dashboardActive = (strpos($uri, '/admin') !== false && strpos($uri, '/admin/users') === false && strpos($uri, '/admin/payment') === false);
                 $usersActive = strpos($uri, '/admin/users') !== false;
-                $paymentActive = strpos($uri, '/admin/payment') !== false;
                 ?>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $dashboardActive ? ' bg-gray-100' : '' ?>">
-                    <a href="/Artbid/public/admin" class="flex items-center  gap-2 transition-colors">
+                    <a href="/Artbid/public/admin" class="flex items-center gap-4 transition-colors">
                         <i
-                            :class="sidebarOpen ? 'fa-solid fa-gauge<?= $dashboardActive ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-gauge text-[20px]<?= $dashboardActive ? ' text-bgsecondary' : '' ?>'"></i>
+                            :class="sidebarOpen ? 'fa-solid fa-gauge<?= $dashboardActive ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-gauge text-[24px]<?= $dashboardActive ? ' text-bgsecondary' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
                             แดชบอร์ด
                         </p>
                     </a>
                 </li>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $usersActive ? ' bg-gray-100' : '' ?>">
-                    <a href="/Artbid/public/admin/users" class="flex items-center gap-2 transition-colors">
+                    <a href="/Artbid/public/admin/users" class="flex items-center gap-4 transition-colors">
                         <i
-                            :class="sidebarOpen ? 'fa-solid fa-users<?= $usersActive ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-users text-[20px]<?= $usersActive ? ' text-bgsecondary' : '' ?>'"></i>
+                            :class="sidebarOpen ? 'fa-solid fa-users<?= $usersActive ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-users text-[24px]<?= $usersActive ? ' text-bgsecondary' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
                             จัดการผู้ใช้
                         </p>
@@ -66,15 +66,24 @@
                 <?php
                 $paymentAccountActive = strpos($uri, '/admin/payment/account') !== false;
                 $paymentTransactionsActive = strpos($uri, '/admin/payment/transactions') !== false;
+                $paymentRevenueActive = strpos($uri, '/admin/payment/revenue') !== false;
+                $paymentActive = strpos($uri, '/admin/payment') !== false;
+                $isPaymentActive = $paymentActive || $paymentAccountActive || $paymentTransactionsActive || $paymentRevenueActive;
                 ?>
-                <div x-data="{ open: <?= ($paymentActive || $paymentAccountActive || $paymentTransactionsActive) ? 'true' : 'false' ?> }"
-                    class="">
-                    <li @click="open = !open"
-                        class="hover:bg-gray-100 p-2 rounded-lg cursor-pointer<?= ($paymentActive || $paymentAccountActive || $paymentTransactionsActive) ? ' bg-gray-100' : '' ?>">
-                        <div class="flex justify-between items-center gap-2 transition-colors">
-                            <div class="flex items-center gap-2">
+                <li x-data="{ open: <?= $isPaymentActive ? 'true' : 'false' ?> }" class="block">
+                    <div @click="if(!sidebarOpen) { sidebarOpen = true; open = true; } else { open = !open; }"
+                        class="hover:bg-gray-100 p-2 rounded-lg cursor-pointer<?= $isPaymentActive ? ' bg-gray-100' : '' ?>">
+                        <div class="flex justify-between items-center transition-colors">
+                            <div class="flex items-center gap-4 relative">
                                 <i
-                                    :class="sidebarOpen ? 'fa-solid fa-money-bill-transfer<?= ($paymentActive || $paymentAccountActive || $paymentTransactionsActive) ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-money-bill-transfer text-[20px]<?= ($paymentActive || $paymentAccountActive || $paymentTransactionsActive) ? ' text-bgsecondary' : '' ?>'"></i>
+                                    :class="sidebarOpen ? 'fa-solid fa-money-bill-transfer<?= $isPaymentActive ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-money-bill-transfer text-[24px]<?= $isPaymentActive ? ' text-bgsecondary' : '' ?>'"></i>
+                                <?php if (isset($pendingPaymentCount) && $pendingPaymentCount > 0): ?>
+                                    <span x-show="!sidebarOpen" class="absolute -top-1 -right-2 flex h-3 w-3">
+                                        <span
+                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                    </span>
+                                <?php endif; ?>
                                 <p x-show="sidebarOpen" class="whitespace-nowrap">
                                     การชำระเงิน
                                 </p>
@@ -83,26 +92,42 @@
                                 class="transition-transform">
                             </i>
                         </div>
-                    </li>
-                    <div x-show="open" class="pl-4 mt-1 space-y-1" x-transition>
+                    </div>
+                    <ul x-show="open && sidebarOpen" class="pl-2 mt-1 space-y-1 block" x-transition>
                         <li
                             class="hover:bg-gray-50 p-2 rounded-lg<?= $paymentAccountActive ? ' bg-slate-100 text-bgsecondary' : '' ?>">
                             <a href="/Artbid/public/admin/payment/account"
-                                :class="{'flex items-center gap-2 transition-colors': true,'justify-center': !sidebarOpen}">
-                                <i class="fa-solid fa-building-columns text-sm"></i>
-                                <p x-show="sidebarOpen" class="whitespace-nowrap text-sm">จัดการบัญชีโอนเงิน</p>
+                                class="flex items-center gap-2 transition-colors">
+                                <i class="fa-solid fa-building-columns text-sm w-5 text-center"></i>
+                                <p class="whitespace-nowrap text-sm">จัดการบัญชี</p>
                             </a>
                         </li>
                         <li
-                            class="hover:bg-gray-50 p-2 rounded-lg<?= $paymentTransactionsActive ? ' bg-slate-100 text-bgsecondary' : '' ?>">
+                            class="relative hover:bg-gray-50 p-2 rounded-lg<?= $paymentTransactionsActive ? ' bg-slate-100 text-bgsecondary' : '' ?>">
                             <a href="/Artbid/public/admin/payment/transactions"
-                                :class="{'flex items-center gap-2 transition-colors': true,'justify-center': !sidebarOpen}">
-                                <i class="fa-solid fa-list-check text-sm"></i>
-                                <p x-show="sidebarOpen" class="whitespace-nowrap text-sm">จัดการรายการโอนเงิน</p>
+                                class="flex items-center gap-2 transition-colors">
+                                <div class="relative w-5 text-center">
+                                    <i class="fa-solid fa-list-check text-sm"></i>
+                                    <?php if (isset($pendingPaymentCount) && $pendingPaymentCount > 0): ?>
+                                        <span class="absolute -top-1 -right-1 flex h-2 w-2">
+                                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                                <p class="whitespace-nowrap text-sm flex-1">รายการโอน</p>
                             </a>
                         </li>
-                    </div>
-                </div>
+                        <?php $revenueActive = strpos($uri, '/admin/payment/revenue') !== false; ?>
+                        <li
+                            class="hover:bg-gray-50 p-2 rounded-lg<?= $revenueActive ? ' bg-slate-100 text-bgsecondary' : '' ?>">
+                            <a href="/Artbid/public/admin/payment/revenue"
+                                class="flex items-center gap-2 transition-colors">
+                                <i class="fa-solid fa-chart-line text-sm w-5 text-center"></i>
+                                <p class="whitespace-nowrap text-sm">รายงานรายได้</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </aside>
@@ -111,9 +136,9 @@
     <div class="flex-1 flex flex-col">
 
         <!-- Navbar -->
-        <header class="bg-white h-16 flex items-center justify-between px-6 shadow">
+        <header class="bg-white h-16 flex items-center justify-between px-10 shadow">
             <h1 class="text-lg font-semibold"><?= $title ?></h1>
-            <div class="flex items-center gap-x-5">
+            <div class="flex items-center gap-x-8">
                 <a class="p-2 px-4 border border-gray-200 text-bgsecondary font-primarySemibold rounded-lg hover:bg-gray-100"
                     href="">
                     ดูผลงานศิลปะ
@@ -150,13 +175,13 @@
                             <li>
                                 <a href="/Artbid/public/settings"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    ตั้งค่า
+                                    <i class="fa-solid fa-gear mr-2"></i>การตั้งค่า
                                 </a>
                             </li>
                             <li>
                                 <a href="/Artbid/public/logout"
-                                    class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
-                                    ออกจากระบบ
+                                    class="block py-2 px-4 transition-colors duration-200 hover:bg-red-50 text-red-500 font-primaryMedium rounded">
+                                    <i class="fa-solid fa-right-from-bracket mr-2"></i>ออกจากระบบ
                                 </a>
                             </li>
                         </ul>

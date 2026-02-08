@@ -51,37 +51,65 @@ class ClientController
             $sql1 = "UPDATE artworks 
                     SET type = 'Live' 
                     WHERE type = 'Upcoming' 
-                    AND startbidding::timestamp <= (NOW() AT TIME ZONE 'Asia/Bangkok')";
+                    AND startbidding <= (NOW() AT TIME ZONE 'Asia/Bangkok')";
             $pdo->exec($sql1);
 
+            // 1.1 Cleanup: Ensure ALL Sold/Unsold/Expired items are inactive (status=false)
+            $pdo->exec("UPDATE artworks SET status = false WHERE type IN ('Sold', 'Unsold', 'Expired') AND status = true");
+
             // 2. Find ended auctions that need processing (Live and time expired)
+            // We select ALL ended live auctions, even if payment exists, to ensure we fix any status inconsistencies
             $stmt = $pdo->prepare("
                 SELECT a.id, a.bidby, a.startingprice, a.user_id as seller_id
                 FROM artworks a
-                LEFT JOIN payments p ON p.artwork_id = a.id
                 WHERE a.type = 'Live'
-                AND a.endbidding::timestamp <= (NOW() AT TIME ZONE 'Asia/Bangkok')
-                AND p.id IS NULL
+                AND a.endbidding <= (NOW() AT TIME ZONE 'Asia/Bangkok')
             ");
             $stmt->execute();
             $endedAuctions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($endedAuctions as $auction) {
                 if (!empty($auction['bidby'])) {
-                    // Has winner - create payment record
-                    $insertPayment = $pdo->prepare("
-                        INSERT INTO payments (id, artwork_id, buyer_id, seller_id, amount, status, created_at)
-                        VALUES (gen_random_uuid(), :artwork_id, :buyer_id, :seller_id, :amount, 'pending_buyer_payment', NOW())
-                    ");
-                    $insertPayment->execute([
-                        ':artwork_id' => $auction['id'],
-                        ':buyer_id' => $auction['bidby'],
-                        ':seller_id' => $auction['seller_id'],
-                        ':amount' => $auction['startingprice']
-                    ]);
+                    // Has winner - create payment record if not exists
+                    $checkPay = $pdo->prepare("SELECT id FROM payments WHERE artwork_id = :aid");
+                    $checkPay->execute([':aid' => $auction['id']]);
 
-                    // Mark as Sold
-                    $updateArt = $pdo->prepare("UPDATE artworks SET type = 'Sold' WHERE id = :id");
+                    if (!$checkPay->fetch()) {
+                        // DELETE existing payment first (as requested to fix issues)
+                        $deletePay = $pdo->prepare("DELETE FROM payments WHERE artwork_id = :aid");
+                        $deletePay->execute([':aid' => $auction['id']]);
+
+                        $insertPayment = $pdo->prepare("
+                            INSERT INTO payments (id, artwork_id, buyer_id, seller_id, amount, status, created_at)
+                            VALUES (gen_random_uuid(), :artwork_id, :buyer_id, :seller_id, :amount, 'pending_buyer_payment', NOW())
+                        ");
+                        $insertPayment->execute([
+                            ':artwork_id' => $auction['id'],
+                            ':buyer_id' => $auction['bidby'],
+                            ':seller_id' => $auction['seller_id'],
+                            ':amount' => $auction['startingprice']
+                        ]);
+                    } else {
+                        // Force delete and recreate even if it exists (per user request "delete problematic payment")
+                        // DELETE existing payment first
+                        $deletePay = $pdo->prepare("DELETE FROM payments WHERE artwork_id = :aid");
+                        $deletePay->execute([':aid' => $auction['id']]);
+
+                        // Create NEW payment record
+                        $insertPayment = $pdo->prepare("
+                             INSERT INTO payments (id, artwork_id, buyer_id, seller_id, amount, status, created_at)
+                             VALUES (gen_random_uuid(), :artwork_id, :buyer_id, :seller_id, :amount, 'pending_buyer_payment', NOW())
+                         ");
+                        $insertPayment->execute([
+                            ':artwork_id' => $auction['id'],
+                            ':buyer_id' => $auction['bidby'],
+                            ':seller_id' => $auction['seller_id'],
+                            ':amount' => $auction['startingprice']
+                        ]);
+                    }
+
+                    // Mark as Sold and Inactive (Hidden from main list) - FORCE UPDATE
+                    $updateArt = $pdo->prepare("UPDATE artworks SET type = 'Sold', status = false WHERE id = :id");
                     $updateArt->execute([':id' => $auction['id']]);
                 } else {
                     // No bidder - mark as Unsold

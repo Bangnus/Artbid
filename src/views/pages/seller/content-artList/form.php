@@ -3,136 +3,122 @@
     require_once __DIR__ . '/../../../../controllers/controllers-backend/content-seller/SellerController.php';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = SellerController::addArtlisting();
-        if ($result) {
-            header('Location: /Artbid/public/seller/art-listings');
-            exit;
-        } else {
-            echo "<script>
-                const notyf = new Notyf({position: { x: 'right', y: 'top' }});
-                notyf.error('Failed to create artwork. Please try again.');
-            </script>";
+        switch ($result) {
+            case 1: // Success
+                header('Location: /Artbid/public/seller/art-listings');
+                exit;
+            case 2: // Date Error
+                echo "<script>
+                    const notyf = new Notyf({position: { x: 'right', y: 'top' }});
+                    notyf.error('เวลาจบการประมูลต้องมากกว่าเวลาเริ่มการประมูล');
+                </script>";
+                break;
+            case 0: // Generic Fail
+            default:
+                echo "<script>
+                    const notyf = new Notyf({position: { x: 'right', y: 'top' }});
+                    notyf.error('เกิดข้อผิดพลาดในการสร้างงานศิลปะ กรุณาลองใหม่อีกครั้ง');
+                </script>";
+                break;
         }
     }
     ?>
     <div class="overflow-auto py-5 px-10">
-        <h1 class="text-xl font-bold mb-4">Create New Artwork</h1>
+        <h1 class="text-xl font-bold mb-4">เพิ่มผลงานใหม่</h1>
         <form action="" method="post" enctype="multipart/form-data" class="space-y-5">
             <div class="flex items-center justify-center gap-x-5 ">
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Title</p>
+                    <p class="text-[13px] text-textprimary font-primaryRegular">หัวข้อ</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
-                        name="title"
-                        minlength="8"
-                        maxlength="50"
-                        required>
+                        type="text" name="title" minlength="8" maxlength="50"
+                        placeholder="ระบุหัวข้อ (อย่างน้อย 8 ตัวอักษร)" required>
                 </div>
 
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Artwork Name</p>
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ชื่อผลงาน</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
-                        name="artworkname"
-                        minlength="10"
-                        maxlength="50"
+                        type="text" name="artworkname" minlength="10" maxlength="50"
+                        placeholder="ระบุชื่อผลงาน (อย่างน้อย 10 ตัวอักษร)" required>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-x-5 ">
+                <div class="space-y-2 w-full">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ศิลปิน</p>
+                    <input
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
+                        type="text" name="artist" minlength="4" maxlength="50" placeholder="ระบุชื่อศิลปิน" required>
+                </div>
+                <div class="space-y-2 w-full">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ปีที่สร้าง</p>
+                    <input
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
+                        type="number" name="yearcreated" minlength="4" maxlength="5" placeholder="ระบุปีที่สร้าง (พ.ศ.)"
                         required>
                 </div>
             </div>
             <div class="flex items-center justify-center gap-x-5 ">
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Artist</p>
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ขนาด</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
-                        name="artist"
-                        minlength="4"
-                        maxlength="50"
-                        required>
+                        type="text" name="dimensions" minlength="4" placeholder="เช่น 50x50 ซม." required>
                 </div>
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Year Created</p>
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ราคาเริ่มต้น</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="number"
-                        name="yearcreated"
-                        minlength="4"
-                        maxlength="5"
-                        required>
+                        type="text" name="startingprice" placeholder="ระบุราคาเริ่มต้น" required>
                 </div>
             </div>
             <div class="flex items-center justify-center gap-x-5 ">
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Dimensions</p>
+                    <p class="text-[13px] text-textprimary font-primaryRegular">เริ่มประมูล</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
-                        name="dimensions"
-                        minlength="4"
-                        required>
+                        type="datetime-local" name="startbidding" required>
                 </div>
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Starting Price</p>
+                    <p class="text-[13px] text-textprimary font-primaryRegular">จบประมูล</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
-                        name="startingprice"
-                        required>
+                        type="datetime-local" name="endbidding" required>
                 </div>
             </div>
-            <div class="flex items-center justify-center gap-x-5 ">
+            <div class="flex flex-col md:flex-row justify-between gap-5 ">
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Start bid</p>
-                    <input
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="datetime-local"
-                        name="startbidding"
-                        required>
-                </div>
-                <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">End bid</p>
-                    <input
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="datetime-local"
-                        name="endbidding"
-                        required>
-                </div>
-            </div>
-            <div class="flex  justify- gap-x-5 ">
-                <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Category</p>
-                    <select name="categories_id" class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
-                        <option value=1>Prints & Multiples Art</option>
-                        <option value=2>Photography Art</option>
-                        <option value=3>Classical Art</option>
-                        <option value=4>Modern & Contemporary Art</option>
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ประเภท</p>
+                    <select name="categories_id"
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
+                        <option value=1>ภาพพิมพ์ (Prints & Multiples)</option>
+                        <option value=2>ภาพถ่าย (Photography Art)</option>
+                        <option value=3>ศิลปะคลาสสิก (Classical Art)</option>
+                        <option value=4>ศิลปะสมัยใหม่ (Modern & Contemporary Art)</option>
                     </select>
                 </div>
                 <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">Description</p>
-                    <textarea
-                        name="description"
-                        minlength="10"
-                        required
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary ">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">รายละเอียด</p>
+                    <textarea name="description" minlength="10" placeholder="ระบุรายละเอียดผลงาน" required
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary min-h-[42px]">
                 </textarea>
                 </div>
             </div>
 
             <div class="space-y-2 w-full">
-                <label
-                    for="image"
-                    class="flex space-y-2 flex-col items-center justify-center w-full h-40 p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-textorange transition">
+                <label for="image"
+                    class="flex space-y-2 flex-col items-center justify-center w-full h-40 p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-textorange transition text-center">
 
                     <i class="fa-solid fa-arrow-up-from-bracket text-[36px] text-gray-500"></i>
 
-                    <div class="flex flex-col items-center text-center">
-                        <span class="text-textorange text-[16px]">"Tap to upload"</span>
-                        <span class="text-gray-500 text-[14px]">SVG, PNG, or JPG (max. 800x400px)</span>
+                    <div class="flex flex-col items-center">
+                        <span class="text-textorange text-[16px]">"กดเพื่ออัปโหลดรูปภาพ"</span>
+                        <span class="text-gray-500 text-[14px]">รองรับไฟล์ SVG, PNG หรือ JPG (ขนาดแนะนำ
+                            800x400px)</span>
                     </div>
 
-                    <input type="file" name="image" id="image" class="hidden" accept="image/*" onchange="previewImage(event)" required>
+                    <input type="file" name="image" id="image" class="hidden" accept="image/*"
+                        onchange="previewImage(event)" required>
                 </label>
                 <!-- Preview -->
                 <div id="preview"></div>
@@ -140,45 +126,37 @@
 
             <div class="flex items-start justify-start gap-10 mt-4">
                 <!-- Active -->
-                <label class="flex flex-col items-start gap-1 p-4  rounded-lg cursor-pointer  transition w-full max-w-xs">
+                <label class="flex flex-col items-start gap-1 p-4 rounded-lg cursor-pointer transition w-full max-w-xs">
                     <div class="flex items-center gap-2">
-                        <input
-                            type="radio"
-                            name="status"
-                            value=1
-                            required
-                            checked
+                        <input type="radio" name="status" value=1 required checked
                             class="w-4 h-4 rounded-full cursor-pointer">
-                        <span class="text-sm font-medium text-gray-700">Active</span>
+                        <span class="text-sm font-medium text-gray-700">ใช้งาน</span>
                     </div>
                     <p class="text-[14px] text-gray-500">
-                        The active status indicates that the menu item is currently available and listed in the restaurant's offerings.
+                        สถานะใช้งานหมายความว่าผลงานนี้จะแสดงผลและพร้อมให้เข้าชมหรือประมูลบนเว็บไซต์
                     </p>
                 </label>
 
 
                 <!-- Inactive -->
-                <label class="flex flex-col items-start gap-1 p-4  rounded-lg cursor-pointertransition w-full max-w-xs">
+                <label class="flex flex-col items-start gap-1 p-4 rounded-lg cursor-pointer transition w-full max-w-xs">
                     <div class="flex items-center gap-2">
-                        <input
-                            type="radio"
-                            name="status"
-                            value=0
-                            class="w-4 h-4  rounded-full cursor-pointer">
-                        <span class="text-sm font-medium text-gray-700">InActive</span>
+                        <input type="radio" name="status" value=0 class="w-4 h-4 rounded-full cursor-pointer">
+                        <span class="text-sm font-medium text-gray-700">ไม่ใช้งาน</span>
                     </div>
                     <p class="text-[14px] text-gray-500">
-                        The active status indicates that the menu item is currently available and listed in the restaurant's offerings.
+                        สถานะไม่ใช้งานหมายความว่าผลงานนี้จะไม่แสดงผลต่อผู้ใช้งานทั่วไป
                     </p>
                 </label>
 
             </div>
 
-            <button id="signin-btn" type="submit" class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center gap-2">
+            <button id="signin-btn" type="submit"
+                class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center gap-2">
                 <span id="signin-spinner" class="hidden">
                     <?php require_once __DIR__ . '/../../../../components/content-loading/dot-loading.php'; ?>
                 </span>
-                <span id="signin-text">Create Artwork</span>
+                <span id="signin-text">สร้างผลงาน</span>
             </button>
         </form>
     </div>
@@ -195,7 +173,7 @@
 
             // Show image preview
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.className = 'max-h-16 rounded-lg order-1';
@@ -215,7 +193,26 @@
 </script>
 
 <script>
-    document.querySelector('form').addEventListener('submit', function() {
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const start = document.querySelector('input[name="startbidding"]').value;
+        const end = document.querySelector('input[name="endbidding"]').value;
+
+        if (start && end) {
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+
+            if (endDate <= startDate) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อผิดพลาด',
+                    text: 'เวลาจบการประมูลต้องมากกว่าเวลาเริ่มการประมูล',
+                    confirmButtonText: 'ตกลง'
+                });
+                return;
+            }
+        }
+
         document.getElementById('signin-spinner').classList.remove('hidden');
         document.getElementById('signin-text').classList.add('hidden');
     });

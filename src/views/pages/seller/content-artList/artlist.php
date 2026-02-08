@@ -8,11 +8,11 @@ if (isset($_GET['id'])) {
 }
 ?>
 
-<body x-data="{openModal : false, selectedId: null, artName: ''}">
+<div x-data="{openModal : false, selectedId: null, artName: ''}">
     <div class="overflow-x-auto">
         <div class="flex justify-end pr-5 pb-2">
             <a href="/Artbid/public/seller/art-listings/form"
-                class="py-2 px-3 bg-bgprimary text-white font-semibold rounded-lg">เพิ่มผลงาน</a>
+                class="py-2 px-3 bg-bgprimary text-white font-primaryMedium rounded-lg">เพิ่มผลงาน</a>
         </div>
         <table x-data="{ openIndex: null }" id="artTable"
             class="table-auto w-full text-sm text-left text-textprimary border-collapse">
@@ -49,12 +49,21 @@ if (isset($_GET['id'])) {
                                     $typeLabel = 'กำลังประมูล';
                                     break;
                                 case 'Timed':
+                                case 'Upcoming':
                                     $typeStyle = 'background-color: #22c55e; color: white;';
-                                    $typeLabel = 'การประมูลที่กำลังจะมา';
+                                    $typeLabel = 'กำลังจะมา';
                                     break;
                                 case 'Sold':
-                                    $typeStyle = 'background-color: #3b82f6; color: white;';
-                                    $typeLabel = 'ขายแล้ว';
+                                    if ($art['payment_status'] == 'completed' || $art['payment_status'] == 'verified') {
+                                        $typeStyle = 'background-color: #3b82f6; color: white;';
+                                        $typeLabel = 'ขายแล้ว';
+                                    } elseif ($art['payment_status'] == 'pending_admin_verify') {
+                                        $typeStyle = 'background-color: #eab308; color: white;';
+                                        $typeLabel = 'รอตรวจสอบ';
+                                    } else {
+                                        $typeStyle = 'background-color: #fb923c; color: white;';
+                                        $typeLabel = 'รอชำระเงิน';
+                                    }
                                     break;
                                 case 'Unsold':
                                     $typeStyle = 'background-color: #9ca3af; color: white;';
@@ -85,9 +94,18 @@ if (isset($_GET['id'])) {
                                     class="cursor-pointer">
                                     <i class="fa-regular fa-eye text-purple-600"></i>
                                 </button>
-                                <a href="art-listings/update-artList?id=<?= $art['id'] ?>" class="cursor-pointer">
-                                    <i class="fa-regular fa-pen-to-square text-yellow-600"></i>
-                                </a>
+                                <?php if ($art['type'] === 'Unsold'): ?>
+                                    <a href="/Artbid/public/seller/art-listings/update-artList?id=<?= $art['id'] ?>"
+                                        class="cursor-pointer">
+                                        <i class="fa-regular fa-pen-to-square text-yellow-600"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <!-- Locked: No Edit -->
+                                    <span class="text-gray-400 cursor-not-allowed"
+                                        title="เฉพาะรายการที่ยังไม่ขายจึงจะสามารถแก้ไขได้">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+                                <?php endif; ?>
                                 <button
                                     @click="openModal = !openModal; selectedId = '<?= htmlspecialchars($art['id'], ENT_QUOTES) ?>'; artName = '<?= $art['artworkname'] ?>' "
                                     class="cursor-pointer">
@@ -105,13 +123,13 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <div class="space-y-2">
                                     <p class="font-primaryBold">
-                                        Title:
+                                        ชื่อผลงาน:
                                         <span class="font-primaryRegular">
                                             <?= htmlspecialchars($art['title']) ?>
                                         </span>
                                     </p>
                                     <p class="font-primaryBold">
-                                        Type:
+                                        สถานะ:
                                         <?php
                                         switch ($art['type']) {
                                             case 'Live':
@@ -119,12 +137,21 @@ if (isset($_GET['id'])) {
                                                 $detailTypeLabel = 'กำลังประมูล';
                                                 break;
                                             case 'Timed':
+                                            case 'Upcoming':
                                                 $detailTypeStyle = 'background-color: #22c55e; color: white;';
-                                                $detailTypeLabel = 'การประมูลที่กำลังจะมา';
+                                                $detailTypeLabel = 'กำลังจะมา';
                                                 break;
                                             case 'Sold':
-                                                $detailTypeStyle = 'background-color: #3b82f6; color: white;';
-                                                $detailTypeLabel = 'ขายแล้ว';
+                                                if ($art['payment_status'] == 'completed' || $art['payment_status'] == 'verified') {
+                                                    $detailTypeStyle = 'background-color: #3b82f6; color: white;';
+                                                    $detailTypeLabel = 'ขายแล้ว';
+                                                } elseif ($art['payment_status'] == 'pending_admin_verify') {
+                                                    $detailTypeStyle = 'background-color: #eab308; color: white;';
+                                                    $detailTypeLabel = 'รอตรวจสอบ';
+                                                } else {
+                                                    $detailTypeStyle = 'background-color: #fb923c; color: white;';
+                                                    $detailTypeLabel = 'รอชำระเงิน';
+                                                }
                                                 break;
                                             case 'Unsold':
                                                 $detailTypeStyle = 'background-color: #9ca3af; color: white;';
@@ -140,13 +167,13 @@ if (isset($_GET['id'])) {
                                         </span>
                                     </p>
                                     <p class="font-primaryBold">
-                                        Year Created:
+                                        ปีที่สร้าง:
                                         <span class="font-primaryRegular">
                                             <?= htmlspecialchars($art['yearcreated']) ?>
                                         </span>
                                     </p>
                                     <p class="font-primaryBold">
-                                        Dimensions:
+                                        ขนาด:
                                         <span class="font-primaryRegular">
                                             <?= htmlspecialchars($art['dimensions']) ?>
                                         </span>
@@ -154,25 +181,45 @@ if (isset($_GET['id'])) {
                                 </div>
                                 <div class="space-y-2">
                                     <p class="font-primaryBold">
-                                        Description:
+                                        รายละเอียด:
                                         <span class="font-primaryRegular">
                                             <?= htmlspecialchars($art['description']) ?>
                                         </span>
                                     </p>
                                     <p class="font-primaryBold">
-                                        Start Bidding:
+                                        เริ่มประมูล:
                                         <span class="font-primaryRegular">
-                                            <?= htmlspecialchars($art['startbidding']) ?>
+                                            <?php
+                                            $startDate = new DateTime($art['startbidding']);
+                                            $thaiMonths = [
+                                                '01' => 'ม.ค.',
+                                                '02' => 'ก.พ.',
+                                                '03' => 'มี.ค.',
+                                                '04' => 'เม.ย.',
+                                                '05' => 'พ.ค.',
+                                                '06' => 'มิ.ย.',
+                                                '07' => 'ก.ค.',
+                                                '08' => 'ส.ค.',
+                                                '09' => 'ก.ย.',
+                                                '10' => 'ต.ค.',
+                                                '11' => 'พ.ย.',
+                                                '12' => 'ธ.ค.'
+                                            ];
+                                            echo $startDate->format('d') . ' ' . $thaiMonths[$startDate->format('m')] . ' ' . ($startDate->format('Y') + 543) . ', ' . $startDate->format('H:i');
+                                            ?>
                                         </span>
                                     </p>
                                     <p class="font-primaryBold">
-                                        End Bidding:
+                                        จบประมูล:
                                         <span class="font-primaryRegular">
-                                            <?= htmlspecialchars($art['endbidding']) ?>
+                                            <?php
+                                            $endDate = new DateTime($art['endbidding']);
+                                            echo $endDate->format('d') . ' ' . $thaiMonths[$endDate->format('m')] . ' ' . ($endDate->format('Y') + 543) . ', ' . $endDate->format('H:i');
+                                            ?>
                                         </span>
                                     </p>
                                     <p class="font-primaryBold">
-                                        Remaining Time:
+                                        เวลาที่เหลือ:
                                         <span class="countdown-timer font-primaryRegular"
                                             data-startbidding="<?= htmlspecialchars($art['startbidding']) ?>"
                                             data-endbidding="<?= htmlspecialchars($art['endbidding']) ?>">

@@ -39,60 +39,50 @@ function getStatusClass($status)
         <div class="bg-white rounded-2xl shadow overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-gray-100 border-b border-gray-200">
+                    <thead class="bg-gray-200 tracking-wider">
                         <tr>
-                            <th class="px-6 py-4 text-left text-sm font-primaryBold text-gray-800 uppercase">ผลงาน</th>
-                            <th class="px-6 py-4 text-left text-sm font-primaryBold text-gray-800 uppercase">ผู้ซื้อ</th>
-                            <th class="px-6 py-4 text-center text-sm font-primaryBold text-gray-800 uppercase">ยอดขาย</th>
-                            <th class="px-6 py-4 text-center text-sm font-primaryBold text-gray-800 uppercase">ค่าบริการ
-                            </th>
-                            <th class="px-6 py-4 text-center text-sm font-primaryBold text-gray-800 uppercase">ได้รับสุทธิ
-                            </th>
-                            <th class="px-6 py-4 text-center text-sm font-primaryBold text-gray-800 uppercase">วันที่</th>
+                            <th class="px-4 py-3 text-left w-64">ผลงาน</th>
+                            <th class="px-4 py-3 text-left w-48">ผู้ซื้อ</th>
+                            <th class="px-4 py-3 text-center w-32">ยอดขาย</th>
+                            <th class="px-4 py-3 text-center w-32">ค่าบริการ</th>
+                            <th class="px-4 py-3 text-center w-32">ได้รับสุทธิ</th>
+                            <th class="px-4 py-3 text-center w-32">วันที่</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="[&>tr:nth-child(odd)]:bg-white [&>tr:nth-child(even)]:bg-gray-100">
                         <?php foreach ($payments as $payment): ?>
                             <?php
                             $amount = floatval($payment['amount']);
                             $fee = floor($amount * 0.05);
                             $net = floor($amount * 0.95);
                             ?>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
+                            <tr class="hover:bg-gray-100 transition">
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
                                         <img src="<?= htmlspecialchars($payment['artwork_image']) ?>"
-                                            class="w-10 h-10 rounded-lg object-cover cursor-pointer hover:opacity-80 transition"
-                                            @click="previewImage = '<?= htmlspecialchars($payment['artwork_image']) ?>'" alt="">
-                                        <span class="font-primaryMedium text-textprimary line-clamp-1 max-w-[150px]">
+                                            width="40" height="40" alt="artwork"
+                                            class="object-cover rounded-lg cursor-pointer hover:opacity-80"
+                                            style="aspect-ratio:1/1;"
+                                            @click="previewImage = '<?= htmlspecialchars($payment['artwork_image']) ?>'">
+                                        <span class="font-semibold">
                                             <?= htmlspecialchars($payment['artwork_title']) ?>
                                         </span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="font-primaryMedium text-textprimary">
-                                        <?= htmlspecialchars($payment['buyer_firstname'] . ' ' . $payment['buyer_lastname']) ?>
-                                    </span>
+                                <td class="px-4 py-3">
+                                    <?= htmlspecialchars($payment['buyer_firstname'] . ' ' . $payment['buyer_lastname']) ?>
                                 </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span class="font-primaryMedium text-textprimary">
-                                        ฿<?= number_format($amount) ?>
-                                    </span>
+                                <td class="px-4 py-3 text-center">
+                                    ฿<?= number_format($amount) ?>
                                 </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span class="font-primaryMedium text-red-500">
-                                        -฿<?= number_format($fee) ?>
-                                    </span>
+                                <td class="px-4 py-3 text-center text-red-500">
+                                    -฿<?= number_format($fee) ?>
                                 </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span class="font-primaryBold text-bgsecondary">
-                                        ฿<?= number_format($net) ?>
-                                    </span>
+                                <td class="px-4 py-3 text-center font-semibold text-green-600">
+                                    ฿<?= number_format($net) ?>
                                 </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span class="text-sm text-textsecondary font-primaryRegular">
-                                        <?= date('d/m/Y', strtotime($payment['created_at'])) ?>
-                                    </span>
+                                <td class="px-4 py-3 text-center">
+                                    <?= date('d/m/Y', strtotime($payment['created_at'])) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
