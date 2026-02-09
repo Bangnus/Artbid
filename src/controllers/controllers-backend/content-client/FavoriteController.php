@@ -95,6 +95,13 @@ class FavoriteController
 
         try {
             $pdo = dbConnect();
+
+            // Cleanup orphaned favorites (artworks that don't satisfy the condition)
+            // Or strictly: artworks that don't exist at all or have status = false
+            $cleanupSql = "DELETE FROM favorites 
+                           WHERE artwork_id NOT IN (SELECT id FROM artworks WHERE status = true)";
+            $pdo->exec($cleanupSql);
+
             $stmt = $pdo->prepare("
                 SELECT a.* 
                 FROM artworks a
@@ -126,7 +133,13 @@ class FavoriteController
 
         try {
             $pdo = dbConnect();
-            $stmt = $pdo->prepare("SELECT COUNT(*) FROM favorites WHERE user_id = :user_id");
+            // Count only active artworks
+            $stmt = $pdo->prepare("
+                SELECT COUNT(f.id) 
+                FROM favorites f
+                INNER JOIN artworks a ON f.artwork_id = a.id
+                WHERE f.user_id = :user_id AND a.status = true
+            ");
             $stmt->execute([':user_id' => $_SESSION['user']['id']]);
             return (int) $stmt->fetchColumn();
         } catch (PDOException $e) {

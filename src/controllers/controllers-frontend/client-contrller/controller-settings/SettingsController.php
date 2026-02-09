@@ -116,13 +116,18 @@ class SettingsController
             }
 
             // Update basic info
-            $query = "UPDATE users SET firstname = :firstname, lastname = :lastname, username = :username";
+            $query = "UPDATE users SET firstname = :firstname, lastname = :lastname";
             $params = [
                 ':firstname' => $firstname,
                 ':lastname' => $lastname,
-                ':username' => $username,
                 ':id' => $userId
             ];
+
+            // Only update username if it was submitted (i.e. user has password/not Google login)
+            if (isset($_POST['username'])) {
+                $query .= ", username = :username";
+                $params[':username'] = $_POST['username'];
+            }
 
             if ($picturePath) {
                 $query .= ", picture = :picture";
@@ -144,7 +149,11 @@ class SettingsController
             // Update session
             $_SESSION['user']['firstname'] = $firstname;
             $_SESSION['user']['lastname'] = $lastname;
-            $_SESSION['user']['username'] = $username;
+
+            if (isset($_POST['username'])) {
+                $_SESSION['user']['username'] = $_POST['username'];
+            }
+
             if ($picturePath) {
                 $_SESSION['user']['picture'] = $picturePath;
             }

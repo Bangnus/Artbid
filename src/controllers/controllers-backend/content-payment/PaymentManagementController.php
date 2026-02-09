@@ -42,6 +42,7 @@ class PaymentManagementController
                     LEFT JOIN users b ON p.buyer_id = b.id
                     LEFT JOIN users s ON p.seller_id = s.id
                     LEFT JOIN user_payments up ON s.id = up.user_id
+                    WHERE p.status NOT IN ('expired', 'pending_buyer_payment')
                     ORDER BY p.created_at DESC";
 
             $stmt = $pdo->prepare($sql);

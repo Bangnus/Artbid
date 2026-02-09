@@ -44,6 +44,17 @@ class BuyerPaymentController
         }
 
         $payment = self::getPaymentByArtwork($_SESSION['user']['id'], $artworkId);
+
+        // Check for expiration
+        if ($payment && $payment['status'] === 'pending_buyer_payment') {
+            $createdAt = strtotime($payment['created_at']);
+            // 24 hours = 86400 seconds
+            if ((time() - $createdAt) > 86400) {
+                self::expirePayment($payment['id'], $payment['artwork_id']);
+                // Refresh payment data
+                $payment = self::getPaymentByArtwork($_SESSION['user']['id'], $artworkId);
+            }
+        }
         $adminPromptpay = self::getAdminPromptpay();
 
         $title = 'ชำระเงิน';
@@ -88,7 +99,8 @@ class BuyerPaymentController
                                    FROM payments p
                                    LEFT JOIN artworks a ON p.artwork_id = a.id
                                    LEFT JOIN users s ON p.seller_id = s.id
-                                   WHERE p.buyer_id = :user_id
+                                   WHERE p.buyer_id = :user_id 
+                                   AND p.status NOT IN ('pending_buyer_payment', 'expired')
                                    ORDER BY p.created_at DESC");
             $stmt->execute([':user_id' => $userId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -117,6 +129,10 @@ class BuyerPaymentController
 
     public function uploadSlip()
     {
+        // Clear any previous output (e.g. notices, warnings) to ensure clean JSON
+        if (ob_get_length())
+            ob_clean();
+
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -128,7 +144,19 @@ class BuyerPaymentController
         }
 
         try {
-            $input = json_decode(file_get_contents('php://input'), true);
+            $inputJSON = file_get_contents('php://input');
+            $input = json_decode($inputJSON, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo json_encode(['success' => false, 'message' => 'Invalid JSON input']);
+                exit;
+            }
+
+            if (empty($input)) {
+                echo json_encode(['success' => false, 'message' => 'Payload too large or empty']);
+                exit;
+            }
+
             $paymentId = $input['payment_id'] ?? null;
             $slipImage = $input['slip_image'] ?? null;
 
@@ -165,8 +193,32 @@ class BuyerPaymentController
             ]);
 
             echo json_encode(['success' => true, 'message' => 'อัปโหลดสลิปสำเร็จ รอ Admin ตรวจสอบ']);
+            exit;
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+            exit;
+        }
+    }
+
+    private static function expirePayment($paymentId, $artworkId)
+    {
+        try {
+            $pdo = dbConnect();
+            $pdo->beginTransaction();
+
+            // 1. Update Payment status
+            $stmt = $pdo->prepare("UPDATE payments SET status = 'expired', updated_at = NOW() WHERE id = :id");
+            $stmt->execute([':id' => $paymentId]);
+
+            // 2. Update Artwork status (Back to Unsold)
+            $stmtCtx = $pdo->prepare("UPDATE artworks SET type = 'Unsold', status = false WHERE id = :id");
+            $stmtCtx->execute([':id' => $artworkId]);
+
+            $pdo->commit();
+        } catch (Exception $e) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
         }
     }
 }

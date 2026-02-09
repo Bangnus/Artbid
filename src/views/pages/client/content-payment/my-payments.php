@@ -100,7 +100,7 @@ $payments = $payments ?? [];
 
             formatDate(dateStr) {
                 if (!dateStr) return '';
-                const date = new Date(dateStr);
+                const date = new Date(dateStr.replace(' ', 'T') + 'Z');
                 return date.toLocaleDateString('th-TH', {
                     year: 'numeric',
                     month: 'short',

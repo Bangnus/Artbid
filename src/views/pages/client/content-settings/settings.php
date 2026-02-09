@@ -8,19 +8,19 @@
             <div style="width: 20%;" class="flex-shrink-0 h-fit sticky top-10 bg-white rounded-xl shadow-sm p-3 md:p-4">
                 <nav class="space-y-2">
                     <a href="settings"
-                        class="block px-6 py-8 rounded-md font-primaryBold text-lg transition-all md:text-left
-                        <?= !isset($_GET['tab']) || $_GET['tab'] === 'account' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-bgprimary hover:text-white' ?>">
+                        class="block px-4 py-2 rounded-md font-primaryBold text-base transition-all md:text-left
+                        <?= !isset($_GET['tab']) || $_GET['tab'] === 'account' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-gray-100' ?>">
                         บัญชี
                     </a>
                     <a href="settings?tab=address"
-                        class="block px-6 py-8 rounded-md font-primaryBold text-lg transition-all md:text-left
-                        <?= isset($_GET['tab']) && $_GET['tab'] === 'address' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-bgprimary hover:text-white' ?>">
+                        class="block px-4 py-2 rounded-md font-primaryBold text-base transition-all md:text-left
+                        <?= isset($_GET['tab']) && $_GET['tab'] === 'address' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-gray-100' ?>">
                         ที่อยู่
                     </a>
                     <?php if (isset($_SESSION['user']['role_id']) && $_SESSION['user']['role_id'] != 1): ?>
                         <a href="settings?tab=payment"
-                            class="block px-6 py-8 rounded-md font-primaryBold text-lg transition-all md:text-left
-                            <?= isset($_GET['tab']) && $_GET['tab'] === 'payment' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-bgprimary hover:text-white' ?>">
+                            class="block px-4 py-2 rounded-md font-primaryBold text-base transition-all md:text-left
+                            <?= isset($_GET['tab']) && $_GET['tab'] === 'payment' ? 'bg-bgprimary text-white shadow-sm' : 'text-textsecondary hover:bg-gray-100' ?>">
                             บัญชีรับเงิน
                         </a>
                     <?php endif; ?>
@@ -174,52 +174,58 @@
                                 <div class="w-full">
                                     <label class="block text-sm font-primaryMedium text-textsecondary mb-2">ที่อยู่
                                         (บ้านเลขที่,
-                                        ซอย, ถนน)</label>
-                                    <input type="text" name="address" id="address"
+                                        ซอย, ถนน) <span class="text-red-500">*</span></label>
+                                    <input type="text" name="address" id="address" required
                                         value="<?= htmlspecialchars($_SESSION['user']['address'] ?? '') ?>"
+                                        placeholder="เช่น 123/45 ซอยสุขุมวิท 55 ถนนสุขุมวิท"
                                         class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="w-full">
                                         <label class="block text-sm font-primaryMedium text-textsecondary mb-2">แขวง /
-                                            ตำบล</label>
-                                        <input type="text" name="city" id="district"
+                                            ตำบล <span class="text-red-500">*</span></label>
+                                        <input type="text" name="city" id="district" required
                                             value="<?= htmlspecialchars($_SESSION['user']['city'] ?? '') ?>"
+                                            placeholder="เช่น คลองตันเหนือ"
                                             class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
                                     </div>
                                     <div class="w-full">
                                         <label class="block text-sm font-primaryMedium text-textsecondary mb-2">เขต /
-                                            อำเภอ</label>
-                                        <input type="text" name="amphoe" id="amphoe"
+                                            อำเภอ <span class="text-red-500">*</span></label>
+                                        <input type="text" name="amphoe" id="amphoe" required
                                             value="<?= htmlspecialchars($_SESSION['user']['amphoe'] ?? '') ?>"
+                                            placeholder="เช่น วัฒนา"
                                             class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
                                     </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="w-full">
-                                        <label
-                                            class="block text-sm font-primaryMedium text-textsecondary mb-2">จังหวัด</label>
-                                        <input type="text" name="province" id="province"
+                                        <label class="block text-sm font-primaryMedium text-textsecondary mb-2">จังหวัด
+                                            <span class="text-red-500">*</span></label>
+                                        <input type="text" name="province" id="province" required
                                             value="<?= htmlspecialchars($_SESSION['user']['province'] ?? '') ?>"
+                                            placeholder="เช่น กรุงเทพมหานคร"
                                             class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
                                     </div>
                                     <div class="w-full">
-                                        <label
-                                            class="block text-sm font-primaryMedium text-textsecondary mb-2">รหัสไปรษณีย์</label>
-                                        <input type="text" name="postal_code" id="zipcode"
+                                        <label class="block text-sm font-primaryMedium text-textsecondary mb-2">รหัสไปรษณีย์
+                                            <span class="text-red-500">*</span></label>
+                                        <input type="text" name="postal_code" id="zipcode" required
                                             value="<?= htmlspecialchars($_SESSION['user']['postal_code'] ?? '') ?>"
+                                            placeholder="เช่น 10110"
                                             class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
                                     </div>
                                 </div>
 
                                 <div class="w-full">
-                                    <label
-                                        class="block text-sm font-primaryMedium text-textsecondary mb-2">เบอร์โทรศัพท์</label>
-                                    <input type="text" name="phone" maxlength="10"
+                                    <label class="block text-sm font-primaryMedium text-textsecondary mb-2">เบอร์โทรศัพท์
+                                        <span class="text-red-500">*</span></label>
+                                    <input type="text" name="phone" maxlength="10" required
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                         value="<?= htmlspecialchars($_SESSION['user']['phone'] ?? '') ?>"
+                                        placeholder="เช่น 0812345678"
                                         class="w-full px-4 py-3 border border-gray-200 rounded-lg font-primaryRegular focus:outline-none focus:border-textorange transition placeholder-gray-300">
                                 </div>
                             </div>
