@@ -23,8 +23,7 @@ class SellerController
 
             // Validation: End bidding must be after Start bidding
             if (strtotime($endbidding) <= strtotime($startbidding)) {
-                // You might want to handle this error more gracefully, e.g., throw exception or return specific error code
-                return false;
+                return 2; // Return error code 2 instead of false
             }
             $yearcreated = $_POST['yearcreated'];
             $dimensions = $_POST['dimensions'];
@@ -244,12 +243,15 @@ class SellerController
             // To comply with the user's latest request to explicitly clear bidby and payments on update:
 
             // Clear bids (Table is bid_history, not bids as previously assumed)
+            // First delete bids for this artwork, then delete the artwork
             $pdo->prepare("DELETE FROM bid_history WHERE artwork_id = :id")->execute(['id' => $id]);
+            
             // Clear old payments as requested
             $pdo->prepare("DELETE FROM payments WHERE artwork_id = :id")->execute(['id' => $id]);
-
-            // Clear bidby (winner/current bidder)
-            $pdo->prepare("UPDATE artworks SET bidby = NULL WHERE id = :aid")->execute([':aid' => $id]);
+            
+            // Now delete the artwork (this will cascade delete bids due to foreign key constraint)
+            $stmt = $pdo->prepare("DELETE FROM artworks WHERE id = :id");
+            $stmt->execute(['id' => $id]);
         }
 
         $stmt = $pdo->prepare("UPDATE artworks SET title = :title, artworkname = :artworkname, artist = :artist, startbidding = :startbidding, endbidding = :endbidding, yearcreated = :yearcreated, dimensions = :dimensions, description = :description, type = :type, startingprice = :startingprice, status = :status, picture = :picture, categories_id = :categories_id WHERE id = :id");
