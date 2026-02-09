@@ -53,6 +53,7 @@
                         class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         type="text" name="username" required>
                 </div>
+
                 <div class="space-y-2">
                     <p class="text-[13px] text-textprimary font-primaryRegular">รหัสผ่าน</p>
                     <div style="position: relative;">
@@ -64,6 +65,11 @@
                             <i class="fa-regular fa-eye" id="passwordIcon"></i>
                         </button>
                     </div>
+                </div>
+                <div class="text-right">
+                    <a href="forgot-password" class="text-red-500 font-primaryRegular text-[12px] hover:underline">
+                        ลืมรหัสผ่าน?
+                    </a>
                 </div>
                 <?php if ($error): ?>
                     <div class="text-[14px] text-red-500 text-center font-primaryRegular"><?= htmlspecialchars($error) ?>
@@ -82,7 +88,7 @@
             <div class="space-y-5">
                 <?php
                 require_once 'google-auth.php'
-                    ?>
+                ?>
                 <div class="text-center">
                     <a href="signup" class="text-[#1E9CF5] font-primaryMedium text-[14px]">
                         ลงทะเบียน
@@ -93,7 +99,7 @@
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', function () {
+        document.querySelector('form').addEventListener('submit', function() {
             document.getElementById('signin-spinner').classList.remove('hidden');
             document.getElementById('signin-text').classList.add('hidden');
         });

@@ -8,7 +8,7 @@ ini_set('session.gc_maxlifetime', 86400);
 session_set_cookie_params(86400);
 session_start();
 
-if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/google-callback', '/logout']) && !isset($_SESSION['user'])) {
+if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/forgot-password', '/reset-password', '/google-callback', '/logout']) && !isset($_SESSION['user'])) {
     header('Location: signin');
     exit;
 }
@@ -30,6 +30,12 @@ switch ($uri) {
         break;
     case '/signup':
         require __DIR__ . '/../views/pages/client/content-auth/signup.php';
+        break;
+    case '/forgot-password':
+        require __DIR__ . '/../views/pages/client/content-auth/forgot-password.php';
+        break;
+    case '/reset-password':
+        require __DIR__ . '/../views/pages/client/content-auth/reset-password.php';
         break;
     case '/logout':
         require __DIR__ . '/../views/pages/client/content-auth/logout.php';
