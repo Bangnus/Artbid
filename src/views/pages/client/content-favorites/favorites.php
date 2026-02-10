@@ -1,4 +1,4 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen bg-white">
+<div class=" mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-screen bg-white">
     <h1 class="text-3xl font-primaryBold text-textprimary">
         <i class="fa-solid fa-heart text-red-500 mr-2"></i>
         รายการที่น่าสนใจของคุณ
