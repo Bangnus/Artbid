@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="ประมูลรูปภาพ">
-    <title><?= $title ?? 'Artbid' ?></title>
+    <title>
+        <?= $title ?? 'Artbid' ?>
+    </title>
     <link href="/artbid/public/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -18,6 +20,7 @@
 <body class="h-screen bg-gray-100 flex">
     <?php
     require __DIR__ . '/../../middlewares/sellerMiddlewares.php';
+    // require __DIR__ . '/../../middlewares/roleMiddlewares.php';
     $basePath = getenv('BASE_PATH');
     ?>
     <!-- Sidebar -->
@@ -104,7 +107,9 @@
         <!-- Navbar -->
         <header class="bg-white h-16 flex items-center justify-between px-10 shadow"
             style="padding-left: 40px; padding-right: 40px;">
-            <h1 class="text-lg font-semibold"><?= $title ?></h1>
+            <h1 class="text-lg font-semibold">
+                <?= $title ?>
+            </h1>
             <div class="flex items-center gap-x-8" style="gap: 32px;">
                 <a class="p-2 px-4 border border-gray-200 text-textorange font-primarySemibold rounded-lg hover:bg-gray-100"
                     href="<?php echo $basePath ?>">
@@ -131,7 +136,8 @@
                             </div>
                         <?php endif; ?>
                         <p class="font-primarySemibold text-textprimary">
-                            <?= htmlspecialchars($firstname) ?> <?= htmlspecialchars($lastname) ?>
+                            <?= htmlspecialchars($firstname) ?>
+                            <?= htmlspecialchars($lastname) ?>
                         </p>
                     </div>
                     <!-- dropdown -->
