@@ -5,7 +5,7 @@ $adminPromptpay = $adminPromptpay ?? '';
 ?>
 
 <main class="min-h-screen p-6 ">
-    <div class="max-w-2xl mx-auto p-6 bg-white rounded-xl" x-data="singlePayment()">
+    <div class="max-w-8xl mx-auto p-6 bg-white rounded-xl" x-data="singlePayment()">
         <!-- Loading Overlay -->
         <div x-show="reloading" x-transition.opacity
             class="fixed inset-0 z-50  backdrop-blur-sm flex items-center justify-center">

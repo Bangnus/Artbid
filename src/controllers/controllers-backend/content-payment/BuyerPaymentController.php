@@ -118,6 +118,7 @@ class BuyerPaymentController
                                    FROM user_payments up
                                    JOIN users u ON up.user_id = u.id
                                    WHERE u.role_id = 3
+                                   ORDER BY CASE WHEN u.username = 'system' THEN 0 ELSE 1 END, u.id
                                    LIMIT 1");
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
