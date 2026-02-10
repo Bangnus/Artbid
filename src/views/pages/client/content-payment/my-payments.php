@@ -3,8 +3,8 @@
 $payments = $payments ?? [];
 ?>
 
-<main class="min-h-screen bg-gray-50 py-12 p-6">
-    <div class="max-w-5xl mx-auto px-4" x-data="paymentHistory()">
+<div class="min-h-screen bg-gray-50 py-12 p-6" x-data="paymentHistory()">
+    <div class=" mx-auto px-4">
         <!-- Header -->
         <div class="mb-8 flex items-center justify-between">
             <div>
