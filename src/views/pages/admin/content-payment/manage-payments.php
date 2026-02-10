@@ -334,6 +334,7 @@
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        this.reloading = true;
                         fetch('/Artbid/public/admin/payment/verify', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -349,13 +350,17 @@
                                         timer: 1500,
                                         showConfirmButton: false,
                                         willClose: () => {
-                                            this.reloading = true;
                                             window.location.reload();
                                         }
                                     });
                                 } else {
+                                    this.reloading = false;
                                     Swal.fire('ผิดพลาด', data.message, 'error');
                                 }
+                            })
+                            .catch(() => {
+                                this.reloading = false;
+                                Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
                             });
                     }
                 });
@@ -372,6 +377,7 @@
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        this.reloading = true;
                         fetch('/Artbid/public/admin/payment/mark-paid', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -387,13 +393,17 @@
                                         timer: 1500,
                                         showConfirmButton: false,
                                         willClose: () => {
-                                            this.reloading = true;
                                             window.location.reload();
                                         }
                                     });
                                 } else {
+                                    this.reloading = false;
                                     Swal.fire('ผิดพลาด', data.message, 'error');
                                 }
+                            })
+                            .catch(() => {
+                                this.reloading = false;
+                                Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
                             });
                     }
                 });
@@ -411,6 +421,7 @@
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        this.reloading = true;
                         fetch('/Artbid/public/admin/payment/reject', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -426,13 +437,17 @@
                                         timer: 1500,
                                         showConfirmButton: false,
                                         willClose: () => {
-                                            this.reloading = true;
                                             window.location.reload();
                                         }
                                     });
                                 } else {
+                                    this.reloading = false;
                                     Swal.fire('ผิดพลาด', data.message, 'error');
                                 }
+                            })
+                            .catch(() => {
+                                this.reloading = false;
+                                Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
                             });
                     }
                 });
