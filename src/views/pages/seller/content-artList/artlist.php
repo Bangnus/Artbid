@@ -2,6 +2,15 @@
 require_once __DIR__ . '/../../../../controllers/controllers-backend/content-seller/SellerController.php';
 $artworks = SellerController::getAllArtwork();
 if (isset($_GET['id'])) {
+    // เช็คว่ามีคนบิดหรือยัง ถ้ามีแล้วไม่ให้ลบ
+    $pdo = dbConnect();
+    $checkBid = $pdo->prepare("SELECT COUNT(*) as bid_count FROM bid_history WHERE artwork_id = :id");
+    $checkBid->execute(['id' => $_GET['id']]);
+    $bidRow = $checkBid->fetch(PDO::FETCH_ASSOC);
+    if ($bidRow && $bidRow['bid_count'] > 0) {
+        header('Location: /Artbid/public/seller/art-listings');
+        exit;
+    }
     SellerController::deleteArtwork($_GET['id']);
     header('Location: /Artbid/public/seller/art-listings');
     exit;
@@ -94,23 +103,23 @@ if (isset($_GET['id'])) {
                                     class="cursor-pointer">
                                     <i class="fa-regular fa-eye text-purple-600"></i>
                                 </button>
-                                <?php if ($art['type'] === 'Unsold'): ?>
+                                <?php if (($art['bid_count'] ?? 0) == 0): ?>
                                     <a href="/Artbid/public/seller/art-listings/update-artList?id=<?= $art['id'] ?>"
                                         class="cursor-pointer">
                                         <i class="fa-regular fa-pen-to-square text-yellow-600"></i>
                                     </a>
+                                    <button
+                                        @click="openModal = !openModal; selectedId = '<?= htmlspecialchars($art['id'], ENT_QUOTES) ?>'; artName = '<?= $art['artworkname'] ?>' "
+                                        class="cursor-pointer">
+                                        <i class="fa-regular fa-trash-can text-red-600"></i>
+                                    </button>
                                 <?php else: ?>
-                                    <!-- Locked: No Edit -->
+                                    <!-- Locked: มีผู้บิดแล้ว -->
                                     <span class="text-gray-400 cursor-not-allowed"
-                                        title="เฉพาะรายการที่ยังไม่ขายจึงจะสามารถแก้ไขได้">
+                                        title="ไม่สามารถแก้ไขหรือลบได้เนื่องจากมีผู้บิดแล้ว">
                                         <i class="fa-solid fa-lock"></i>
                                     </span>
                                 <?php endif; ?>
-                                <button
-                                    @click="openModal = !openModal; selectedId = '<?= htmlspecialchars($art['id'], ENT_QUOTES) ?>'; artName = '<?= $art['artworkname'] ?>' "
-                                    class="cursor-pointer">
-                                    <i class="fa-regular fa-trash-can text-red-600"></i>
-                                </button>
                             </div>
                         </td>
                     </tr>

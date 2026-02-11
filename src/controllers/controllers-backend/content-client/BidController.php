@@ -37,12 +37,18 @@ class BidController
             $pdo = dbConnect();
 
             // Get current artwork info
-            $stmt = $pdo->prepare("SELECT id, startingprice, bidby, type, status, endbidding FROM artworks WHERE id = :id");
+            $stmt = $pdo->prepare("SELECT id, startingprice, bidby, type, status, endbidding, user_id FROM artworks WHERE id = :id");
             $stmt->execute([':id' => $artworkId]);
             $artwork = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$artwork) {
                 self::redirectWithError($artworkId, 'ไม่พบผลงานศิลปะ');
+                return;
+            }
+
+            // Check if user is the owner (seller) of this artwork
+            if ($artwork['user_id'] == $userId) {
+                self::redirectWithError($artworkId, 'ผู้ขายไม่สามารถบิดผลงานของตัวเองได้');
                 return;
             }
 

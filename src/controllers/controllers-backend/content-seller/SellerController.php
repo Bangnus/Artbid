@@ -89,7 +89,8 @@ class SellerController
         self::updateArtworkStatus($pdo);
 
         $stmt = $pdo->prepare("SELECT a.*, 
-                               (SELECT status FROM payments WHERE artwork_id = a.id ORDER BY created_at DESC LIMIT 1) as payment_status 
+                               (SELECT status FROM payments WHERE artwork_id = a.id ORDER BY created_at DESC LIMIT 1) as payment_status,
+                               (SELECT COUNT(*) FROM bid_history WHERE artwork_id = a.id) as bid_count 
                                FROM artworks a 
                                WHERE a.user_id = :user_id 
                                AND (
@@ -245,10 +246,10 @@ class SellerController
             // Clear bids (Table is bid_history, not bids as previously assumed)
             // First delete bids for this artwork, then delete the artwork
             $pdo->prepare("DELETE FROM bid_history WHERE artwork_id = :id")->execute(['id' => $id]);
-            
+
             // Clear old payments as requested
             $pdo->prepare("DELETE FROM payments WHERE artwork_id = :id")->execute(['id' => $id]);
-            
+
             // Now delete the artwork (this will cascade delete bids due to foreign key constraint)
             $stmt = $pdo->prepare("DELETE FROM artworks WHERE id = :id");
             $stmt->execute(['id' => $id]);
