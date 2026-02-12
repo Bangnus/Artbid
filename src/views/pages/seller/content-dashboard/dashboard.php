@@ -112,7 +112,7 @@
     <div class="bg-white rounded-2xl shadow overflow-hidden">
         <div class="p-6 border-b border-gray-100 flex justify-between items-center">
             <h3 class="text-lg font-primaryBold text-textprimary">รายการขายล่าสุด</h3>
-            <a href="/Artbid/public/seller/art-listings"
+            <a href="<?= $_ENV['APP_URL'] ?>/seller/art-listings"
                 class="text-sm font-primaryBold text-bgsecondary hover:underline">ดูประวัติการขาย</a>
         </div>
         <div class="overflow-x-auto">

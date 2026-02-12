@@ -31,8 +31,8 @@ if (isset($_SESSION['user']['id'])) {
     x-data="{ open: false }">
 
     <!-- Left: Logo -->
-    <a href="/Artbid/public/" class="flex items-center ">
-        <img src="/../Artbid/public/icons/AerBid Logo.png" alt="Logo" width="60" height="60">
+    <a href="<?= $_ENV['APP_URL'] ?>/" class="flex items-center ">
+        <img src="<?= $_ENV['APP_URL'] ?>/icons/AerBid Logo.png" alt="Logo" width="60" height="60">
         <h1 class="text-textorange text-[26px] md:text-[30px] font-primaryBold">Artbid</h1>
     </a>
 
@@ -102,7 +102,7 @@ if (isset($_SESSION['user']['id'])) {
                     <ul>
                         <li>
                             <?php if (isset($_SESSION['user']['role_id']) && $_SESSION['user']['role_id'] == 3): ?>
-                                <a href="/Artbid/public/admin"
+                                <a href="<?= $_ENV['APP_URL'] ?>/admin"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                     <i class="fa-solid fa-user-shield mr-2"></i>ผู้ดูแลระบบ
                                 </a>

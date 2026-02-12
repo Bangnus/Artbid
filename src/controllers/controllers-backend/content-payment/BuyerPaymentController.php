@@ -10,7 +10,7 @@ class BuyerPaymentController
         }
 
         if (!isset($_SESSION['user']['id'])) {
-            header('Location: /Artbid/public/signin');
+            header('Location: ' . $_ENV['APP_URL'] . '/signin');
             exit;
         }
 
@@ -33,13 +33,13 @@ class BuyerPaymentController
         }
 
         if (!isset($_SESSION['user']['id'])) {
-            header('Location: /Artbid/public/signin');
+            header('Location: ' . $_ENV['APP_URL'] . '/signin');
             exit;
         }
 
         $artworkId = $_GET['artwork_id'] ?? null;
         if (!$artworkId) {
-            header('Location: /Artbid/public/my-auctions');
+            header('Location: ' . $_ENV['APP_URL'] . '/my-auctions');
             exit;
         }
 
