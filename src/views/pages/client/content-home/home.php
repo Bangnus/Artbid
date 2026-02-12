@@ -37,7 +37,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 </a>
             </div>
             <div class="w-4/5 md:w-1/2 ">
-                <img src="/Artbid/public/images/home2-banner-img.webp" alt="" class="w-full">
+                <img src="<?= $_ENV['APP_URL'] ?>/images/home2-banner-img.webp" alt="" class="w-full">
             </div>
         </div>
 
@@ -317,8 +317,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                                             <?= htmlspecialchars($art_up['artist']) ?>
                                                         </span>
                                                     </p>
-                                                    <p class="text-textsecondary">ราคาปัจจุบัน :<span
-                                                            class="text-textprimary">
+                                                    <p class="text-textsecondary">ราคาปัจจุบัน :<span class="text-textprimary">
                                                             $<?= htmlspecialchars($art_up['startingprice']) ?>
                                                         </span>
                                                     </p>
@@ -402,7 +401,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
         <!-- Discover Our Essence -->
         <div class="flex flex-col md:flex-row items-start gap-x-10 lg:gap-x-0  py-[100px] ">
             <div class="w-1/2 relative flex flex-col items-center">
-                <img src="/../Artbid/public/images/bg.png" alt="image" class="w-[500px] h-auto rounded-xl">
+                <img src="<?= $_ENV['APP_URL'] ?>/images/bg.png" alt="image" class="w-[500px] h-auto rounded-xl">
                 <div
                     class="absolute bottom-0 translate-y-1/2 bg-white flex items-center justify-between w-[60%] px-5 py-2 rounded-xl shadow">
                     <div class="text-center">
@@ -461,14 +460,16 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 <div class="flex flex-col gap-4 w-[40%]">
                     <a href="home?category=1"
                         class="flex-1 relative overflow-hidden rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                        <img src="/../Artbid/public/images/Prints.png" alt="Prints" class="w-full h-full object-cover ">
+                        <img src="<?= $_ENV['APP_URL'] ?>/images/Prints.png" alt="Prints"
+                            class="w-full h-full object-cover ">
                         <div class="absolute inset-x-0 bottom-3 flex items-center justify-center ">
                             <p class="text-white text-[30px] font-primaryMedium text-center">งานพิมพ์</p>
                         </div>
                     </a>
                     <a href="home?category=2"
                         class="flex-1 relative overflow-hidden rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                        <img src="/../Artbid/public/images/Photography.png" alt="" class="w-full h-full object-cover ">
+                        <img src="<?= $_ENV['APP_URL'] ?>/images/Photography.png" alt=""
+                            class="w-full h-full object-cover ">
                         <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
                             <p class="text-white text-[30px] font-primaryMedium text-center">ภาพถ่าย</p>
                         </div>
@@ -478,7 +479,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 <!-- กลาง -->
                 <a href="home?category=3"
                     class="w-1/3 relative transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                    <img src="/../Artbid/public/images/Classical.png" alt=""
+                    <img src="<?= $_ENV['APP_URL'] ?>/images/Classical.png" alt=""
                         class="w-full h-full object-cover rounded-xl">
                     <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
                         <p class="text-white text-[30px] font-primaryMedium text-center">ศิลปะคลาสสิก</p>
@@ -488,7 +489,8 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 <!-- ขวา -->
                 <a href="home?category=4"
                     class="w-1/2 relative bg-cover bg-center rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                    <img src="/../Artbid/public/images/Modern.png" alt="" class="w-full h-full object-cover rounded-xl">
+                    <img src="<?= $_ENV['APP_URL'] ?>/images/Modern.png" alt=""
+                        class="w-full h-full object-cover rounded-xl">
                     <div class="absolute inset-x-0 bottom-3 flex items-center justify-center ">
                         <p class="text-white text-[30px] font-primaryMedium text-center">ศิลปะร่วมสมัย</p>
                     </div>
@@ -531,7 +533,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
             }
 
             // ส่ง API เบื้องหลัง
-            fetch('/Artbid/public/toggle-favorite', {
+            fetch('<?= $_ENV['APP_URL'] ?>/toggle-favorite', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: 'artwork_id=' + artworkId

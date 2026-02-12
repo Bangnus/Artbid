@@ -1,5 +1,11 @@
 <?php
 date_default_timezone_set('Asia/Bangkok');
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
 $request = $_SERVER['REQUEST_URI'];
 
 // Only output HTML for non-API routes
