@@ -229,30 +229,14 @@ class SellerController
         $now = date('Y-m-d H:i:s');
         $type = (strtotime($startbidding) > strtotime($now)) ? 'Upcoming' : 'Live';
 
-        // Check if re-auctioning (Sold/Unsold -> Live/Upcoming) OR just changing to Live/Upcoming
-        // We use the calculated $type here
-        if (in_array($type, ['Live', 'Upcoming'])) {
-            // Check if it was previously Sold or Unsold, OR if we just want to force clear for new rounds
-            // The user wants "re-auction" to clear payments.
-            // If the new state is Live/Upcoming, it implies a new round, so we should clear old "pending" stuff.
-            // But if it was already "Live" and we are just editing a typo, do we delete payments?
-            // "re-auctioning" implies coming from a non-active state.
-
-            // However, the user said "เวลาจะเปิดประมูลใหม่" (Time to open new auction).
-            // Let's stick to the condition: if transitioning FROM Sold/Unsold TO Live/Upcoming
-            // User Request (3517): "When pressing update... set bidby to empty and delete payments".
-            // To comply with the user's latest request to explicitly clear bidby and payments on update:
-
-            // Clear bids (Table is bid_history, not bids as previously assumed)
-            // First delete bids for this artwork, then delete the artwork
+        // Check if re-auctioning (Sold/Unsold -> Live/Upcoming) 
+        // Only clear bid history and payments when transitioning from Sold/Unsold state back to Live/Upcoming
+        if (in_array($type, ['Live', 'Upcoming']) && in_array($artStatus['type'], ['Sold', 'Unsold'])) {
+            // Clear bids for re-auctioning
             $pdo->prepare("DELETE FROM bid_history WHERE artwork_id = :id")->execute(['id' => $id]);
 
-            // Clear old payments as requested
+            // Clear old payments when re-auctioning
             $pdo->prepare("DELETE FROM payments WHERE artwork_id = :id")->execute(['id' => $id]);
-
-            // Now delete the artwork (this will cascade delete bids due to foreign key constraint)
-            $stmt = $pdo->prepare("DELETE FROM artworks WHERE id = :id");
-            $stmt->execute(['id' => $id]);
         }
 
         $stmt = $pdo->prepare("UPDATE artworks SET title = :title, artworkname = :artworkname, artist = :artist, startbidding = :startbidding, endbidding = :endbidding, yearcreated = :yearcreated, dimensions = :dimensions, description = :description, type = :type, startingprice = :startingprice, status = :status, picture = :picture, categories_id = :categories_id WHERE id = :id");

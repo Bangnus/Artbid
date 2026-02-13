@@ -246,13 +246,13 @@ if (isset($_GET['id'])) {
     <div x-show="openModal" class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-30">
         <div x-transition @click.away="openModal = false"
             class="bg-white flex flex-col items-center p-5 rounded-lg shadow-lg">
-            <p class="text-[24px] font-primaryBold">Delete <span x-text="artName"></span></p>
-            <p class="text-gray-500">Are you sure you would like to delete?</p>
+            <p class="text-[24px] font-primaryBold">ลบ <span x-text="artName"></span></p>
+            <p class="text-gray-500">คุณแน่ใจหรือว่าต้องการลบหรือไม่</p>
             <div class="flex items-center justify-between gap-5 mt-5">
                 <button @click="openModal = false"
-                    class="bg-white text-14px] border border-gray-300 py-1 px-10 rounded-lg font-primaryMedium">Cancel</button>
+                    class="bg-white text-14px] border border-gray-300 py-1 px-10 rounded-lg font-primaryMedium">ยกเลิก</button>
                 <a :href="'?id=' + selectedId"
-                    class="bg-red-500 text-white text-[14px]  py-1 px-10 rounded-lg font-primaryMedium">Confirm</a>
+                    class="bg-red-500 text-white text-[14px]  py-1 px-10 rounded-lg font-primaryMedium">ยืนยัน</a>
             </div>
         </div>
     </div>
