@@ -290,7 +290,7 @@ if (isset($_GET['id'])) {
                     const minutesStr = String(minutes).padStart(2, '0');
                     const secondsStr = String(seconds).padStart(2, '0');
 
-                    timer.textContent = 'จะเริ่มใน ' + daysStr + ' days ' + hoursStr + ' hrs ' + minutesStr + ' mins ' + secondsStr + ' secs';
+                    timer.textContent = 'จะเริ่มใน ' + daysStr + ' วัน ' + hoursStr + ' ชั่วโมง ' + minutesStr + ' นาที ' + secondsStr + ' วินาที';
                     return;
                 }
 
@@ -315,7 +315,7 @@ if (isset($_GET['id'])) {
                 const minutesStr = String(minutes).padStart(2, '0');
                 const secondsStr = String(seconds).padStart(2, '0');
 
-                let str = daysStr + ' days ' + hoursStr + ' hrs ' + minutesStr + ' mins ' + secondsStr + ' secs';
+                let str = daysStr + ' วัน ' + hoursStr + ' ชั่วโมง ' + minutesStr + ' นาที ' + secondsStr + ' วินาที';
 
                 timer.textContent = str;
             });

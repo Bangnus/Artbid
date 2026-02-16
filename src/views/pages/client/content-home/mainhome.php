@@ -108,6 +108,7 @@ $currentPage = $result['current_page'];
 
                                 <div data-startbidding="<?= htmlspecialchars($art['startbidding']) ?>"
                                     data-endbidding="<?= htmlspecialchars($art['endbidding']) ?>"
+                                    data-artwork-type="<?= htmlspecialchars($art['type']) ?>"
                                     class="countdown-timer absolute bg-white w-[90%] left-1/2 -translate-x-1/2 top-full -translate-y-1/2 shadow-md px-3 py-3 rounded-xl z-10">
                                     <div class="flex items-center justify-center text-center gap-x-2 overflow-hidden">
                                         <div class="leading-4">
@@ -156,7 +157,7 @@ $currentPage = $result['current_page'];
                                                 <span class="text-textprimary"><?= htmlspecialchars($art['artist']) ?></span>
                                             </p>
                                             <p class="text-textsecondary">ราคาปัจจุบัน :<span class="text-textprimary">
-                                                    $<?= htmlspecialchars($art['startingprice']) ?>
+                                                    ฿<?= htmlspecialchars($art['startingprice']) ?>
                                                 </span>
                                             </p>
                                         </div>
@@ -220,7 +221,7 @@ $currentPage = $result['current_page'];
             .filter(cb => cb.checked)
             .map(cb => cb.value);
 
-        fetch('<?= $_ENV['APP_URL'] ?>/../src/views/pages/client/content-home/filter_artworks.php', {
+        fetch('<?= $_ENV['APP_URL'] ?>/filter-artworks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

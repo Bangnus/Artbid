@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../../../../../vendor/autoload.php';
 require __DIR__ . '/../../../../../config/database.php';
 
+use Google\Service\Oauth2;
+
 session_start();
 
 $client = new Google_Client();
@@ -15,7 +17,7 @@ if (isset($_GET['code'])) {
     $client->setAccessToken($token);
 
     // Get user profile info
-    $oauth2 = new Google_Service_Oauth2($client);
+    $oauth2 = new Oauth2($client);
     $userInfo = $oauth2->userinfo->get();
 
 
@@ -31,7 +33,7 @@ if (isset($_GET['code'])) {
             $stmt = $pdo->prepare(
                 "
             INSERT INTO users
-             (id, username, firstname, lastname, email, password, verifyemail, role_id, picture)
+             (id, username, firstname, lastname, email, password, verifyemail, role_id, picture, create_at)
             VALUES 
             (
             gen_random_uuid(), 
@@ -42,7 +44,8 @@ if (isset($_GET['code'])) {
             '',
             :verifyemail, 
             '1', 
-            :picture)
+            :picture,
+            NOW())
             "
             );
 

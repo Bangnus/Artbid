@@ -13,7 +13,8 @@ $isApiRoute = strpos($request, '/update') !== false ||
     strpos($request, '/toggle') !== false ||
     strpos($request, '/place-bid') !== false ||
     strpos($request, '/delete-profile') !== false ||
-    strpos($request, '/user-details') !== false;
+    strpos($request, '/user-details') !== false ||
+    strpos($request, '/filter-artworks') !== false;
 
 if (!$isApiRoute) {
     echo '<head><link rel="icon" type="image/png" href="/Artbid/public/icons/artbidlogo.png"></head>';

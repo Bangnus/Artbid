@@ -22,6 +22,11 @@ class HomeController
         $title = "Home Page";
         $mainClass = 'w-full';
 
+        // Update status on page load (moved from getAllArtwork2 for performance)
+        require_once __DIR__ . '/../../../../../src/controllers/controllers-backend/content-client/ClientController.php';
+        $pdo = dbConnect();
+        ClientController::updateArtworkStatus($pdo);
+
         // ดึงเนื้อหาจาก views/pages/home.php
         ob_start();
         require __DIR__ . '/../../../../../src/views/pages/client/content-home/mainhome.php';
