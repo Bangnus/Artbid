@@ -463,7 +463,7 @@ $roleLabels = [
             },
 
             viewUserDetails(userId) {
-                fetch(`<?= $_ENV['APP_URL'] ?>/admin/user-details?id=${userId}`)
+                fetch(`/Artbid/public/admin/user-details?id=${userId}`)
                     .then(res => res.json())
                     .then(data => {
                         if (data.success) {
@@ -508,7 +508,7 @@ $roleLabels = [
                     didOpen: () => Swal.showLoading()
                 });
 
-                fetch('<?= $_ENV['APP_URL'] ?>/admin/create-user', {
+                fetch('/Artbid/public/admin/create-user', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(this.newUser)
@@ -540,7 +540,7 @@ $roleLabels = [
             saveRole() {
                 if (!this.selectedRoleUser) return;
 
-                fetch('<?= $_ENV['APP_URL'] ?>/admin/update-role', {
+                fetch('/Artbid/public/admin/update-role', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: this.selectedRoleUser, role_id: parseInt(this.selectedRole) })
