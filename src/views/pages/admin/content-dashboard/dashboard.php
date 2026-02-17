@@ -96,7 +96,7 @@
     <div class="bg-white rounded-2xl shadow overflow-hidden">
         <div class="p-6 border-b border-gray-100 flex justify-between items-center">
             <h3 class="text-lg font-primaryBold text-textprimary">รายการซื้อขายล่าสุด</h3>
-            <a href="<?= $_ENV['APP_URL'] ?>/admin/payment/transactions"
+            <a href="/Artbid/public/admin/payment/transactions"
                 class="text-sm font-primaryBold text-bgsecondary hover:underline">ดูทั้งหมด</a>
         </div>
         <div class="overflow-x-auto">
