@@ -1225,10 +1225,6 @@ video {
   max-width: 64rem;
 }
 
-.max-w-6xl {
-  max-width: 72rem;
-}
-
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -1255,10 +1251,6 @@ video {
 
 .max-w-xs {
   max-width: 20rem;
-}
-
-.max-w-xl {
-  max-width: 36rem;
 }
 
 .flex-1 {
@@ -2983,8 +2975,7 @@ video {
 @font-face {
   font-family: "medium";
 
-  src: local("Inter-Medium"),
-    url("/Artbid/public/fonts/Inter-Medium.ttf") format("truetype");
+  src: local("Inter-Medium"), url("./fonts/Inter-Medium.ttf") format("truetype");
 }
 
 @font-face {
@@ -2997,16 +2988,15 @@ video {
 @font-face {
   font-family: "bold";
 
-  src: local("Inter-Bold"),
-    url("/Artbid/public/fonts/Inter-Bold.ttf") format("truetype");
+  src: local("Inter-Bold"), url("./fonts/Inter-Bold.ttf") format("truetype");
 }
 
 .text-bgsecondary {
-  color: #00365D;
+  color: #00365d;
 }
 
 .bg-bgsecondary {
-  background-color: #00365D;
+  background-color: #00365d;
 }
 
 .bg-slate-100 {
@@ -3022,11 +3012,11 @@ video {
 }
 
 .focus\:border-bgsecondary:focus {
-  border-color: #00365D;
+  border-color: #00365d;
 }
 
 .border-bgsecondary {
-  border-color: #00365D;
+  border-color: #00365d;
 }
 
 /* width */
@@ -3297,7 +3287,7 @@ video {
 }
 
 .focus\:border-bgsecondary:focus {
-  border-color: #00365D;
+  border-color: #00365d;
 }
 
 .active\:scale-95:active {

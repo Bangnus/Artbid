@@ -47,25 +47,35 @@
             timers.forEach(function (timer) {
                 const startStr = timer.getAttribute('data-startbidding');
                 const endStr = timer.getAttribute('data-endbidding');
+                const artworkType = timer.getAttribute('data-artwork-type'); // New attribute check
+                
                 if (!startStr || !endStr) return;
 
                 const start = new Date(startStr.replace(' ', 'T'));
                 const end = new Date(endStr.replace(' ', 'T'));
                 const now = new Date();
 
-                // Check if this is an "Upcoming" artwork
-                const isUpcoming = timer.parentElement && timer.parentElement.querySelector('.bg-green-600');
+                // Determine if upcoming based on attribute, fallback to class check if missing
+                let isUpcoming = false;
+                if (artworkType) {
+                    isUpcoming = (artworkType === 'Upcoming');
+                } else {
+                    isUpcoming = timer.parentElement && timer.parentElement.querySelector('.bg-green-600');
+                }
 
-                // Reload if:
-                // 1. It's Upcoming and start time has passed (Transition to Live)
-                // 2. End time has passed (Transition to Ended)
-                if ((isUpcoming && now >= start) || now >= end) {
-                    anyExpired = true;
+                // Reload logic:
+                // 1. Upcoming -> Live: reload when now >= start
+                // 2. Live -> Ended: reload when now >= end
+                if (isUpcoming) {
+                    if (now >= start) anyExpired = true;
+                } else {
+                    if (now >= end) anyExpired = true;
                 }
 
                 let targetTime;
                 let isBeforeStart = now < start;
 
+                // Display logic
                 if (isBeforeStart) {
                     targetTime = start;
                 } else {

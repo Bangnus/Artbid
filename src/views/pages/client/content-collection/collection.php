@@ -154,14 +154,13 @@ foreach ($collection as $item) {
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    </div>
+</div>
 
-    <!-- Image Preview Modal -->
-    <div x-show="previewImage" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80"
-        style="display: none;" @click="previewImage = null">
-        <div class="relative max-w-4xl max-h-[90vh]" @click.stop>
-            <img :src="previewImage" class="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg"
-                alt="Preview">
-        </div>
+<!-- Image Preview Modal -->
+<div x-show="previewImage" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80"
+    style="display: none;" @click="previewImage = null">
+    <div class="relative max-w-4xl max-h-[90vh]" @click.stop>
+        <img :src="previewImage" class="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg" alt="Preview">
     </div>
+</div>
 </main>

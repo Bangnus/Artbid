@@ -18,24 +18,24 @@
     $token = $_GET['token'] ?? '';
     $success = '';
     $error = '';
-    
+
     // Verify token first
     $tokenValid = PasswordResetController::verifyToken($token);
-    
+
     if (!$tokenValid['valid']) {
         $error = $tokenValid['message'] ?? 'ลิงก์รีเซ็ตรหัสผ่านไม่ถูกต้องหรือหมดอายุ';
     } else {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password = $_POST['password'] ?? '';
             $confirmPassword = $_POST['confirm_password'] ?? '';
-            
+
             if ($password !== $confirmPassword) {
                 $error = 'รหัสผ่านไม่ตรงกัน';
             } elseif (strlen($password) < 8) {
                 $error = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร';
             } else {
                 $result = PasswordResetController::resetPassword($token, $password);
-                
+
                 if ($result['success']) {
                     $success = 'รีเซ็ตรหัสผ่านสำเร็จ กำลังนำคุณไปยังหน้าเข้าสู่ระบบ...';
                     echo '<script>setTimeout(() => window.location.href = "signin", 3000);</script>';
@@ -58,19 +58,19 @@
                     ตั้งรหัสผ่านใหม่สำหรับบัญชีของคุณ
                 </p>
             </div>
-            
+
             <?php if ($success): ?>
                 <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-center">
                     <?= htmlspecialchars($success) ?>
                 </div>
             <?php endif; ?>
-            
+
             <?php if ($error): ?>
                 <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-center">
                     <?= htmlspecialchars($error) ?>
                 </div>
             <?php endif; ?>
-            
+
             <?php if ($tokenValid['valid'] && !$success): ?>
                 <form action="" method="post" class="space-y-5">
                     <div class="space-y-2">
@@ -85,7 +85,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="space-y-2">
                         <p class="text-[13px] text-textprimary font-primaryRegular">ยืนยันรหัสผ่านใหม่</p>
                         <div style="position: relative;">
@@ -98,7 +98,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="space-y-5">
                         <button id="reset-btn" type="submit"
                             class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center gap-2">
@@ -110,7 +110,7 @@
                     </div>
                 </form>
             <?php endif; ?>
-            
+
             <div class="text-center">
                 <a href="signin" class="text-[#1E9CF5] font-primaryMedium text-[14px]">
                     <i class="fas fa-arrow-left mr-2"></i>กลับไปหน้าเข้าสู่ระบบ

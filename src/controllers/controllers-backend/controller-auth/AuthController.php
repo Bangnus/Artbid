@@ -32,12 +32,12 @@ class AuthController
             VALUES (gen_random_uuid(), :username, :firstname, :lastname, :email, :password, false, :role_id, NOW())
         ");
             $result = $stmt->execute([
-                'username'   => $username,
-                'firstname'  => $firstname,
-                'lastname'   => $lastname,
-                'email'      => $email,
-                'password'   => $hashedPassword,
-                'role_id'    => $role_id
+                'username' => $username,
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'email' => $email,
+                'password' => $hashedPassword,
+                'role_id' => $role_id
             ]);
 
             if ($result) {
@@ -48,14 +48,14 @@ class AuthController
 
                 session_start();
                 $_SESSION['user'] = [
-                    'id'          => $user['id'],
-                    'username'    => $user['username'],
-                    'firstname'   => $user['firstname'],
-                    'lastname'    => $user['lastname'],
-                    'email'       => $user['email'],
-                    'role_id'     => $user['role_id'],
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                    'firstname' => $user['firstname'],
+                    'lastname' => $user['lastname'],
+                    'email' => $user['email'],
+                    'role_id' => $user['role_id'],
                     'verifyemail' => $user['verifyemail'],
-                    'picture'     => $user['picture'] ?? null
+                    'picture' => $user['picture'] ?? null
                 ];
                 echo "Register success";
                 return true;
@@ -79,14 +79,14 @@ class AuthController
         if ($user && password_verify($password, $user['password'])) {
             session_start();
             $_SESSION['user'] = [
-                'id'        => $user['id'],
-                'username'  => $user['username'],
+                'id' => $user['id'],
+                'username' => $user['username'],
                 'firstname' => $user['firstname'],
-                'lastname'  => $user['lastname'],
-                'email'     => $user['email'],
-                'role_id'   => $user['role_id'],
+                'lastname' => $user['lastname'],
+                'email' => $user['email'],
+                'role_id' => $user['role_id'],
                 'verifyemail' => $user['verifyemail'],
-                'picture'
+                'picture' => $user['picture'] ?? null
             ];
             return true;
         } else {

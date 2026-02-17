@@ -91,78 +91,78 @@ $payments = $payments ?? [];
             </template>
         </div>
     </div>
-</main>
+    </main>
 
-<script>
-    function paymentHistory() {
-        return {
-            payments: <?= json_encode($payments) ?>,
+    <script>
+        function paymentHistory() {
+            return {
+                payments: <?= json_encode($payments) ?>,
 
-            formatDate(dateStr) {
-                if (!dateStr) return '';
-                const date = new Date(dateStr.replace(' ', 'T') + 'Z');
-                return date.toLocaleDateString('th-TH', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-            },
+                formatDate(dateStr) {
+                    if (!dateStr) return '';
+                    const date = new Date(dateStr.replace(' ', 'T') + 'Z');
+                    return date.toLocaleDateString('th-TH', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                },
 
-            getStatusText(status) {
-                const map = {
-                    'pending_buyer_payment': 'รอชำระเงิน',
-                    'pending_admin_verify': 'รอตรวจสอบ',
-                    'verified': 'ชำระเงินสำเร็จ',
-                    'completed': 'เสร็จสิ้น',
-                    'rejected': 'ถูกปฏิเสธ'
-                };
-                return map[status] || status;
-            },
+                getStatusText(status) {
+                    const map = {
+                        'pending_buyer_payment': 'รอชำระเงิน',
+                        'pending_admin_verify': 'รอตรวจสอบ',
+                        'verified': 'ชำระเงินสำเร็จ',
+                        'completed': 'เสร็จสิ้น',
+                        'rejected': 'ถูกปฏิเสธ'
+                    };
+                    return map[status] || status;
+                },
 
-            getStatusClass(status) {
-                const map = {
-                    'pending_buyer_payment': 'bg-orange-50 text-orange-600',
-                    'pending_admin_verify': 'bg-yellow-50 text-yellow-600',
-                    'verified': 'bg-blue-50 text-blue-600',
-                    'completed': 'bg-green-50 text-green-600',
-                    'rejected': 'bg-red-50 text-red-600'
-                };
-                return map[status] || 'bg-gray-100 text-gray-600';
-            },
+                getStatusClass(status) {
+                    const map = {
+                        'pending_buyer_payment': 'bg-orange-50 text-orange-600',
+                        'pending_admin_verify': 'bg-yellow-50 text-yellow-600',
+                        'verified': 'bg-blue-50 text-blue-600',
+                        'completed': 'bg-green-50 text-green-600',
+                        'rejected': 'bg-red-50 text-red-600'
+                    };
+                    return map[status] || 'bg-gray-100 text-gray-600';
+                },
 
-            getStatusIcon(status) {
-                const map = {
-                    'pending_buyer_payment': 'fa-solid fa-clock',
-                    'pending_admin_verify': 'fa-solid fa-hourglass-half',
-                    'verified': 'fa-solid fa-check-circle',
-                    'completed': 'fa-solid fa-circle-check',
-                    'rejected': 'fa-solid fa-circle-xmark'
-                };
-                return map[status] || 'fa-solid fa-circle';
-            },
+                getStatusIcon(status) {
+                    const map = {
+                        'pending_buyer_payment': 'fa-solid fa-clock',
+                        'pending_admin_verify': 'fa-solid fa-hourglass-half',
+                        'verified': 'fa-solid fa-check-circle',
+                        'completed': 'fa-solid fa-circle-check',
+                        'rejected': 'fa-solid fa-circle-xmark'
+                    };
+                    return map[status] || 'fa-solid fa-circle';
+                },
 
-            getButtonClass(status) {
-                if (status === 'pending_buyer_payment' || status === 'rejected') {
-                    return 'bg-textorange text-white hover:bg-orange-600 shadow-sm hover:shadow-md';
+                getButtonClass(status) {
+                    if (status === 'pending_buyer_payment' || status === 'rejected') {
+                        return 'bg-textorange text-white hover:bg-orange-600 shadow-sm hover:shadow-md';
+                    }
+                    return 'bg-gray-100 text-textprimary hover:bg-gray-200';
+                },
+
+                getButtonText(status) {
+                    if (status === 'pending_buyer_payment' || status === 'rejected') {
+                        return 'ชำระเงิน';
+                    }
+                    return 'ดูรายละเอียด';
+                },
+
+                getButtonIcon(status) {
+                    if (status === 'pending_buyer_payment' || status === 'rejected') {
+                        return 'fa-solid fa-credit-card';
+                    }
+                    return 'fa-solid fa-eye';
                 }
-                return 'bg-gray-100 text-textprimary hover:bg-gray-200';
-            },
-
-            getButtonText(status) {
-                if (status === 'pending_buyer_payment' || status === 'rejected') {
-                    return 'ชำระเงิน';
-                }
-                return 'ดูรายละเอียด';
-            },
-
-            getButtonIcon(status) {
-                if (status === 'pending_buyer_payment' || status === 'rejected') {
-                    return 'fa-solid fa-credit-card';
-                }
-                return 'fa-solid fa-eye';
             }
         }
-    }
-</script>
+    </script>

@@ -196,6 +196,9 @@ switch ($uri) {
         require __DIR__ . '/../controllers/controllers-backend/content-collection/CollectionController.php';
         (new CollectionController)->index();
         break;
+    case '/filter-artworks':
+        require __DIR__ . '/../views/pages/client/content-home/filter_artworks.php';
+        break;
     default:
         require __DIR__ . '/../components/content-notfound/notfound-404.php';
         break;

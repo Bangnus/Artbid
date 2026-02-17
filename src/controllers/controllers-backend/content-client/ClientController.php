@@ -44,7 +44,7 @@ class ClientController
         }
     }
 
-    private static function updateArtworkStatus($pdo)
+    public static function updateArtworkStatus($pdo)
     {
         try {
             // 1. Update Upcoming to Live when start time arrives
@@ -148,7 +148,7 @@ class ClientController
         $pdo = dbConnect();
 
         // Update status for artworks that have reached their start time
-        self::updateArtworkStatus($pdo);
+        // self::updateArtworkStatus($pdo);
 
         $offset = ($page - 1) * $limit;
         $params = [];
