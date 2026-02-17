@@ -60,7 +60,7 @@ $payments = $payments ?? [];
 
                                 <!-- Action Button -->
                                 <div>
-                                    <a :href="'/Artbid/public/pay?artwork_id=' + payment.artwork_id"
+                                    <a :href="'<?= $_ENV['APP_URL'] ?>/pay?artwork_id=' + payment.artwork_id"
                                         class="inline-flex items-center gap-2 px-5 py-2 rounded-lg font-primaryBold text-sm transition-all"
                                         :class="getButtonClass(payment.status)">
                                         <i :class="getButtonIcon(payment.status)"></i>
@@ -82,7 +82,7 @@ $payments = $payments ?? [];
                     <h3 class="text-xl font-primaryBold text-gray-900 mb-2">ไม่มีประวัติการชำระเงิน</h3>
                     <p class="text-gray-500 font-primaryMedium mb-8">
                         คุณยังไม่มีรายการที่ต้องชำระหรือรายการชำระเงินย้อนหลัง</p>
-                    <a href="/Artbid/public/home"
+                    <a href="<?= $_ENV['APP_URL'] ?>/home"
                         class="inline-flex items-center gap-2 px-6 py-3 bg-textorange text-white rounded-xl font-primaryBold hover:bg-orange-600 transition-all shadow-sm hover:shadow-md">
                         <i class="fa-solid fa-gavel"></i>
                         ไปดูผลงานประมูล

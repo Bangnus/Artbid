@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ลืมรหัสผ่าน</title>
-    <link rel="stylesheet" href="/../Artbid/public/output.css">
+    <link rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>/output.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
@@ -51,7 +51,7 @@
 
             <?php if ($error): ?>
                 <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-center">
-                    <?= htmlspecialchars($error) ?>
+                    fetch('<?= $_ENV['APP_URL'] ?>/forgot-password', {?>
                 </div>
             <?php endif; ?>
 
