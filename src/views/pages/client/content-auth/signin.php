@@ -76,8 +76,8 @@
                     </div>
                 <?php endif; ?>
                 <div class="space-y-5">
-                    <button id="signin-btn" type="submit"
-                        class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center gap-2">
+                    <button type="submit" class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex
+                    items-center justify-center gap-2">
                         <span id="signin-spinner" class="hidden">
                             <?php require_once __DIR__ . '/../../../../components/content-loading/dot-loading.php'; ?>
                         </span>
