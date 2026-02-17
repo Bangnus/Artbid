@@ -10,7 +10,7 @@ class DashboardController
         }
 
         if (!isset($_SESSION['user']['id']) || $_SESSION['user']['role_id'] != 2) {
-            header('Location: ' . $_ENV['APP_URL'] . '/signin');
+            header('Location: /Artbid/public/signin');
             exit;
         }
 

@@ -46,7 +46,7 @@ class PasswordResetController
             $stmt->execute([$user['id'], $token, $expiresAt, date('Y-m-d H:i:s')]);
 
             // Send reset email using existing email configuration
-            $resetLink = $_ENV['APP_URL'] . "/reset-password?token=$token";
+            $resetLink = "http://$_SERVER[HTTP_HOST]/Artbid/public/reset-password?token=$token";
 
             // Use PHPMailer like your existing email system
             // autoload already loaded at top of file

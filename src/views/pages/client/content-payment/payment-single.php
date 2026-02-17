@@ -15,7 +15,7 @@ $adminPromptpay = $adminPromptpay ?? '';
             <div class="text-center py-20">
                 <i class="fa-solid fa-receipt text-gray-300 text-6xl mb-4"></i>
                 <p class="font-primaryBold text-gray-400 text-lg">ไม่พบรายการชำระเงิน</p>
-                <a href="<?= $_ENV['APP_URL'] ?>/my-auctions"
+                <a href="/Artbid/public/my-auctions"
                     class="inline-block mt-4 px-6 py-3 bg-textorange text-white rounded-xl font-primaryBold hover:bg-orange-600 transition-all">
                     กลับไปหน้าการประมูล
                 </a>
@@ -23,7 +23,7 @@ $adminPromptpay = $adminPromptpay ?? '';
         <?php else: ?>
             <!-- Header -->
             <div class="mb-6">
-                <a href="<?= $_ENV['APP_URL'] ?>/my-auctions" class="text-textorange font-primaryMedium hover:underline">
+                <a href="/Artbid/public/my-auctions" class="text-textorange font-primaryMedium hover:underline">
                     <i class="fa-solid fa-arrow-left mr-2"></i>กลับไปหน้าการประมูล
                 </a>
             </div>
@@ -250,7 +250,7 @@ $adminPromptpay = $adminPromptpay ?? '';
                 this.uploading = true;
                 console.log("Submitting slip...");
 
-                fetch('<?= $_ENV['APP_URL'] ?>/payment/upload-slip', {
+                fetch('/Artbid/public/payment/upload-slip', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

@@ -134,7 +134,7 @@
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch('<?= $_ENV['APP_URL'] ?>/admin/payment/account/update', {
+                        fetch('/Artbid/public/admin/payment/account/update', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(this.form)

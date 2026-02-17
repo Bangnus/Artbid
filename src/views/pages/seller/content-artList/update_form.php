@@ -9,7 +9,7 @@
         
         switch ($result) {
             case 1: // Success
-                header('Location: ' . $_ENV['APP_URL'] . '/seller/art-listings');
+                header('Location: /Artbid/public/seller/art-listings');
                 exit;
             case 2: // Date Error
                 echo "<script>

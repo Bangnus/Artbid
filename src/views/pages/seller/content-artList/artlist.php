@@ -8,11 +8,11 @@ if (isset($_GET['id'])) {
     $checkBid->execute(['id' => $_GET['id']]);
     $bidRow = $checkBid->fetch(PDO::FETCH_ASSOC);
     if ($bidRow && $bidRow['bid_count'] > 0) {
-        header('Location: ' . $_ENV['APP_URL'] . '/seller/art-listings');
+        header('Location: /Artbid/public/seller/art-listings');
         exit;
     }
     SellerController::deleteArtwork($_GET['id']);
-    header('Location: ' . $_ENV['APP_URL'] . '/seller/art-listings');
+    header('Location: /Artbid/public/seller/art-listings');
     exit;
 }
 ?>
@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
 <div x-data="{openModal : false, selectedId: null, artName: ''}">
     <div class="overflow-x-auto">
         <div class="flex justify-end pr-5 pb-2">
-            <a href="<?= $_ENV['APP_URL'] ?>/seller/art-listings/form"
+            <a href="/Artbid/public/seller/art-listings/form"
                 class="py-2 px-3 bg-bgprimary text-white font-primaryMedium rounded-lg">เพิ่มผลงาน</a>
         </div>
         <table x-data="{ openIndex: null }" id="artTable"
@@ -104,7 +104,7 @@ if (isset($_GET['id'])) {
                                     <i class="fa-regular fa-eye text-purple-600"></i>
                                 </button>
                                 <?php if (($art['bid_count'] ?? 0) == 0): ?>
-                                    <a href="<?= $_ENV['APP_URL'] ?>/seller/art-listings/update-artList?id=<?= $art['id'] ?>"
+                                    <a href="/Artbid/public/seller/art-listings/update-artList?id=<?= $art['id'] ?>"
                                         class="cursor-pointer">
                                         <i class="fa-regular fa-pen-to-square text-yellow-600"></i>
                                     </a>
