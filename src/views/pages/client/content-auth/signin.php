@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in</title>
-    <link rel="stylesheet" href="/../Artbid/public/output.css">
+    <link rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>/output.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
@@ -76,12 +76,13 @@
                     </div>
                 <?php endif; ?>
                 <div class="space-y-5">
-                    <button id="signin-btn" type="submit"
-                        class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center gap-2">
-                        <span id="signin-spinner" class="hidden">
-                            <?php require_once __DIR__ . '/../../../../components/content-loading/dot-loading.php'; ?>
-                        </span>
-                        <span id="signin-text">เข้าสู่ระบบ</span>
+                    fetch('<?= $_ENV['APP_URL'] ?>/signin', {-btn" type="submit"
+                    class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex
+                    items-center justify-center gap-2">
+                    <span id="signin-spinner" class="hidden">
+                        <?php require_once __DIR__ . '/../../../../components/content-loading/dot-loading.php'; ?>
+                    </span>
+                    <span id="signin-text">เข้าสู่ระบบ</span>
                     </button>
                 </div>
             </form>

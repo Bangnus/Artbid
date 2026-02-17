@@ -458,7 +458,7 @@
                         try {
                             const data = JSON.parse(text);
                             if (data.success) {
-                                window.location.reload();
+                                window.location.href = `${APP_URL}/signin`;
                             } else {
                                 Swal.fire({
                                     icon: 'error',
@@ -509,7 +509,7 @@
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch('/Artbid/public/update-payment', {
+                        fetch('<?= $_ENV['APP_URL'] ?>/update-payment', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(this.form)

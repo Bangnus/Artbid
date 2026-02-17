@@ -335,7 +335,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         this.reloading = true;
-                        fetch('/Artbid/public/admin/payment/verify', {
+                        fetch('<?= $_ENV['APP_URL'] ?>/admin/payment/verify', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ payment_id: id })
@@ -378,7 +378,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         this.reloading = true;
-                        fetch('/Artbid/public/admin/payment/mark-paid', {
+                        fetch('<?= $_ENV['APP_URL'] ?>/admin/payment/mark-paid', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ payment_id: id })
@@ -422,7 +422,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         this.reloading = true;
-                        fetch('/Artbid/public/admin/payment/reject', {
+                        fetch('<?= $_ENV['APP_URL'] ?>/admin/payment/reject', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ payment_id: id, notes: result.value || '' })

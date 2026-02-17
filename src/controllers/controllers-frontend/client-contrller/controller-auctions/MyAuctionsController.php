@@ -9,7 +9,7 @@ class MyAuctionsController
         }
 
         if (!isset($_SESSION['user'])) {
-            header('Location: /Artbid/public/signin');
+            header('Location: ' . $_ENV['APP_URL'] . '/signin');
             exit;
         }
 
