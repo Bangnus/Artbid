@@ -3,10 +3,18 @@
   "builds": [
     {
       "src": "public/index.php",
-      "use": "vercel-php@0.7.2"
+      "use": "vercel-php@0.6.0"
     }
   ],
   "routes": [
+    {
+      "src": "/(fonts|icons|images|svg|uploads)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/(style.css|output.css|favicon.ico)",
+      "dest": "/public/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "/public/index.php"

@@ -21,7 +21,7 @@
                     <div class="relative">
                         <div class="overflow-hidden rounded-t-2xl" style="height: 400px;">
                             <a href="artwork-detail?id=<?= htmlspecialchars($art['id']) ?>" class="block" style="height: 100%;">
-                                <img src="<?= htmlspecialchars($art['picture']) ?>" alt="Art"
+                                <img src="/image?id=<?= htmlspecialchars($art['id']) ?>" alt="Art"
                                     style="width: 100%; height: 100%; object-fit: cover;"
                                     class="transition duration-500 transform hover:scale-105">
                             </a>

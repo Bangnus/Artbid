@@ -10,7 +10,7 @@
     ?>
     <div class="bg-white rounded-2xl px-10 py-5 flex gap-10">
         <div class="w-[40%]">
-            <img src="<?= htmlspecialchars($artwork['picture']) ?>" alt="Art"
+            <img src="/image?id=<?= htmlspecialchars($artwork['id']) ?>" alt="Art"
                 class="w-full h-[600px] object-cover object-[0%_10%] rounded-2xl">
         </div>
         <div class="w-[60%] space-y-5">
