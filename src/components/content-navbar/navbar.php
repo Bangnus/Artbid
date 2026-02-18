@@ -75,9 +75,7 @@ if (isset($_SESSION['user']['id'])) {
                     class=" flex gap-x-2 items-center overflow-hidden cursor-pointer relative">
                     <?php if ($hasImg): ?>
                         <img class="inline-block h-10 w-10 rounded-full object-cover"
-                            src="<?= htmlspecialchars($_SESSION['user']['picture']) ?>" alt="profile" onerror="
-                        <?= htmlspecialchars($firstname) ?>
-                        <?= htmlspecialchars($lastname) ?>" />
+                            src="/image?type=user&id=<?= htmlspecialchars($_SESSION['user']['id']) ?>" alt="profile" />
                     <?php else: ?>
                         <div
                             class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">
@@ -183,8 +181,8 @@ if (isset($_SESSION['user']['id'])) {
                 ?>
                 <div class="flex gap-x-2 items-center overflow-hidden">
                     <?php if ($hasImg): ?>
-                        <img class="inline-block h-10 w-10 rounded-full object-cover "
-                            src="<?= htmlspecialchars($_SESSION['user']['picture'] ?? '') ?>" alt="profile" />
+                        <img class="inline-block h-10 w-10 rounded-full object-cover"
+                            src="/image?type=user&id=<?= htmlspecialchars($_SESSION['user']['id']) ?>" alt="profile" />
                     <?php else: ?>
                         <div
                             class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-textorange text-white text-lg font-primarySemibold">

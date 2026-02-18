@@ -10,7 +10,7 @@ $isApiRoute = strpos($request, '/update') !== false ||
     strpos($request, '/user-details') !== false;
 
 if (!$isApiRoute) {
-    echo '<head><link rel="icon" type="image/png" href="/Artbid/public/icons/artbidlogo.png"></head>';
+    // echo '<head><link rel="icon" type="image/png" href="/Artbid/public/icons/artbidlogo.png"></head>';
 }
 
 require __DIR__ . '/../src/routes/web.php';

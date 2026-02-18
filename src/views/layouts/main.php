@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?? 'ArtBid' ?></title>
+    <link rel="icon" type="image/png" href="/Artbid/public/icons/artbidlogo.png">
     <link href="/artbid/public/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
