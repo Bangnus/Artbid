@@ -1,6 +1,6 @@
 <?php
 
-$basePath = getenv('BASE_PATH');
+$basePath = $_ENV['BASE_PATH'] ?? getenv('BASE_PATH') ?? '';
 $uri = str_replace($basePath, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
 
@@ -195,6 +195,13 @@ switch ($uri) {
     case '/collection':
         require __DIR__ . '/../controllers/controllers-backend/content-collection/CollectionController.php';
         (new CollectionController)->index();
+        break;
+    case '/image':
+        require __DIR__ . '/../controllers/ImageController.php';
+        (new ImageController)->serve();
+        break;
+    case '/filter-artworks':
+        require __DIR__ . '/../views/pages/client/content-home/filter_artworks.php';
         break;
     default:
         require __DIR__ . '/../components/content-notfound/notfound-404.php';

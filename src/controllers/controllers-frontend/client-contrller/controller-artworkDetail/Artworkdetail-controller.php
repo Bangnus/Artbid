@@ -11,6 +11,8 @@ class artworkDetailController
         $artwork = null;
 
         if ($id) {
+            $pdo = dbConnect();
+            ClientController::updateArtworkStatus($pdo);
             $artwork = ClientController::getArtworkById($id);
         }
 

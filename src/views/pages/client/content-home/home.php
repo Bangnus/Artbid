@@ -37,7 +37,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 </a>
             </div>
             <div class="w-4/5 md:w-1/2 ">
-                <img src="/Artbid/public/images/home2-banner-img.webp" alt="" class="w-full">
+                <img src="<?= $_ENV['APP_URL'] ?>/images/home2-banner-img.webp" alt="" class="w-full">
             </div>
         </div>
 
@@ -63,7 +63,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                     <div class="relative">
                                         <div class="overflow-hidden rounded-t-2xl">
                                             <a href="artwork-detail?id=<?= htmlspecialchars($art['id']) ?>">
-                                                <img src="<?= htmlspecialchars($art['picture']) ?>" alt="Art"
+                                                <img src="/image?id=<?= htmlspecialchars($art['id']) ?>" alt="Art"
                                                     class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                                             </a>
                                         </div>
@@ -84,6 +84,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
 
                                         <div data-startbidding="<?= htmlspecialchars($art['startbidding']) ?>"
                                             data-endbidding="<?= htmlspecialchars($art['endbidding']) ?>"
+                                            data-artwork-type="Live"
                                             class="countdown-timer absolute bg-white w-[90%] left-1/2 -translate-x-1/2 top-full -translate-y-1/2 shadow-md px-3 py-3 rounded-xl z-10">
                                             <div class="flex items-center justify-center text-center gap-x-2 overflow-hidden">
                                                 <div class="leading-4">
@@ -133,7 +134,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                                             class="text-textprimary"><?= htmlspecialchars($art['artist']) ?></span>
                                                     </p>
                                                     <p class="text-textsecondary">ราคาปัจจุบัน :<span class="text-textprimary">
-                                                            $<?= htmlspecialchars($art['startingprice']) ?>
+                                                            ฿<?= htmlspecialchars($art['startingprice']) ?>
                                                         </span>
                                                     </p>
                                                 </div>
@@ -144,70 +145,11 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <?php for ($i = 0; $i < 4; $i++): ?>
-                            <div class="swiper-slide">
-                                <div
-                                    class="card overflow-visible shadow-[0_2px_15px_rgba(0,0,0,0.10)] pb-0 rounded-2xl mb-5 flex flex-col min-h-[485px] bg-white">
-
-                                    <div class="relative">
-                                        <div class="overflow-hidden rounded-t-2xl">
-                                            <div class="w-full h-[300px] bg-slate-100 "></div>
-                                        </div>
-
-                                        <div class="absolute top-5 left-0 w-full px-3 flex items-center justify-between">
-                                            <div class="h-6 w-16 bg-slate-200 rounded-md animate-pulse"></div>
-                                            <div class="h-8 w-8 bg-slate-200 rounded-full animate-pulse"></div>
-                                        </div>
-
-                                        <div
-                                            class="absolute bg-white w-[90%] left-1/2 -translate-x-1/2 top-full -translate-y-1/2 shadow-md px-3 py-3 rounded-xl z-10">
-                                            <div
-                                                class="flex items-center justify-center text-center gap-x-2 overflow-hidden animate-pulse">
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                                <div class="text-slate-300 font-bold">:</div>
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                                <div class="text-slate-300 font-bold">:</div>
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                                <div class="text-slate-300 font-bold">:</div>
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body flex-1 flex flex-col">
-                                        <div class="px-6 pt-10 rounded-b-2xl break-words whitespace-normal flex-1">
-                                            <div class="space-y-4 animate-pulse">
-
-                                                <div class="h-6 bg-slate-200 rounded w-3/4"></div>
-
-                                                <div class="space-y-2">
-                                                    <div class="">
-                                                        <div class="h-4 bg-slate-200 rounded w-[60%]"></div>
-                                                    </div>
-
-                                                    <div class="">
-                                                        <div class="h-4 bg-slate-200 rounded w-[50%]"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endfor; ?>
+                        <div
+                            class="w-full col-span-full h-[300px] flex flex-col items-center justify-center bg-gray-50 rounded-xl text-textsecondary">
+                            <i class="fa-regular fa-image text-[40px] mb-4"></i>
+                            <p class="text-[18px] font-primaryMedium">ไม่มีรายการประมูลในขณะนี้</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -236,7 +178,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                     <div class="relative">
                                         <div class="overflow-hidden rounded-t-2xl">
                                             <a href="artwork-detail?id=<?= htmlspecialchars($art_up['id']) ?>">
-                                                <img src="<?= htmlspecialchars($art_up['picture']) ?>" alt="Art"
+                                                <img src="/image?id=<?= htmlspecialchars($art_up['id']) ?>" alt="Art"
                                                     class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                                             </a>
                                         </div>
@@ -257,6 +199,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
 
                                         <div data-startbidding="<?= htmlspecialchars($art_up['startbidding']) ?>"
                                             data-endbidding="<?= htmlspecialchars($art_up['endbidding']) ?>"
+                                            data-artwork-type="Upcoming"
                                             class="countdown-timer absolute bg-white w-[90%] left-1/2 -translate-x-1/2 top-full -translate-y-1/2 shadow-md px-3 py-3 rounded-xl z-10">
                                             <div class="flex items-center justify-center text-center gap-x-2 overflow-hidden">
                                                 <!-- Days -->
@@ -317,9 +260,8 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                                             <?= htmlspecialchars($art_up['artist']) ?>
                                                         </span>
                                                     </p>
-                                                    <p class="text-textsecondary">ราคาปัจจุบัน :<span
-                                                            class="text-textprimary">
-                                                            $<?= htmlspecialchars($art_up['startingprice']) ?>
+                                                    <p class="text-textsecondary">ราคาปัจจุบัน :<span class="text-textprimary">
+                                                            ฿<?= htmlspecialchars($art_up['startingprice']) ?>
                                                         </span>
                                                     </p>
                                                 </div>
@@ -330,70 +272,11 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <?php for ($i = 0; $i < 4; $i++): ?>
-                            <div class="swiper-slide">
-                                <div
-                                    class="card overflow-visible shadow-[0_2px_15px_rgba(0,0,0,0.10)] pb-0 rounded-2xl mb-5 flex flex-col min-h-[485px] bg-white">
-
-                                    <div class="relative">
-                                        <div class="overflow-hidden rounded-t-2xl">
-                                            <div class="w-full h-[300px] bg-slate-100 "></div>
-                                        </div>
-
-                                        <div class="absolute top-5 left-0 w-full px-3 flex items-center justify-between">
-                                            <div class="h-6 w-16 bg-slate-200 rounded-md animate-pulse"></div>
-                                            <div class="h-8 w-8 bg-slate-200 rounded-full animate-pulse"></div>
-                                        </div>
-
-                                        <div
-                                            class="absolute bg-white w-[90%] left-1/2 -translate-x-1/2 top-full -translate-y-1/2 shadow-md px-3 py-3 rounded-xl z-10">
-                                            <div
-                                                class="flex items-center justify-center text-center gap-x-2 overflow-hidden animate-pulse">
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                                <div class="text-slate-300 font-bold">:</div>
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                                <div class="text-slate-300 font-bold">:</div>
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                                <div class="text-slate-300 font-bold">:</div>
-                                                <div class="flex flex-col items-center gap-1">
-                                                    <div class="h-4 w-6 bg-slate-200 rounded"></div>
-                                                    <div class="h-2 w-8 bg-slate-200 rounded"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body flex-1 flex flex-col">
-                                        <div class="px-6 pt-10 rounded-b-2xl break-words whitespace-normal flex-1">
-                                            <div class="space-y-4 animate-pulse">
-
-                                                <div class="h-6 bg-slate-200 rounded w-3/4"></div>
-
-                                                <div class="space-y-2">
-                                                    <div class="">
-                                                        <div class="h-4 bg-slate-200 rounded w-[60%]"></div>
-                                                    </div>
-
-                                                    <div class="">
-                                                        <div class="h-4 bg-slate-200 rounded w-[50%]"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endfor; ?>
+                        <div
+                            class="w-full col-span-full h-[300px] flex flex-col items-center justify-center bg-gray-50 rounded-xl text-textsecondary">
+                            <i class="fa-regular fa-image text-[40px] mb-4"></i>
+                            <p class="text-[18px] font-primaryMedium">ไม่มีรายการประมูลที่กำลังจะมาถึง</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -402,7 +285,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
         <!-- Discover Our Essence -->
         <div class="flex flex-col md:flex-row items-start gap-x-10 lg:gap-x-0  py-[100px] ">
             <div class="w-1/2 relative flex flex-col items-center">
-                <img src="/../Artbid/public/images/bg.png" alt="image" class="w-[500px] h-auto rounded-xl">
+                <img src="<?= $_ENV['APP_URL'] ?>/images/bg.png" alt="image" class="w-[500px] h-auto rounded-xl">
                 <div
                     class="absolute bottom-0 translate-y-1/2 bg-white flex items-center justify-between w-[60%] px-5 py-2 rounded-xl shadow">
                     <div class="text-center">
@@ -461,14 +344,16 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 <div class="flex flex-col gap-4 w-[40%]">
                     <a href="home?category=1"
                         class="flex-1 relative overflow-hidden rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                        <img src="/../Artbid/public/images/Prints.png" alt="Prints" class="w-full h-full object-cover ">
+                        <img src="<?= $_ENV['APP_URL'] ?>/images/Prints.png" alt="Prints"
+                            class="w-full h-full object-cover ">
                         <div class="absolute inset-x-0 bottom-3 flex items-center justify-center ">
                             <p class="text-white text-[30px] font-primaryMedium text-center">งานพิมพ์</p>
                         </div>
                     </a>
                     <a href="home?category=2"
                         class="flex-1 relative overflow-hidden rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                        <img src="/../Artbid/public/images/Photography.png" alt="" class="w-full h-full object-cover ">
+                        <img src="<?= $_ENV['APP_URL'] ?>/images/Photography.png" alt=""
+                            class="w-full h-full object-cover ">
                         <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
                             <p class="text-white text-[30px] font-primaryMedium text-center">ภาพถ่าย</p>
                         </div>
@@ -478,7 +363,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 <!-- กลาง -->
                 <a href="home?category=3"
                     class="w-1/3 relative transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                    <img src="/../Artbid/public/images/Classical.png" alt=""
+                    <img src="<?= $_ENV['APP_URL'] ?>/images/Classical.png" alt=""
                         class="w-full h-full object-cover rounded-xl">
                     <div class="absolute inset-x-0 bottom-3 flex items-center justify-center">
                         <p class="text-white text-[30px] font-primaryMedium text-center">ศิลปะคลาสสิก</p>
@@ -488,7 +373,8 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                 <!-- ขวา -->
                 <a href="home?category=4"
                     class="w-1/2 relative bg-cover bg-center rounded-xl transition-transform duration-500 ease-in-out hover:scale-95 hover:shadow-lg hover:shadow-black/10">
-                    <img src="/../Artbid/public/images/Modern.png" alt="" class="w-full h-full object-cover rounded-xl">
+                    <img src="<?= $_ENV['APP_URL'] ?>/images/Modern.png" alt=""
+                        class="w-full h-full object-cover rounded-xl">
                     <div class="absolute inset-x-0 bottom-3 flex items-center justify-center ">
                         <p class="text-white text-[30px] font-primaryMedium text-center">ศิลปะร่วมสมัย</p>
                     </div>
@@ -531,7 +417,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
             }
 
             // ส่ง API เบื้องหลัง
-            fetch('/Artbid/public/toggle-favorite', {
+            fetch('<?= $_ENV['APP_URL'] ?>/toggle-favorite', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: 'artwork_id=' + artworkId

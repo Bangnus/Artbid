@@ -25,7 +25,7 @@ if (!empty($artworks)):
                 <div class="relative">
                     <div class="overflow-hidden rounded-t-2xl">
                         <a href="artwork-detail?id=<?= htmlspecialchars($art['id']) ?>">
-                            <img src="<?= htmlspecialchars($art['picture']) ?>" alt="Art"
+                            <img src="/image?id=<?= htmlspecialchars($art['id']) ?>" alt="Art"
                                 class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                         </a>
                     </div>
@@ -48,6 +48,7 @@ if (!empty($artworks)):
 
                     <div data-startbidding="<?= htmlspecialchars($art['startbidding']) ?>"
                         data-endbidding="<?= htmlspecialchars($art['endbidding']) ?>"
+                        data-artwork-type="<?= htmlspecialchars($art['type']) ?>"
                         class="countdown-timer absolute bg-white w-[90%] left-1/2 -translate-x-1/2 top-full -translate-y-1/2 shadow-md px-3 py-3 rounded-xl z-10">
                         <div class="flex items-center justify-center text-center gap-x-2 overflow-hidden">
                             <div class="leading-4">

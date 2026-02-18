@@ -37,7 +37,7 @@ class BidController
             $pdo = dbConnect();
 
             // Get current artwork info
-            $stmt = $pdo->prepare("SELECT id, startingprice, bidby, type, status, endbidding, user_id FROM artworks WHERE id = :id");
+            $stmt = $pdo->prepare("SELECT id, startingprice, bidby, type, status, endbidding, user_id, min_bid_increment FROM artworks WHERE id = :id");
             $stmt->execute([':id' => $artworkId]);
             $artwork = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -74,11 +74,12 @@ class BidController
 
             // Get current price (remove commas if formatted)
             $currentPrice = floatval(str_replace(',', '', $artwork['startingprice']));
-            $minBidAmount = $currentPrice + 100;
+            $minIncrement = floatval($artwork['min_bid_increment'] ?? 100);
+            $minBidAmount = $currentPrice + $minIncrement;
 
-            // Check minimum bid increment of 100
+            // Check minimum bid increment
             if ($bidAmount < $minBidAmount) {
-                self::redirectWithError($artworkId, "ราคาประมูลต้องมากกว่าราคาปัจจุบันอย่างน้อย 100 บาท (ขั้นต่ำ: ฿" . number_format($minBidAmount, 0) . ")");
+                self::redirectWithError($artworkId, "ราคาประมูลต้องมากกว่าราคาปัจจุบันอย่างน้อย " . number_format($minIncrement, 0) . " บาท (ขั้นต่ำ: ฿" . number_format($minBidAmount, 0) . ")");
                 return;
             }
 

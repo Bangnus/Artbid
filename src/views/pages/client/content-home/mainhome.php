@@ -21,7 +21,7 @@ $currentPage = $result['current_page'];
 ?>
 
 <div class="relative">
-    <img src="/Artbid/public/images/hero.jpg" alt="" class="h-[400px] w-full object-cover blur-[3px]">
+    <img src="<?= $_ENV['APP_URL'] ?>/images/hero.jpg" alt="" class="h-[400px] w-full object-cover blur-[3px]">
     <div class="absolute top-1/2 left-0 transform -translate-y-1/2 mx-5 md:mx-20 z-10">
         <h1 class="text-[4rem] font-primaryBold text-white">การประมูล</h1>
         <p class="text-white text-[20px] font-primaryMedium">แคตตาล็อกงานศิลปะคือชุดผลงานที่ได้รับการคัดสรรมาอย่างดี
@@ -84,7 +84,7 @@ $currentPage = $result['current_page'];
                             <div class="relative">
                                 <div class="overflow-hidden rounded-t-2xl">
                                     <a href="artwork-detail?id=<?= htmlspecialchars($art['id']) ?>">
-                                        <img src="<?= htmlspecialchars($art['picture']) ?>" alt="Art"
+                                        <img src="/image?id=<?= htmlspecialchars($art['id']) ?>" alt="Art"
                                             class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                                     </a>
                                 </div>
@@ -108,6 +108,7 @@ $currentPage = $result['current_page'];
 
                                 <div data-startbidding="<?= htmlspecialchars($art['startbidding']) ?>"
                                     data-endbidding="<?= htmlspecialchars($art['endbidding']) ?>"
+                                    data-artwork-type="<?= htmlspecialchars($art['type']) ?>"
                                     class="countdown-timer absolute bg-white w-[90%] left-1/2 -translate-x-1/2 top-full -translate-y-1/2 shadow-md px-3 py-3 rounded-xl z-10">
                                     <div class="flex items-center justify-center text-center gap-x-2 overflow-hidden">
                                         <div class="leading-4">
@@ -156,7 +157,7 @@ $currentPage = $result['current_page'];
                                                 <span class="text-textprimary"><?= htmlspecialchars($art['artist']) ?></span>
                                             </p>
                                             <p class="text-textsecondary">ราคาปัจจุบัน :<span class="text-textprimary">
-                                                    $<?= htmlspecialchars($art['startingprice']) ?>
+                                                    ฿<?= htmlspecialchars($art['startingprice']) ?>
                                                 </span>
                                             </p>
                                         </div>
@@ -220,7 +221,7 @@ $currentPage = $result['current_page'];
             .filter(cb => cb.checked)
             .map(cb => cb.value);
 
-        fetch('/Artbid/src/views/pages/client/content-home/filter_artworks.php', {
+        fetch('<?= $_ENV['APP_URL'] ?>/filter-artworks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -258,7 +259,7 @@ $currentPage = $result['current_page'];
         }
 
         // ส่ง API เบื้องหลัง
-        fetch('/Artbid/public/toggle-favorite', {
+        fetch('<?= $_ENV['APP_URL'] ?>/toggle-favorite', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'artwork_id=' + artworkId

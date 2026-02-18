@@ -1,9 +1,11 @@
 RewriteEngine On
 RewriteBase /Artbid/public/
+
+# Handle Front Controller...
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 
+# Environment Variable for Local Development
 SetEnv BASE_PATH /Artbid/public
 ErrorDocument 404 /Artbid/public/index.php
-

@@ -7,7 +7,7 @@ require __DIR__ . '/../vendor/autoload.php'; // Composer autoload หลัง�
 
 $userEmail = $_SESSION['user']['email'];
 $userId = $_SESSION['user']['id'];
-$verifyUrl = 'http://localhost/Artbid/public/verify';
+$verifyUrl = $_ENV['APP_URL'] . '/verify';
 
 $mail = new PHPMailer(true);
 
@@ -18,15 +18,15 @@ $mail->Encoding = 'base64';
 try {
     // Server settings
     $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';          // Gmail SMTP
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'artbid.site@gmail.com';          // ← ใส่อีเมลของคุณ
-    $mail->Password   = 'bqdu whbp szyd xzta';       // ← ใส่รหัส App Password (16 ตัวอักษร)
+    $mail->Host = $_ENV['SMTP_HOST'];          // Gmail SMTP
+    $mail->SMTPAuth = true;
+    $mail->Username = $_ENV['SMTP_USER'];          // ← ใส่อีเมลของคุณ
+    $mail->Password = $_ENV['SMTP_PASS'];       // ← ใส่รหัส App Password (16 ตัวอักษร)
     $mail->SMTPSecure = 'tls';
-    $mail->Port       = 587;
+    $mail->Port = $_ENV['SMTP_PORT'];
 
     // Recipients
-    $mail->setFrom('artbid.site@gmail.com', 'Artbid.site'); // ชื่อผู้ส่ง
+    $mail->setFrom($_ENV['SMTP_USER'], 'Artbid.site'); // ชื่อผู้ส่ง
     $mail->addAddress($userEmail); // ผู้รับ
 
     // Content

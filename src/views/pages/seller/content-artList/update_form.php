@@ -97,10 +97,30 @@
                     <p class="text-[13px] text-textprimary font-primaryRegular">ราคาเริ่มต้น</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text"
+                        type="number"
                         name="startingprice"
                         required
                         value="<?= htmlspecialchars($artwork['startingprice'] ?? '') ?>">
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-x-5 ">
+                <div class="space-y-2 w-full">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">เพิ่มราคาบิดขั้นต่ำ (บาท)</p>
+                    <input
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
+                        type="number"
+                        name="min_bid_increment"
+                        required
+                        value="<?= htmlspecialchars($artwork['min_bid_increment'] ?? '100') ?>">
+                </div>
+                <div class="space-y-2 w-full">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ประเภท</p>
+                    <select name="categories_id" class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
+                        <option value="1" <?= ($artwork['categories_id'] ?? '') == 1 ? 'selected' : '' ?>>ภาพพิมพ์ (Prints & Multiples)</option>
+                        <option value="2" <?= ($artwork['categories_id'] ?? '') == 2 ? 'selected' : '' ?>>ภาพถ่าย (Photography Art)</option>
+                        <option value="3" <?= ($artwork['categories_id'] ?? '') == 3 ? 'selected' : '' ?>>ศิลปะคลาสสิก (Classical Art)</option>
+                        <option value="4" <?= ($artwork['categories_id'] ?? '') == 4 ? 'selected' : '' ?>>ศิลปะสมัยใหม่ (Modern & Contemporary Art)</option>
+                    </select>
                 </div>
             </div>
             <div class="flex items-center justify-center gap-x-5 ">
@@ -123,28 +143,15 @@
                         required>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row justify-between gap-5 ">
-                <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">ประเภท</p>
-                    <select name="categories_id" class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
-                        <option value="1" <?= ($artwork['categories_id'] ?? '') == 1 ? 'selected' : '' ?>
-ภาพพิมพ์ (Prints & Multiples)</option>
-                        <option value="2" <?= ($artwork['categories_id'] ?? '') == 2 ? 'selected' : '' ?>
-ภาพถ่าย (Photography Art)</option>
-                        <option value="3" <?= ($artwork['categories_id'] ?? '') == 3 ? 'selected' : '' ?>
-ศิลปะคลาสสิก (Classical Art)</option>
-                        <option value="4" <?= ($artwork['categories_id'] ?? '') == 4 ? 'selected' : '' ?>
-ศิลปะสมัยใหม่ (Modern & Contemporary Art)</option>
-                    </select>
-                </div>
-                <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">รายละเอียด</p>
-                    <textarea
-                        name="description"
-                        minlength="10"
-                        required
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary min-h-[42px]"><?= htmlspecialchars($artwork['description'] ?? '') ?></textarea>
-                </div>
+
+            <div class="space-y-2 w-full">
+                <p class="text-[13px] text-textprimary font-primaryRegular">รายละเอียด</p>
+                <textarea
+                    name="description"
+                    minlength="10"
+                    required
+                    rows="5"
+                    class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary"><?= htmlspecialchars($artwork['description'] ?? '') ?></textarea>
             </div>
 
             <div class="space-y-2 w-full">

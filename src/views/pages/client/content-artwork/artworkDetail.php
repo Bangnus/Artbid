@@ -10,7 +10,7 @@
     ?>
     <div class="bg-white rounded-2xl px-10 py-5 flex gap-10">
         <div class="w-[40%]">
-            <img src="<?= htmlspecialchars($artwork['picture']) ?>" alt="Art"
+            <img src="/image?id=<?= htmlspecialchars($artwork['id']) ?>" alt="Art"
                 class="w-full h-[600px] object-cover object-[0%_10%] rounded-2xl">
         </div>
         <div class="w-[60%] space-y-5">
@@ -109,7 +109,8 @@
                 <?php if (isset($_SESSION['user'])): ?>
                     <?php
                     $currentPrice = floatval(str_replace(',', '', $artwork['startingprice']));
-                    $minBid = $currentPrice + 100;
+                    $minIncrement = floatval($artwork['min_bid_increment'] ?? 100);
+                    $minBid = $currentPrice + $minIncrement;
                     ?>
                     <form action="place-bid" method="POST" class="flex items-center gap-4 mt-5">
                         <input type="hidden" name="artwork_id" value="<?= $artwork['id'] ?>">
@@ -124,7 +125,7 @@
                             class="bg-textorange text-white px-6 py-3 rounded-xl font-primaryMedium hover:bg-orange-600 transition whitespace-nowrap">ประมูล</button>
                     </form>
                     <p class="text-sm text-gray-500 mt-2">*ราคาประมูลขั้นต่ำ: ฿<?= number_format($minBid, 0) ?>
-                        (ต้องมากกว่าราคาปัจจุบันอย่างน้อย 100 บาท)</p>
+                        (ต้องมากกว่าราคาปัจจุบันอย่างน้อย <?= number_format($minIncrement, 0) ?> บาท)</p>
                     <?php if (isset($_GET['status'])): ?>
                         <div id="alert-message" class="transition-opacity duration-500 mt-3">
                             <?php if ($_GET['status'] === 'success'): ?>
@@ -186,24 +187,28 @@
             </div>
         </div>
         <div style="width: 50%;" class="bg-white p-5 rounded-xl">
-            <h1 class="font-primaryBold text-2xl mb-5">การคุ้มครองผู้ซื้อของ <span class="text-textorange">Artbid</span></h1>
+            <h1 class="font-primaryBold text-2xl mb-5">การคุ้มครองผู้ซื้อของ <span class="text-textorange">Artbid</span>
+            </h1>
             <div class="space-y-4">
                 <div>
                     <h3 class="font-primaryBold text-lg">การชำระเงินของคุณปลอดภัย</h3>
                     <p class="text-sm font-primaryRegular text-gray-500 mt-1">
-                        เรารับรองความปลอดภัยของเงินของคุณ เราจะโอนเงินให้ผู้ขายหลังจากส่งมอบสินค้าเรียบร้อยแล้ว 3 วัน เพื่อให้คุณมีเวลาตรวจสอบสินค้า
+                        เรารับรองความปลอดภัยของเงินของคุณ เราจะโอนเงินให้ผู้ขายหลังจากส่งมอบสินค้าเรียบร้อยแล้ว 3 วัน
+                        เพื่อให้คุณมีเวลาตรวจสอบสินค้า
                     </p>
                 </div>
                 <div>
                     <h3 class="font-primaryBold text-lg">สินค้าทุกชิ้นผ่านการตรวจสอบคุณภาพ</h3>
                     <p class="text-sm font-primaryRegular text-gray-500 mt-1">
-                        ผู้เชี่ยวชาญของ Artbid ตรวจสอบและอนุมัติสินค้าทุกชิ้นในการประมูล เพื่อให้แน่ใจว่ามีเพียงสินค้าที่พิเศษและมีคุณภาพเท่านั้นที่ถูกวางจำหน่าย
+                        ผู้เชี่ยวชาญของ Artbid ตรวจสอบและอนุมัติสินค้าทุกชิ้นในการประมูล
+                        เพื่อให้แน่ใจว่ามีเพียงสินค้าที่พิเศษและมีคุณภาพเท่านั้นที่ถูกวางจำหน่าย
                     </p>
                 </div>
                 <div>
                     <h3 class="font-primaryBold text-lg">ผู้ขายทุกรายผ่านการยืนยันตัวตน</h3>
                     <p class="text-sm font-primaryRegular text-gray-500 mt-1">
-                        เราและพันธมิตรที่เชื่อถือได้ตรวจสอบผู้ขายอย่างละเอียด ช่วยให้มั่นใจว่าคุณกำลังซื้อจากผู้ขายที่ถูกต้องตามกฎหมายและมุ่งมั่นที่จะส่งมอบสินค้าคุณภาพสูง
+                        เราและพันธมิตรที่เชื่อถือได้ตรวจสอบผู้ขายอย่างละเอียด
+                        ช่วยให้มั่นใจว่าคุณกำลังซื้อจากผู้ขายที่ถูกต้องตามกฎหมายและมุ่งมั่นที่จะส่งมอบสินค้าคุณภาพสูง
                     </p>
                 </div>
             </div>

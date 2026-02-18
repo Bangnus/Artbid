@@ -29,6 +29,7 @@ class SellerController
             $dimensions = $_POST['dimensions'];
             $description = $_POST['description'];
             $startingprice = $_POST['startingprice'];
+            $min_bid_increment = $_POST['min_bid_increment'] ?? 100; // Default 100
             $status = $_POST['status'];
             $categories_id = $_POST['categories_id'];
 
@@ -49,8 +50,8 @@ class SellerController
             $user_id = $_SESSION['user']['id'] ?? null;
 
             $stmt = $pdo->prepare("INSERT INTO artworks
-            (id, title, artworkname, artist, startbidding, endbidding, yearcreated, dimensions, description, type, startingprice, status, picture, categories_id, user_id, createat)
-            VALUES (gen_random_uuid(), :title, :artworkname, :artist, :startbidding, :endbidding, :yearcreated, :dimensions, :description, :type, :startingprice, :status, :picture, :categories_id, :user_id, NOW())");
+            (id, title, artworkname, artist, startbidding, endbidding, yearcreated, dimensions, description, type, startingprice, status, picture, categories_id, user_id, min_bid_increment, createat)
+            VALUES (gen_random_uuid(), :title, :artworkname, :artist, :startbidding, :endbidding, :yearcreated, :dimensions, :description, :type, :startingprice, :status, :picture, :categories_id, :user_id, :min_bid_increment, NOW())");
 
             $stmt->execute([
                 'title' => $title,
@@ -66,7 +67,8 @@ class SellerController
                 'status' => $status,
                 'picture' => $picture,
                 'categories_id' => $categories_id,
-                'user_id' => $user_id
+                'user_id' => $user_id,
+                'min_bid_increment' => $min_bid_increment
             ]);
 
             return true;
@@ -203,8 +205,8 @@ class SellerController
 
         // Removed incorrect $data['type'] check. Logic moved to after type calculation.
 
-        // Fetch existing artwork to get current picture
-        $stmt = $pdo->prepare("SELECT picture FROM artworks WHERE id = :id");
+        // Fetch existing artwork to get current picture, dates, and type
+        $stmt = $pdo->prepare("SELECT picture, startbidding, endbidding, type FROM artworks WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $currentArtwork = $stmt->fetch();
         $picture = $currentArtwork['picture'] ?? null;
@@ -226,36 +228,33 @@ class SellerController
         if (strtotime($endbidding) <= strtotime($startbidding)) {
             return 2; // Error Code 2: Date validation failed
         }
-        $now = date('Y-m-d H:i:s');
-        $type = (strtotime($startbidding) > strtotime($now)) ? 'Upcoming' : 'Live';
 
-        // Check if re-auctioning (Sold/Unsold -> Live/Upcoming) OR just changing to Live/Upcoming
-        // We use the calculated $type here
-        if (in_array($type, ['Live', 'Upcoming'])) {
-            // Check if it was previously Sold or Unsold, OR if we just want to force clear for new rounds
-            // The user wants "re-auction" to clear payments.
-            // If the new state is Live/Upcoming, it implies a new round, so we should clear old "pending" stuff.
-            // But if it was already "Live" and we are just editing a typo, do we delete payments?
-            // "re-auctioning" implies coming from a non-active state.
+        // Only recalculate type if the dates were actually changed
+        $oldStart = date('Y-m-d H:i', strtotime($currentArtwork['startbidding']));
+        $oldEnd = date('Y-m-d H:i', strtotime($currentArtwork['endbidding']));
+        $newStart = date('Y-m-d H:i', strtotime($startbidding));
+        $newEnd = date('Y-m-d H:i', strtotime($endbidding));
 
-            // However, the user said "เวลาจะเปิดประมูลใหม่" (Time to open new auction).
-            // Let's stick to the condition: if transitioning FROM Sold/Unsold TO Live/Upcoming
-            // User Request (3517): "When pressing update... set bidby to empty and delete payments".
-            // To comply with the user's latest request to explicitly clear bidby and payments on update:
-
-            // Clear bids (Table is bid_history, not bids as previously assumed)
-            // First delete bids for this artwork, then delete the artwork
-            $pdo->prepare("DELETE FROM bid_history WHERE artwork_id = :id")->execute(['id' => $id]);
-
-            // Clear old payments as requested
-            $pdo->prepare("DELETE FROM payments WHERE artwork_id = :id")->execute(['id' => $id]);
-
-            // Now delete the artwork (this will cascade delete bids due to foreign key constraint)
-            $stmt = $pdo->prepare("DELETE FROM artworks WHERE id = :id");
-            $stmt->execute(['id' => $id]);
+        if ($oldStart !== $newStart || $oldEnd !== $newEnd) {
+            // Dates changed -> recalculate type
+            $now = date('Y-m-d H:i:s');
+            $type = (strtotime($startbidding) > strtotime($now)) ? 'Upcoming' : 'Live';
+        } else {
+            // Dates unchanged -> keep existing type
+            $type = $currentArtwork['type'];
         }
 
-        $stmt = $pdo->prepare("UPDATE artworks SET title = :title, artworkname = :artworkname, artist = :artist, startbidding = :startbidding, endbidding = :endbidding, yearcreated = :yearcreated, dimensions = :dimensions, description = :description, type = :type, startingprice = :startingprice, status = :status, picture = :picture, categories_id = :categories_id WHERE id = :id");
+        // Check if re-auctioning (Sold/Unsold -> Live/Upcoming) 
+        // Only clear bid history and payments when transitioning from Sold/Unsold state back to Live/Upcoming
+        if (in_array($type, ['Live', 'Upcoming']) && in_array($artStatus['type'], ['Sold', 'Unsold'])) {
+            // Clear bids for re-auctioning
+            $pdo->prepare("DELETE FROM bid_history WHERE artwork_id = :id")->execute(['id' => $id]);
+
+            // Clear old payments when re-auctioning
+            $pdo->prepare("DELETE FROM payments WHERE artwork_id = :id")->execute(['id' => $id]);
+        }
+
+        $stmt = $pdo->prepare("UPDATE artworks SET title = :title, artworkname = :artworkname, artist = :artist, startbidding = :startbidding, endbidding = :endbidding, yearcreated = :yearcreated, dimensions = :dimensions, description = :description, type = :type, startingprice = :startingprice, status = :status, picture = :picture, categories_id = :categories_id, min_bid_increment = :min_bid_increment WHERE id = :id");
 
         $stmt->execute([
             'id' => $id,
@@ -271,7 +270,8 @@ class SellerController
             'startingprice' => $data['startingprice'],
             'status' => $data['status'],
             'picture' => $picture,
-            'categories_id' => $data['categories_id']
+            'categories_id' => $data['categories_id'],
+            'min_bid_increment' => $data['min_bid_increment'] ?? 100
         ]);
 
         return 1; // Success

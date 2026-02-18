@@ -69,7 +69,25 @@
                     <p class="text-[13px] text-textprimary font-primaryRegular">ราคาเริ่มต้น</p>
                     <input
                         class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
-                        type="text" name="startingprice" placeholder="ระบุราคาเริ่มต้น" required>
+                        type="number" name="startingprice" placeholder="ระบุราคาเริ่มต้น" required>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-x-5 ">
+                <div class="space-y-2 w-full">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">เพิ่มราคาบิดขั้นต่ำ (บาท)</p>
+                    <input
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
+                        type="number" name="min_bid_increment" placeholder="เช่น 100" value="100" required>
+                </div>
+                <div class="space-y-2 w-full">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ประเภท</p>
+                    <select name="categories_id"
+                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
+                        <option value=1>ภาพพิมพ์ (Prints & Multiples)</option>
+                        <option value=2>ภาพถ่าย (Photography Art)</option>
+                        <option value=3>ศิลปะคลาสสิก (Classical Art)</option>
+                        <option value=4>ศิลปะสมัยใหม่ (Modern & Contemporary Art)</option>
+                    </select>
                 </div>
             </div>
             <div class="flex items-center justify-center gap-x-5 ">
@@ -86,23 +104,12 @@
                         type="datetime-local" name="endbidding" required>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row justify-between gap-5 ">
-                <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">ประเภท</p>
-                    <select name="categories_id"
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
-                        <option value=1>ภาพพิมพ์ (Prints & Multiples)</option>
-                        <option value=2>ภาพถ่าย (Photography Art)</option>
-                        <option value=3>ศิลปะคลาสสิก (Classical Art)</option>
-                        <option value=4>ศิลปะสมัยใหม่ (Modern & Contemporary Art)</option>
-                    </select>
-                </div>
-                <div class="space-y-2 w-full">
-                    <p class="text-[13px] text-textprimary font-primaryRegular">รายละเอียด</p>
-                    <textarea name="description" minlength="10" placeholder="ระบุรายละเอียดผลงาน" required
-                        class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary min-h-[42px]">
-                </textarea>
-                </div>
+
+
+            <div class="space-y-2 w-full">
+                <p class="text-[13px] text-textprimary font-primaryRegular">รายละเอียด</p>
+                <textarea name="description" minlength="10" placeholder="ระบุรายละเอียดผลงาน" required rows="5"
+                    class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary"></textarea>
             </div>
 
             <div class="space-y-2 w-full">

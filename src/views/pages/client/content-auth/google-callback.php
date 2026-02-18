@@ -2,11 +2,13 @@
 require_once __DIR__ . '/../../../../../vendor/autoload.php';
 require __DIR__ . '/../../../../../config/database.php';
 
+use Google\Service\Oauth2;
+
 session_start();
 
 $client = new Google_Client();
 $client->setAuthConfig(__DIR__ . '/../../../../../credentials.json');
-$client->setRedirectUri('http://localhost/Artbid/public/google-callback'); // ให้ตรงกับ Google Console
+$client->setRedirectUri($_ENV['APP_URL'] . '/google-callback'); // ให้ตรงกับ Google Console
 $client->addScope('email');
 $client->addScope('profile');
 
@@ -15,7 +17,7 @@ if (isset($_GET['code'])) {
     $client->setAccessToken($token);
 
     // Get user profile info
-    $oauth2 = new Google_Service_Oauth2($client);
+    $oauth2 = new Oauth2($client);
     $userInfo = $oauth2->userinfo->get();
 
 
@@ -31,7 +33,7 @@ if (isset($_GET['code'])) {
             $stmt = $pdo->prepare(
                 "
             INSERT INTO users
-             (id, username, firstname, lastname, email, password, verifyemail, role_id, picture)
+             (id, username, firstname, lastname, email, password, verifyemail, role_id, picture, create_at)
             VALUES 
             (
             gen_random_uuid(), 
@@ -42,17 +44,18 @@ if (isset($_GET['code'])) {
             '',
             :verifyemail, 
             '1', 
-            :picture)
+            :picture,
+            NOW())
             "
             );
 
             $stmt->execute([
                 'username' => $userInfo->name,
                 'firstname' => $userInfo->given_name,
-                'lastname'    => $userInfo->family_name,
-                'email'       => $userInfo->email,
+                'lastname' => $userInfo->family_name,
+                'email' => $userInfo->email,
                 'verifyemail' => $userInfo->verified_email ? 'true' : 'false',
-                'picture'     => $userInfo->picture
+                'picture' => $userInfo->picture
             ]);
         }
 
@@ -61,14 +64,14 @@ if (isset($_GET['code'])) {
         $user = $checkid->fetch();
 
         $_SESSION['user'] = [
-            'id'         => $user['id'],
-            'username'   => $user['username'],
-            'firstname'  => $user['firstname'],
-            'lastname'   => $user['lastname'],
-            'email'      => $user['email'],
+            'id' => $user['id'],
+            'username' => $user['username'],
+            'firstname' => $user['firstname'],
+            'lastname' => $user['lastname'],
+            'email' => $user['email'],
             'verifyemail' => $user['verifyemail'],
             'role_id' => $user['role_id'],
-            'picture'    => $user['picture']
+            'picture' => $user['picture']
 
         ];
         $_SESSION['sign_in_success'] = true;

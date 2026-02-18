@@ -5,6 +5,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Fetch notification count (pending payments)
 $pendingPaymentCount = 0;
+// Ensure APP_URL is available
+$app_url = $_ENV['APP_URL'] ?? '/Artbid/public';
+
 if (isset($_SESSION['user']['id'])) {
     // Check if dbConnect exists, if not try to include database.php
     if (!function_exists('dbConnect')) {
@@ -27,12 +30,12 @@ if (isset($_SESSION['user']['id'])) {
 }
 ?>
 <nav id="mainNavbar"
-    class="bg-white px-4 md:px-20 py-2 flex items-center justify-between flex-wrap sticky top-0 z-50 transition-transform duration-300"
+    class="bg-white gap-x-5 px-4 md:px-20 py-2 flex items-center justify-between flex-wrap sticky top-0 z-50 transition-transform duration-300"
     x-data="{ open: false }">
 
     <!-- Left: Logo -->
-    <a href="/Artbid/public/" class="flex items-center ">
-        <img src="/../Artbid/public/icons/AerBid Logo.png" alt="Logo" width="60" height="60">
+    <a href="<?= $app_url ?>/" class="flex items-center ">
+        <img src="<?= $app_url ?>/icons/AerBid Logo.png" alt="Logo" width="60" height="60">
         <h1 class="text-textorange text-[26px] md:text-[30px] font-primaryBold">Artbid</h1>
     </a>
 
@@ -43,7 +46,7 @@ if (isset($_SESSION['user']['id'])) {
 
     <!-- Search Box -->
     <form action="home" method="GET" x-data="{ focused: false }" :class="focused ? 'border border-textorange' : ''"
-        class="hidden bg-[#F0F0F0] px-[30px] py-[15px] rounded-2xl md:w-[350px] lg:w-[450px] xl:w-[872px] md:flex items-center gap-3">
+        class="hidden bg-[#F0F0F0] px-[30px] py-[15px] rounded-2xl w-auto flex-1 md:flex items-center  gap-3">
         <button type="submit">
             <i class="fa-solid fa-magnifying-glass text-textsecondary"></i>
         </button>
@@ -100,7 +103,7 @@ if (isset($_SESSION['user']['id'])) {
                     <ul>
                         <li>
                             <?php if (isset($_SESSION['user']['role_id']) && $_SESSION['user']['role_id'] == 3): ?>
-                                <a href="/Artbid/public/admin"
+                                <a href="<?= $app_url ?>/admin"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                     <i class="fa-solid fa-user-shield mr-2"></i>ผู้ดูแลระบบ
                                 </a>
