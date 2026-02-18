@@ -5,7 +5,8 @@ require_once __DIR__ . '/../../../../../vendor/autoload.php';
 
 $client = new Google_Client();
 $client->setAuthConfig(__DIR__ . '/../../../../../credentials.json');
-$baseUrl = $_ENV['APP_URL'] ?? (($_SERVER['HTTPS'] ?? 'off') === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+$protocol = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) ? $_SERVER['HTTP_X_FORWARDED_PROTO'] : ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http');
+$baseUrl = $_ENV['APP_URL'] ?? $protocol . '://' . $_SERVER['HTTP_HOST'];
 $client->setRedirectUri($baseUrl . '/google-callback');
 $client->addScope('email');
 $client->addScope('profile');
