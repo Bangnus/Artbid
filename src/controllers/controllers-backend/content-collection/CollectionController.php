@@ -10,7 +10,7 @@ class CollectionController
         }
 
         if (!isset($_SESSION['user']['id'])) {
-            header('Location: /Artbid/public/signin');
+            header('Location: /signin');
             exit;
         }
 

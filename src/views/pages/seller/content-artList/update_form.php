@@ -9,7 +9,7 @@
         
         switch ($result) {
             case 1: // Success
-                header('Location: /Artbid/public/seller/art-listings');
+                header('Location: /seller/art-listings');
                 exit;
             case 2: // Date Error
                 echo "<script>

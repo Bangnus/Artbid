@@ -137,7 +137,7 @@
             <h1 class="text-lg font-semibold"><?= $title ?></h1>
             <div class="flex items-center gap-x-8">
                 <a class="p-2 px-4 border border-gray-200 text-bgsecondary font-primarySemibold rounded-lg hover:bg-gray-100"
-                    href="">
+                    href="/home">
                     ดูผลงานศิลปะ
                 </a>
                 <?php

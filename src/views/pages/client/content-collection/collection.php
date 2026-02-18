@@ -37,7 +37,7 @@ foreach ($collection as $item) {
                 <p class="text-gray-500 font-primaryMedium mb-8">
                     คุณยังไม่มีผลงานที่ประมูลได้ ลองไปร่วมประมูลผลงานที่คุณชื่นชอบ
                 </p>
-                <a href="/Artbid/public/home"
+                <a href="/home"
                     class="inline-flex items-center gap-2 px-6 py-3 bg-textorange text-white rounded-xl font-primaryBold hover:bg-orange-600 transition-all shadow-sm hover:shadow-md">
                     <i class="fa-solid fa-gavel"></i>
                     ไปดูผลงานประมูล

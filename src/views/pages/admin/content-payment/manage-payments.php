@@ -334,36 +334,37 @@
                     cancelButtonText: 'ยกเลิก'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        this.reloading = true;
-                        fetch('/Artbid/public/admin/payment/verify', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ payment_id: id })
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire({
-                                        title: 'สำเร็จ!',
-                                        text: data.message,
-                                        icon: 'success',
-                                        timer: 1500,
-                                        showConfirmButton: false,
-                                        willClose: () => {
-                                            window.location.reload();
-                                        }
-                                    });
-                                } else {
-                                    this.reloading = false;
-                                    Swal.fire('ผิดพลาด', data.message, 'error');
-                                }
+                        if (result.isConfirmed) {
+                            this.reloading = true;
+                            fetch('/admin/payment/verify', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ payment_id: id })
                             })
-                            .catch(() => {
-                                this.reloading = false;
-                                Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
-                            });
-                    }
-                });
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire({
+                                            title: 'สำเร็จ!',
+                                            text: data.message,
+                                            icon: 'success',
+                                            timer: 1500,
+                                            showConfirmButton: false,
+                                            willClose: () => {
+                                                window.location.reload();
+                                            }
+                                        });
+                                    } else {
+                                        this.reloading = false;
+                                        Swal.fire('ผิดพลาด', data.message, 'error');
+                                    }
+                                })
+                                .catch(() => {
+                                    this.reloading = false;
+                                    Swal.fire('ผิดพลาด', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
+                                });
+                        }
+                    });
             },
 
             markPaid(id) {
@@ -378,7 +379,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         this.reloading = true;
-                        fetch('/Artbid/public/admin/payment/mark-paid', {
+                        fetch('/admin/payment/mark-paid', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ payment_id: id })
@@ -422,7 +423,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         this.reloading = true;
-                        fetch('/Artbid/public/admin/payment/reject', {
+                        fetch('/admin/payment/reject', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ payment_id: id, notes: result.value || '' })

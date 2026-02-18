@@ -10,7 +10,7 @@ class DashboardAdminController
         }
 
         if (!isset($_SESSION['user']['id']) || $_SESSION['user']['role_id'] != 3) {
-            header('Location: /Artbid/public/signin');
+            header('Location: /signin');
             exit;
         }
 
