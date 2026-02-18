@@ -61,10 +61,8 @@ class ImageController
                 }
 
                 // Case 3: Relative Path (uploads/...)
-                // Ensure no double slash
-                $appUrl = rtrim($_ENV['APP_URL'] ?? '', '/');
                 $relativePath = ltrim($data, '/');
-                header("Location: " . $appUrl . '/' . $relativePath);
+                header("Location: /" . $relativePath);
                 exit;
             }
         } catch (Exception $e) {

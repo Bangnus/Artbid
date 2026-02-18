@@ -8,7 +8,7 @@ ini_set('session.gc_maxlifetime', 86400);
 session_set_cookie_params(86400);
 session_start();
 
-if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/forgot-password', '/reset-password', '/google-callback', '/logout']) && !isset($_SESSION['user'])) {
+if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/forgot-password', '/reset-password', '/google-callback', '/logout', '/image', '/filter-artworks', '/toggle-favorite']) && !isset($_SESSION['user'])) {
     header('Location: signin');
     exit;
 }

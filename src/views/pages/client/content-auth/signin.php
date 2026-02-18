@@ -24,7 +24,6 @@
         $result = AuthController::signin($username, $password);
 
         if ($result) {
-            session_start();
             $_SESSION['sign_in_success'] = true;
 
             // Check if user is admin (role_id = 3) and redirect to admin page
