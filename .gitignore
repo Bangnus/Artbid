@@ -1,4 +1,5 @@
 /node_modules
+/vendor/
 credentials.json
 /credentials.json
 .env
