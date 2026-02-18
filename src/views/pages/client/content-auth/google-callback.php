@@ -4,7 +4,7 @@ require __DIR__ . '/../../../../../config/database.php';
 
 use Google\Service\Oauth2;
 
-session_start();
+// session_start();
 
 $client = new Google_Client();
 $client->setAuthConfig(__DIR__ . '/../../../../../credentials.json');
