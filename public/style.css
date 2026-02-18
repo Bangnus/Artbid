@@ -5,7 +5,7 @@
 @font-face {
   font-family: "regular";
   src: local("Inter-Regular"),
-    url("/Artbid/public/fonts/Inter-Regular.ttf") format("truetype");
+    url("/fonts/Inter-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -16,7 +16,7 @@
 @font-face {
   font-family: "semibold";
   src: local("Inter-SemiBold"),
-    url("/Artbid/public/fonts/Inter-SemiBold.ttf") format("truetype");
+    url("/fonts/Inter-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
