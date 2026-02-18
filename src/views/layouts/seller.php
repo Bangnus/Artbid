@@ -8,7 +8,7 @@
     <title>
         <?= $title ?? 'Artbid' ?>
     </title>
-    <link href="<?= $_ENV['APP_URL'] ?>/output.css" rel="stylesheet">
+    <link href="/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -28,8 +28,7 @@
         class="bg-white shadow-lg px-4 py-3 transition-all duration-300 ease-in-out overflow-hidden flex-shrink-0"
         style="min-width: 4rem;">
         <div class="flex items-center justify-between gap-x-10 text-textprimary px-2">
-            <a x-show="sidebarOpen" href="<?= $_ENV['APP_URL'] ?>/home"
-                class="flex flex-col font-primaryBold transition-opacity duration-300">
+            <a x-show="sidebarOpen" href="/home" class="flex flex-col font-primaryBold transition-opacity duration-300">
                 <p class="text-[30px] text-textorange">
                     Artbid
                 </p>
@@ -46,15 +45,13 @@
             <ul class="text-textprimary font-primarySemibold">
                 <?php
                 $uri = $_SERVER['REQUEST_URI'];
-                $appUrlPath = parse_url($_ENV['APP_URL'], PHP_URL_PATH);
-                $dashboardActive = $uri === $appUrlPath . '/seller/dashboard';
-                $artActive = $uri === $appUrlPath . '/seller/art-listings' || $uri === $appUrlPath . '/seller/art-listings/form';
-                $biddersActive = $uri === $appUrlPath . '/seller/bidders-list';
-                $paymentActive = $uri === $appUrlPath . '/seller/payment';
+                $dashboardActive = strpos($uri, '/seller/dashboard') !== false;
+                $artActive = strpos($uri, '/seller/art-listings') !== false;
+                $biddersActive = strpos($uri, '/seller/bidders-list') !== false;
+                $paymentActive = strpos($uri, '/seller/payment') !== false;
                 ?>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $dashboardActive ? ' bg-gray-100' : '' ?>">
-                    <a href="<?= $_ENV['APP_URL'] ?>/seller/dashboard"
-                        class="flex items-center  gap-2 transition-colors">
+                    <a href="/seller/dashboard" class="flex items-center  gap-2 transition-colors">
                         <i
                             :class="sidebarOpen ? 'fa-solid fa-gauge<?= $dashboardActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-gauge text-[20px]<?= $dashboardActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
@@ -63,8 +60,7 @@
                     </a>
                 </li>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $artActive ? ' bg-gray-100' : '' ?>">
-                    <a href="<?= $_ENV['APP_URL'] ?>/seller/art-listings"
-                        class="flex items-center gap-2 transition-colors">
+                    <a href="/seller/art-listings" class="flex items-center gap-2 transition-colors">
                         <i
                             :class="sidebarOpen ? 'fa-solid fa-palette<?= $artActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-palette text-[20px]<?= $artActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
@@ -72,10 +68,9 @@
                         </p>
                     </a>
                 </li>
-                <?php $historyActive = $uri === $appUrlPath . '/seller/sales-history'; ?>
+                <?php $historyActive = strpos($uri, '/seller/sales-history') !== false; ?>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $historyActive ? ' bg-gray-100' : '' ?>">
-                    <a href="<?= $_ENV['APP_URL'] ?>/seller/sales-history"
-                        class="flex items-center gap-2 transition-colors">
+                    <a href="/seller/sales-history" class="flex items-center gap-2 transition-colors">
                         <i
                             :class="sidebarOpen ? 'fa-solid fa-clock-rotate-left<?= $historyActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-clock-rotate-left text-[20px]<?= $historyActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
@@ -84,8 +79,7 @@
                     </a>
                 </li>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $biddersActive ? ' bg-gray-100' : '' ?>">
-                    <a href="<?= $_ENV['APP_URL'] ?>/seller/bidders-list"
-                        class="flex items-center gap-2 transition-colors">
+                    <a href="/seller/bidders-list" class="flex items-center gap-2 transition-colors">
                         <i
                             :class="sidebarOpen ? 'fa-solid fa-users<?= $biddersActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-users text-[20px]<?= $biddersActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
@@ -94,7 +88,7 @@
                     </a>
                 </li>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $paymentActive ? ' bg-gray-100' : '' ?>">
-                    <a href="<?= $_ENV['APP_URL'] ?>/seller/payment" class="flex items-center gap-2 transition-colors">
+                    <a href="/seller/payment" class="flex items-center gap-2 transition-colors">
                         <i
                             :class="sidebarOpen ? 'fa-solid fa-credit-card<?= $paymentActive ? ' text-textorange' : '' ?>' : 'fa-solid fa-credit-card text-[20px]<?= $paymentActive ? ' text-textorange' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
@@ -151,13 +145,13 @@
                         style="display: none;">
                         <ul>
                             <li>
-                                <a href="<?= $_ENV['APP_URL'] ?>/settings"
+                                <a href="/settings"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                     <i class="fa-solid fa-gear mr-2"></i>การตั้งค่า
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= $_ENV['APP_URL'] ?>/logout"
+                                <a href="/logout"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-red-50 text-red-500 font-primaryMedium rounded">
                                     <i class="fa-solid fa-right-from-bracket mr-2"></i>ออกจากระบบ
                                 </a>

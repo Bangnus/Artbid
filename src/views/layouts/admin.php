@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Artbid' ?></title>
-    <link href="<?= $_ENV['APP_URL'] ?>/output.css?v=<?= time() ?>" rel="stylesheet">
+    <link href="/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -25,7 +25,7 @@
         class="bg-white shadow-lg px-4 py-3 transition-all duration-300 ease-in-out overflow-hidden flex-shrink-0"
         style="min-width: 4rem;">
         <div class="flex items-center justify-between gap-x-10 text-textprimary px-2">
-            <a x-show="sidebarOpen" href="<?= $_ENV['APP_URL'] ?>/home"
+            <a x-show="sidebarOpen" href="/home"
                 class="flex flex-col  font-primaryBold transition-opacity duration-300">
                 <p class="text-[30px] text-bgsecondary">
                     Artbid
@@ -46,7 +46,7 @@
                 $usersActive = strpos($uri, '/admin/users') !== false;
                 ?>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $dashboardActive ? ' bg-gray-100' : '' ?>">
-                    <a href="<?= $_ENV['APP_URL'] ?>/admin" class="flex items-center gap-4 transition-colors">
+                    <a href="/admin" class="flex items-center gap-4 transition-colors">
                         <i
                             :class="sidebarOpen ? 'fa-solid fa-gauge<?= $dashboardActive ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-gauge text-[24px]<?= $dashboardActive ? ' text-bgsecondary' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li class="hover:bg-gray-100 p-2 rounded-lg<?= $usersActive ? ' bg-gray-100' : '' ?>">
-                    <a href="<?= $_ENV['APP_URL'] ?>/admin/users" class="flex items-center gap-4 transition-colors">
+                    <a href="/admin/users" class="flex items-center gap-4 transition-colors">
                         <i
                             :class="sidebarOpen ? 'fa-solid fa-users<?= $usersActive ? ' text-bgsecondary' : '' ?>' : 'fa-solid fa-users text-[24px]<?= $usersActive ? ' text-bgsecondary' : '' ?>'"></i>
                         <p x-show="sidebarOpen" class="whitespace-nowrap">
@@ -96,16 +96,14 @@
                     <ul x-show="open && sidebarOpen" class="pl-2 mt-1 space-y-1 block" x-transition>
                         <li
                             class="hover:bg-gray-50 p-2 rounded-lg<?= $paymentAccountActive ? ' bg-slate-100 text-bgsecondary' : '' ?>">
-                            <a href="<?= $_ENV['APP_URL'] ?>/admin/payment/account"
-                                class="flex items-center gap-2 transition-colors">
+                            <a href="/admin/payment/account" class="flex items-center gap-2 transition-colors">
                                 <i class="fa-solid fa-building-columns text-sm w-5 text-center"></i>
                                 <p class="whitespace-nowrap text-sm">จัดการบัญชี</p>
                             </a>
                         </li>
                         <li
                             class="relative hover:bg-gray-50 p-2 rounded-lg<?= $paymentTransactionsActive ? ' bg-slate-100 text-bgsecondary' : '' ?>">
-                            <a href="<?= $_ENV['APP_URL'] ?>/admin/payment/transactions"
-                                class="flex items-center gap-2 transition-colors">
+                            <a href="/admin/payment/transactions" class="flex items-center gap-2 transition-colors">
                                 <div class="relative w-5 text-center">
                                     <i class="fa-solid fa-list-check text-sm"></i>
                                     <?php if (isset($pendingPaymentCount) && $pendingPaymentCount > 0): ?>
@@ -120,8 +118,7 @@
                         <?php $revenueActive = strpos($uri, '/admin/payment/revenue') !== false; ?>
                         <li
                             class="hover:bg-gray-50 p-2 rounded-lg<?= $revenueActive ? ' bg-slate-100 text-bgsecondary' : '' ?>">
-                            <a href="<?= $_ENV['APP_URL'] ?>/admin/payment/revenue"
-                                class="flex items-center gap-2 transition-colors">
+                            <a href="/admin/payment/revenue" class="flex items-center gap-2 transition-colors">
                                 <i class="fa-solid fa-chart-line text-sm w-5 text-center"></i>
                                 <p class="whitespace-nowrap text-sm">รายงานรายได้</p>
                             </a>
@@ -173,13 +170,13 @@
                         style="display: none;">
                         <ul>
                             <li>
-                                <a href="<?= $_ENV['APP_URL'] ?>/settings"
+                                <a href="/settings"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-gray-100 text-textprimary font-primaryMedium rounded">
                                     <i class="fa-solid fa-gear mr-2"></i>การตั้งค่า
                                 </a>
                             </li>
                             <li>
-                                <a href="<?= $_ENV['APP_URL'] ?>/logout"
+                                <a href="/logout"
                                     class="block py-2 px-4 transition-colors duration-200 hover:bg-red-50 text-red-500 font-primaryMedium rounded">
                                     <i class="fa-solid fa-right-from-bracket mr-2"></i>ออกจากระบบ
                                 </a>

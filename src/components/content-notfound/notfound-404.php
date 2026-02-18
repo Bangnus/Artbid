@@ -1,5 +1,5 @@
 <head>
-    <link href="<?= $_ENV['APP_URL'] ?>/output.css" rel="stylesheet">
+    <link href="/output.css" rel="stylesheet">
 </head>
 
 <body class="bg-white">
