@@ -36,6 +36,13 @@ class DatabaseSessionHandler implements SessionHandlerInterface
 
     public function write($id, $data): bool
     {
+        // Only save session if user is logged in (contains 'user|')
+        if (strpos($data, 'user|') === false) {
+            // If session exists but user logged out (or never logged in), remove it
+            $this->destroy($id);
+            return true;
+        }
+
         try {
             // PostgreSQL specific upsert
             $stmt = $this->pdo->prepare("
