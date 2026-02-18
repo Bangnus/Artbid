@@ -15,8 +15,17 @@ class ImageController
         }
 
         try {
+            $type = $_GET['type'] ?? 'artwork';
+            $table = ($type === 'user') ? 'users' : 'artworks';
+
+            // Validate table name to prevent SQL injection (though white-listing above does it)
+            if (!in_array($table, ['users', 'artworks'])) {
+                http_response_code(400);
+                exit;
+            }
+
             $pdo = dbConnect();
-            $stmt = $pdo->prepare("SELECT picture FROM artworks WHERE id = :id");
+            $stmt = $pdo->prepare("SELECT picture FROM $table WHERE id = :id");
             $stmt->execute([':id' => $id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
