@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?? 'ArtBid' ?></title>
-    <link rel="icon" type="image/png" href="<?= $_ENV['APP_URL'] ?>/icons/artbidlogo.png">
-    <link href="<?= $_ENV['APP_URL'] ?>/output.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/icons/artbidlogo.png">
+    <link href="/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
