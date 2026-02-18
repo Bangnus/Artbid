@@ -46,7 +46,7 @@ class AuthController
                 $stmt->execute(['username' => $username]);
                 $user = $stmt->fetch();
 
-                session_start();
+                // session_start();
                 $_SESSION['user'] = [
                     'id' => $user['id'],
                     'username' => $user['username'],
@@ -77,7 +77,7 @@ class AuthController
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            session_start();
+            // session_start();
             $_SESSION['user'] = [
                 'id' => $user['id'],
                 'username' => $user['username'],

@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?? 'ArtBid' ?></title>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="<?= $title ?? 'ArtBid - Art Auction Platform' ?>" />
+    <meta property="og:description" content="<?= $og_description ?? 'Artbid - แพลตฟอร์มประมูลงานศิลปะ เชื่อมโยงศิลปินและนักสะสม' ?>" />
+    <meta property="og:image" content="<?= $og_image ?? ($_ENV['APP_URL'] ?? '') . '/icons/artbidlogo.png' ?>" />
+    <meta property="og:url" content="<?= $_ENV['APP_URL'] ?? '' ?><?= $_SERVER['REQUEST_URI'] ?>" />
+    <meta property="og:type" content="website" />
     <link rel="icon" type="image/png" href="/icons/artbidlogo.png">
     <link href="/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">

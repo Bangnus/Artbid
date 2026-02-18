@@ -19,6 +19,11 @@ class artworkDetailController
         // Mock data for missing fields if necessary, or handle in view
         $title = $artwork ? $artwork['title'] : "Artwork Detail";
 
+        if ($artwork) {
+            $og_image = ($_ENV['APP_URL'] ?? '') . '/image?id=' . $artwork['id'];
+            $og_description = "ผลงานโดย " . $artwork['artist'] . " - ราคาปัจจุบัน: ฿" . number_format($artwork['startingprice']);
+        }
+
         ob_start();
         require __DIR__ . '/../../../../views/pages/client/content-artwork/artworkDetail.php';
         $content = ob_get_clean();
