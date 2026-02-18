@@ -339,27 +339,30 @@ class SellerController
 
         // Query bid_history for Live artworks
         $stmt = $pdo->prepare("
-            SELECT 
-                bh.id as bid_id,
-                bh.bid_amount as amount,
-                'in_progress' as payment_status, 
-                bh.created_at as bid_at,
-                a.id as artwork_id,
-                a.artworkname,
-                a.artist,
-                a.picture,
-                a.endbidding,
-                u.id as buyer_id,
-                u.firstname as buyer_firstname,
-                u.lastname as buyer_lastname,
-                u.email as buyer_email,
-                u.picture as buyer_picture
-            FROM bid_history bh
-            INNER JOIN artworks a ON bh.artwork_id = a.id
-            INNER JOIN users u ON bh.user_id = u.id
-            WHERE a.user_id = :seller_id 
-            AND a.type = 'Live'
-            ORDER BY bh.created_at DESC
+            SELECT * FROM (
+                SELECT DISTINCT ON (a.id)
+                    bh.id as bid_id,
+                    bh.bid_amount as amount,
+                    'in_progress' as payment_status, 
+                    bh.created_at as bid_at,
+                    a.id as artwork_id,
+                    a.artworkname,
+                    a.artist,
+                    a.picture,
+                    a.endbidding,
+                    u.id as buyer_id,
+                    u.firstname as buyer_firstname,
+                    u.lastname as buyer_lastname,
+                    u.email as buyer_email,
+                    u.picture as buyer_picture
+                FROM bid_history bh
+                INNER JOIN artworks a ON bh.artwork_id = a.id
+                INNER JOIN users u ON bh.user_id = u.id
+                WHERE a.user_id = :seller_id 
+                AND a.type = 'Live'
+                ORDER BY a.id, bh.created_at DESC
+            ) AS latest_bids
+            ORDER BY bid_at DESC
         ");
         $stmt->execute(['seller_id' => $seller_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
