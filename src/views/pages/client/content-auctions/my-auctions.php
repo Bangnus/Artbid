@@ -87,7 +87,7 @@
                                             </p>
                                         </div>
                                         <?php if ($paymentStatus === 'pending_buyer_payment'): ?>
-                                            <a href="<?= $_ENV['APP_URL'] ?>/pay?artwork_id=<?= htmlspecialchars($art['id']) ?>"
+                                            <a href="/Artbid/public/pay?artwork_id=<?= htmlspecialchars($art['id']) ?>"
                                                 class="block mt-3 bg-textorange text-white px-4 py-2 rounded-lg font-primaryMedium hover:bg-orange-600 transition text-sm text-center">
                                                 <i class="fa-solid fa-credit-card mr-1"></i> ชำระเงิน
                                             </a>

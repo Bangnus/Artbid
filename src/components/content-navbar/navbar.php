@@ -205,7 +205,6 @@ if (isset($_SESSION['user']['id'])) {
 <script>
     let lastScrollTop = 0;
     const navbar = document.querySelector('#mainNavbar');
-    const APP_URL = "<?= $app_url ?>";
 
     window.addEventListener('scroll', function () {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
