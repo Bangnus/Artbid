@@ -1,6 +1,6 @@
 <?php
 
-$basePath = getenv('BASE_PATH');
+$basePath = $_ENV['BASE_PATH'] ?? getenv('BASE_PATH') ?? '';
 $uri = str_replace($basePath, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
 
