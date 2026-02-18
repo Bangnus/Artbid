@@ -63,7 +63,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                     <div class="relative">
                                         <div class="overflow-hidden rounded-t-2xl">
                                             <a href="artwork-detail?id=<?= htmlspecialchars($art['id']) ?>">
-                                                <img src="<?= htmlspecialchars($art['picture']) ?>" alt="Art"
+                                                <img src="/image?id=<?= htmlspecialchars($art['id']) ?>" alt="Art"
                                                     class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                                             </a>
                                         </div>
@@ -178,7 +178,7 @@ $artworks_up = ClientController::getAllArtwork('Upcoming', 10);
                                     <div class="relative">
                                         <div class="overflow-hidden rounded-t-2xl">
                                             <a href="artwork-detail?id=<?= htmlspecialchars($art_up['id']) ?>">
-                                                <img src="<?= htmlspecialchars($art_up['picture']) ?>" alt="Art"
+                                                <img src="/image?id=<?= htmlspecialchars($art_up['id']) ?>" alt="Art"
                                                     class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                                             </a>
                                         </div>

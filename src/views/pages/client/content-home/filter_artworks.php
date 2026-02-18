@@ -25,7 +25,7 @@ if (!empty($artworks)):
                 <div class="relative">
                     <div class="overflow-hidden rounded-t-2xl">
                         <a href="artwork-detail?id=<?= htmlspecialchars($art['id']) ?>">
-                            <img src="<?= htmlspecialchars($art['picture']) ?>" alt="Art"
+                            <img src="/image?id=<?= htmlspecialchars($art['id']) ?>" alt="Art"
                                 class="w-full h-[300px] object-cover object-[0%_10%] transition duration-500 transform hover:scale-105">
                         </a>
                     </div>
