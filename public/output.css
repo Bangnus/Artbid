@@ -2969,7 +2969,7 @@ video {
   font-family: "regular";
 
   src: local("Inter-Regular"),
-    url("/fonts/Inter-Regular.ttf") format("truetype");
+    url("fonts/Inter-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -2982,7 +2982,7 @@ video {
   font-family: "semibold";
 
   src: local("Inter-SemiBold"),
-    url("/fonts/Inter-SemiBold.ttf") format("truetype");
+    url("fonts/Inter-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
