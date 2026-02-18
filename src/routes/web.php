@@ -4,9 +4,7 @@ $basePath = $_ENV['BASE_PATH'] ?? getenv('BASE_PATH') ?? '';
 $uri = str_replace($basePath, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
 
-ini_set('session.gc_maxlifetime', 86400);
-session_set_cookie_params(86400);
-session_start();
+// Session is already started in public/index.php
 
 if (!in_array($uri, ['', '/', '/home', '/signin', '/signup', '/forgot-password', '/reset-password', '/google-callback', '/logout', '/image', '/filter-artworks', '/toggle-favorite']) && !isset($_SESSION['user'])) {
     header('Location: /signin');

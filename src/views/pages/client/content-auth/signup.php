@@ -25,7 +25,7 @@
         $result = AuthController::signup($username, $password, $firstname, $lastname, $email, $role_id);
 
         if ($result) {
-            session_start();
+            // Session already started in index.php
             $_SESSION['sign_up_success'] = true;
             header('Location: home');
             exit;

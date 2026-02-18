@@ -20,7 +20,8 @@ class artworkDetailController
         $title = $artwork ? $artwork['title'] : "Artwork Detail";
 
         if ($artwork) {
-            $og_image = ($_ENV['APP_URL'] ?? '') . '/image?id=' . $artwork['id'];
+            $baseUrl = $_ENV['APP_URL'] ?? (($_SERVER['HTTPS'] ?? 'off') === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+            $og_image = $baseUrl . '/image?id=' . $artwork['id'];
             $og_description = "ผลงานโดย " . $artwork['artist'] . " - ราคาปัจจุบัน: ฿" . number_format($artwork['startingprice']);
         }
 
