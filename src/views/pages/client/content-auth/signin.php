@@ -32,59 +32,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in</title>
     <link rel="stylesheet" href="/output.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 </head>
 
 <body class="bg-gray-100">
 
-    <div class="min-h-screen flex items-center justify-center">
-        <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6 font-primaryBold">เข้าสู่ระบบ</h2>
+    <div class="flex items-center justify-center h-screen">
+        <div class="bg-white p-10 rounded-2xl space-y-5 min-w-[40rem] shadow-sm">
+            <h1 class="text-[24px] font-primaryMedium text-textprimary text-center">
+                เข้าสู่ระบบ
+            </h1>
 
-            <!-- Error Message -->
-            <?php if (!empty($error)): ?>
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span class="block sm:inline"><?php echo htmlspecialchars($error); ?></span>
-                </div>
-            <?php endif; ?>
-
-            <form action="" method="POST" class="space-y-6">
-                <div>
-                    <label for="username"
-                        class="block text-sm font-medium text-gray-700 mb-1 font-primaryMedium">ชื่อผู้ใช้</label>
+            <form action="" method="POST" class="space-y-5">
+                <div class="space-y-2">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">ชื่อผู้ใช้</p>
                     <input type="text" id="username" name="username" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bgsecondary focus:border-bgsecondary outline-none transition-all font-primaryMedium"
+                        class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200"
                         placeholder="กรอกชื่อผู้ใช้ของคุณ">
                 </div>
 
-                <div>
-                    <label for="password"
-                        class="block text-sm font-medium text-gray-700 mb-1 font-primaryMedium">รหัสผ่าน</label>
-                    <input type="password" id="password" name="password" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bgsecondary focus:border-bgsecondary outline-none transition-all font-primaryMedium"
-                        placeholder="กรอกรหัสผ่านของคุณ">
+                <div class="space-y-2">
+                    <p class="text-[13px] text-textprimary font-primaryRegular">รหัสผ่าน</p>
+                    <div style="position: relative;">
+                        <input id="passwordInput"
+                            class="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200 pr-10"
+                            type="password" name="password" required placeholder="กรอกรหัสผ่านของคุณ">
+                        <button type="button" onclick="togglePassword()"
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #9CA3AF; background: none; border: none; cursor: pointer;">
+                            <i class="fa-regular fa-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input type="checkbox" id="remember" name="remember"
-                            class="h-4 w-4 text-bgsecondary focus:ring-bgsecondary border-gray-300 rounded">
-                        <label for="remember"
-                            class="ml-2 block text-sm text-gray-700 font-primaryRegular">จดจำฉันไว้</label>
+                            class="h-4 w-4 text-bgprimary focus:ring-bgprimary border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700 font-primaryRegular">จดจำฉันไว้</label>
                     </div>
-                    <a href="forgot-password"
-                        class="text-sm text-bgsecondary hover:underline font-primaryRegular">ลืมรหัสผ่าน?</a>
+                    <a href="forgot-password" class="text-sm text-bgprimary hover:underline font-primaryRegular">ลืมรหัสผ่าน?</a>
                 </div>
 
-                <button type="submit"
-                    class="w-full bg-bgsecondary text-white py-2 px-4 rounded-lg hover:bg-[#002a4a] transition-colors font-primaryBold text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 duration-200">
-                    เข้าสู่ระบบ
-                </button>
+                <?php if (!empty($error)): ?>
+                    <div class="text-[14px] text-red-500 text-center font-primaryRegular"><?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
+
+                <div class="space-y-5">
+                    <button type="submit"
+                        class="bg-textorange text-white w-full text-[14px] font-primaryMedium py-[12px] rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0 duration-200">
+                        เข้าสู่ระบบ
+                    </button>
+                </div>
             </form>
 
-            <div class="mt-6">
+            <div class="space-y-5">
                 <div class="relative">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-gray-300"></div>
@@ -94,22 +95,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <div class="mt-6 grid grid-cols-1 gap-3">
-                    <?php require __DIR__ . '/google-auth.php'; ?>
+                <?php require __DIR__ . '/google-auth.php'; ?>
+
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 font-primaryRegular">
+                        ยังไม่มีบัญชี?
+                        <a href="signup" class="text-[#1E9CF5] font-primaryMedium text-[14px]">สมัครสมาชิก</a>
+                    </p>
                 </div>
             </div>
-
-            <p class="mt-8 text-center text-sm text-gray-600 font-primaryRegular">
-                ยังไม่มีบัญชี?
-                <a href="signup" class="font-medium text-bgsecondary hover:underline font-primaryBold">สมัครสมาชิก</a>
-            </p>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    
     <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordIcon = document.getElementById('passwordIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            }
+        }
+
         // Check if sign in was successfull
         <?php if (isset($_SESSION['sign_in_success']) && $_SESSION['sign_in_success']): ?>
             <?php unset($_SESSION['sign_in_success']); // Clear the flag 
-                ?>
+            ?>
             const notyf = new Notyf({
                 position: {
                     x: 'right',
