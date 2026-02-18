@@ -8,7 +8,8 @@ use Google\Service\Oauth2;
 
 $client = new Google_Client();
 $client->setAuthConfig(__DIR__ . '/../../../../../credentials.json');
-$client->setRedirectUri($_ENV['APP_URL'] . '/google-callback'); // ให้ตรงกับ Google Console
+$baseUrl = $_ENV['APP_URL'] ?? (($_SERVER['HTTPS'] ?? 'off') === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+$client->setRedirectUri($baseUrl . '/google-callback'); // ให้ตรงกับ Google Console
 $client->addScope('email');
 $client->addScope('profile');
 
