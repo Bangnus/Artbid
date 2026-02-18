@@ -17,7 +17,7 @@ $isApiRoute = strpos($request, '/update') !== false ||
     strpos($request, '/filter-artworks') !== false;
 
 if (!$isApiRoute) {
-    echo '<head><link rel="icon" type="image/png" href="/icons/artbidlogo.png"></head>';
+    echo '<head><link rel="icon" type="image/png" href="' . $_ENV['APP_URL'] . '/icons/artbidlogo.png"></head>';
 }
 
 require __DIR__ . '/../src/routes/web.php';
