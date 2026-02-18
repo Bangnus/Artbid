@@ -14,4 +14,3 @@ if (!$isApiRoute) {
 }
 
 require __DIR__ . '/../src/routes/web.php';
-

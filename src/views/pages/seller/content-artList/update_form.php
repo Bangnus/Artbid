@@ -127,10 +127,14 @@
                 <div class="space-y-2 w-full">
                     <p class="text-[13px] text-textprimary font-primaryRegular">ประเภท</p>
                     <select name="categories_id" class="border border-gray-300 p-2 rounded-lg w-full focus:outline-none focus:ring-1 focus:ring-bgprimary transition duration-200">
-                        <option value="1" <?= ($artwork['categories_id'] ?? '') == 1 ? 'selected' : '' ?>>ภาพพิมพ์ (Prints & Multiples)</option>
-                        <option value="2" <?= ($artwork['categories_id'] ?? '') == 2 ? 'selected' : '' ?>>ภาพถ่าย (Photography Art)</option>
-                        <option value="3" <?= ($artwork['categories_id'] ?? '') == 3 ? 'selected' : '' ?>>ศิลปะคลาสสิก (Classical Art)</option>
-                        <option value="4" <?= ($artwork['categories_id'] ?? '') == 4 ? 'selected' : '' ?>>ศิลปะสมัยใหม่ (Modern & Contemporary Art)</option>
+                        <option value="1" <?= ($artwork['categories_id'] ?? '') == 1 ? 'selected' : '' ?>
+ภาพพิมพ์ (Prints & Multiples)</option>
+                        <option value="2" <?= ($artwork['categories_id'] ?? '') == 2 ? 'selected' : '' ?>
+ภาพถ่าย (Photography Art)</option>
+                        <option value="3" <?= ($artwork['categories_id'] ?? '') == 3 ? 'selected' : '' ?>
+ศิลปะคลาสสิก (Classical Art)</option>
+                        <option value="4" <?= ($artwork['categories_id'] ?? '') == 4 ? 'selected' : '' ?>
+ศิลปะสมัยใหม่ (Modern & Contemporary Art)</option>
                     </select>
                 </div>
                 <div class="space-y-2 w-full">

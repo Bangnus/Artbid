@@ -111,8 +111,7 @@ ob_start();
 if ($totalPages > 1): ?>
     <button onclick="changePage(<?= max(1, $currentPage - 1) ?>)"
         class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition <?= $currentPage == 1 ? 'opacity-50 cursor-not-allowed' : '' ?>"
-        <?= $currentPage == 1 ? 'disabled' : '' ?>>
-        <i class="fa-solid fa-chevron-left"></i>
+        <?= $currentPage == 1 ? 'disabled' : '' ?> <i class="fa-solid fa-chevron-left"></i>
     </button>
 
     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
@@ -127,8 +126,7 @@ if ($totalPages > 1): ?>
 
     <button onclick="changePage(<?= min($totalPages, $currentPage + 1) ?>)"
         class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition <?= $currentPage == $totalPages ? 'opacity-50 cursor-not-allowed' : '' ?>"
-        <?= $currentPage == $totalPages ? 'disabled' : '' ?>>
-        <i class="fa-solid fa-chevron-right"></i>
+        <?= $currentPage == $totalPages ? 'disabled' : '' ?> <i class="fa-solid fa-chevron-right"></i>
     </button>
 <?php endif;
 $paginationHtml = ob_get_clean();
